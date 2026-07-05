@@ -4,15 +4,22 @@
 
 **Goal:** Levantar el repo Next.js + Supabase del módulo Cota con esquema real (9 tablas), auth de equipo, capa de datos tipada, seed desde el prototipo, y una ruta `/proyectos` que lee los A3 desde Supabase.
 
-**Architecture:** App Next.js 15 (App Router) + TypeScript. Supabase (Postgres + Auth) gestionado con la CLI y stack local (Docker) para desarrollo/test; proyecto Supabase alojado como destino de despliegue. Lecturas en Server Components vía una capa `lib/data/*` tipada; escrituras con Server Actions. Auth email+contraseña (solo invitación) con refresco de sesión en `middleware.ts`.
+**Architecture:** App Next.js 16 (App Router) + TypeScript. Supabase (Postgres + Auth) gestionado con la CLI y stack local (Docker) para desarrollo/test; proyecto Supabase alojado como destino de despliegue. Lecturas en Server Components vía una capa `lib/data/*` tipada; escrituras con Server Actions. Auth email+contraseña (solo invitación) con refresco de sesión en `middleware.ts`.
 
-**Tech Stack:** Next.js 15, React 19, TypeScript, Tailwind CSS, `@supabase/ssr` + `@supabase/supabase-js`, Supabase CLI, Vitest, `tsx`.
+**Tech Stack:** Next.js 16, React 19, TypeScript, Tailwind CSS **v4** (tokens vía `@theme` en `globals.css`, sin `tailwind.config.ts`), `@supabase/ssr` + `@supabase/supabase-js`, Supabase CLI, Vitest, `tsx`.
 
 **Spec de referencia:** `docs/superpowers/specs/2026-07-05-cota-foundation-design.md`
 
 **Desviaciones respecto al spec (decididas al planear):**
 - El **seed** se implementa como script TypeScript (`scripts/seed.ts`) en vez de `seed.sql` puro, porque crear usuarios de `auth.users` se hace de forma robusta con la Admin API de Supabase (service role), no con SQL crudo.
 - Se usa **Supabase local (Docker)** para desarrollo y verificación; el proyecto alojado se conecta al final (paso del usuario).
+
+---
+
+## Progreso
+
+- ✅ **Tasks 1–3 HECHAS** (2026-07-05): scaffold `create-next-app` → **Next.js 16.2.10 + React 19.2.4 + Tailwind v4**, tokens de Cota y fuentes (Space Grotesk / Hanken) aplicados. `npm run build` verde. Nota: con Tailwind v4 los tokens quedaron en `app/globals.css` (`@theme`), no en `tailwind.config.ts`; ignora ese archivo del plan.
+- ⬜ **Tasks 4–14 PENDIENTES**: requieren que el usuario provisione Supabase + Docker (Task 0).
 
 ---
 

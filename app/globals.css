@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* Tokens de Cota (Tailwind v4 · CSS-first).
+   Naranja = solo marca/interacción. Verde/ámbar/rojo = solo estado del dato. */
+@theme {
+  --color-marca: #f94202;
+  --color-tinta: #111111;
+  --color-panel: #eceef1;
+  --color-blanco: #ffffff;
+  --color-borde: #dadee2;
+  --color-apagado: #6b7177;
+  --color-estado-bien: #0f7a45;
+  --color-estado-alerta: #b8860b;
+  --color-estado-mal: #c0392b;
+
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-sans: var(--font-hanken), system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
