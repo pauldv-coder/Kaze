@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0}
+  textarea{font-family:inherit}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:#C7CCD1;border-radius:6px;border:2px solid #ECEEF1}
+  @keyframes cotaPageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div data-screen-label="Editor A3" style="font-family:'Hanken Grotesk',sans-serif;background:#ECEEF1;color:#111111;height:100vh;display:flex;-webkit-font-smoothing:antialiased;overflow:hidden">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside style="width:222px;flex-shrink:0;background:#111111;color:#E7E9EB;display:flex;flex-direction:column;padding:18px 0">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 18px 20px;border-bottom:1px solid #262626">
+      <div style="width:26px;height:26px;border-radius:6px;background:#1c1c1c;display:flex;align-items:center;justify-content:center"><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #F94202"></div></div>
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;letter-spacing:-0.02em;color:#fff">Cota</span>
+    </div>
+    <div style="margin:16px 14px 18px;background:#1d1d1d;border-radius:8px;padding:3px;display:flex">
+      <div style="flex:1;text-align:center;font-size:11.5px;font-weight:600;color:#111;background:#F94202;border-radius:6px;padding:6px 0">Consultor</div>
+      <div style="flex:1;text-align:center;font-size:11.5px;font-weight:500;color:#9CA1A6;padding:6px 0">Cliente</div>
+    </div>
+    <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#6B7177;padding:0 18px 8px">Proyecto</div>
+    <nav style="display:flex;flex-direction:column;gap:1px;padding:0 8px">
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;font-size:13px;color:#A8ADB2"><span style="width:4px;height:14px;border-radius:3px;background:transparent"></span>Dashboard</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;background:#1d1d1d;font-size:13px;font-weight:600;color:#fff"><span style="width:4px;height:14px;border-radius:3px;background:#F94202"></span>Editor A3</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;font-size:13px;color:#A8ADB2"><span style="width:4px;height:14px;border-radius:3px;background:transparent"></span>Acciones · Kanban</div>
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;font-size:13px;color:#A8ADB2"><span style="width:4px;height:14px;border-radius:3px;background:transparent"></span>KPIs</div>
+    </nav>
+    <div style="margin-top:auto;padding:14px 18px 0;border-top:1px solid #262626">
+      <div style="display:flex;align-items:center;gap:9px"><span style="width:26px;height:26px;border-radius:50%;background:#2a2a2a;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#F94202">CV</span><div><div style="font-size:12px;font-weight:600;color:#fff">C. Vidal</div><div style="font-size:10.5px;color:#6B7177">Consultor lean</div></div></div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main style="flex:1;display:flex;flex-direction:column;min-width:0;animation:cotaPageIn .4s cubic-bezier(.22,.61,.36,1) both">
+    <header style="background:#fff;border-bottom:1px solid #DADEE2;padding:15px 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:#8A9096;margin-bottom:5px"><span>Despacho Andrade & Vega</span><span style="color:#C7CCD1">/</span><span style="color:#6B7177;font-weight:600">A3-014</span></div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.02em;margin:0">A3 · Reducir reprocesos en conciliaciones</h2>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="text-align:right">
+          <div style="font-size:10.5px;color:#8A9096;margin-bottom:4px">Completitud · 4 de 7 pasos</div>
+          <div style="width:150px;height:6px;background:#EDEFF1;border-radius:4px;overflow:hidden"><div style="width:57%;height:100%;background:#111;border-radius:4px"></div></div>
+        </div>
+        <button style="font-family:inherit;font-size:12.5px;font-weight:600;color:#fff;background:#F94202;border:none;border-radius:6px;padding:9px 15px;cursor:pointer;display:flex;align-items:center;gap:6px">↥ Exportar A3</button>
+      </div>
+    </header>
+
+    <!-- TAB BAR -->
+    <div style="background:#fff;border-bottom:1px solid #DADEE2;padding:0 28px;display:flex;gap:2px;flex-shrink:0;overflow-x:auto">
+      <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="7">
+        <button onClick="{{ tab.onClick }}" style="position:relative;display:flex;align-items:center;gap:9px;padding:14px 16px 15px;cursor:pointer;white-space:nowrap;background:none;border:none;font-family:inherit;outline:none">
+          <sc-if value="{{ tab.active }}">
+            <span style="width:21px;height:21px;border-radius:5px;background:#F94202;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ tab.n }}</span>
+          </sc-if>
+          <sc-if value="{{ tab.inactive }}">
+            <span style="width:21px;height:21px;border-radius:5px;background:#EEF0F2;color:#8A9096;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ tab.n }}</span>
+          </sc-if>
+          <sc-if value="{{ tab.active }}"><span style="font-size:13px;font-weight:700;color:#111">{{ tab.label }}</span></sc-if>
+          <sc-if value="{{ tab.inactive }}"><span style="font-size:13px;font-weight:500;color:#6B7177">{{ tab.label }}</span></sc-if>
+          <sc-if value="{{ tab.sDone }}"><span style="width:14px;height:14px;border-radius:50%;background:#E9F4EE;color:#0F7A45;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center">✓</span></sc-if>
+          <sc-if value="{{ tab.sWip }}"><span style="width:8px;height:8px;border-radius:50%;background:#F94202"></span></sc-if>
+          <sc-if value="{{ tab.sTodo }}"><span style="width:8px;height:8px;border-radius:50%;border:1.5px solid #C7CCD1"></span></sc-if>
+          <sc-if value="{{ tab.active }}"><div style="position:absolute;left:6px;right:6px;bottom:-1px;height:2px;background:#F94202;border-radius:2px"></div></sc-if>
+        </button>
+      </sc-for>
+    </div>
+
+    <!-- CONTENT -->
+    <div style="flex:1;overflow:auto;padding:26px 28px 40px">
+      <div style="max-width:1180px;margin:0 auto">
+        <sc-if value="{{ isAnalisis }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:1.55fr 1fr;gap:22px;align-items:start">
+            <!-- main analysis -->
+            <div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:5px">
+                <h3 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.02em;margin:0">Paso 4 · Análisis de causa raíz</h3>
+                <span style="font-size:11.5px;color:#8A9096">Editando · guardado hace 2 min</span>
+              </div>
+              <p style="font-size:13px;line-height:1.55;color:#6B7177;margin:0 0 20px;max-width:64ch">Por qué ocurren los reprocesos en conciliaciones. Profundiza hasta la causa raíz antes de proponer contramedidas.</p>
+              <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:20px 22px;box-shadow:0 1px 2px rgba(17,17,17,.04);margin-bottom:16px">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+                  <span style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#8A9096;font-weight:600">5 Por qués</span>
+                  <span style="font-size:10px;color:#0F7A45;background:#E9F4EE;border:1px solid #CCE7D8;border-radius:4px;padding:2px 7px;font-weight:600">Herramienta añadida</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:0">
+                  <div style="display:flex;gap:14px;padding-bottom:14px;border-left:2px solid #F94202;padding-left:16px;margin-left:6px">
+                    <div><div style="font-size:11px;color:#8A9096;margin-bottom:3px">Problema</div><div style="font-size:13.5px;font-weight:600;line-height:1.4">Las conciliaciones bancarias se rehacen tras el cierre.</div></div>
+                  </div>
+                  <div style="display:flex;gap:12px;padding:10px 0;padding-left:16px;margin-left:6px;border-left:2px solid #EDEFF1">
+                    <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:#F94202;flex-shrink:0">1·</span>
+                    <div style="font-size:13px;line-height:1.45;color:#3A4046"><b>¿Por qué?</b> Aparecen diferencias entre el extracto y el mayor que no cuadran.</div>
+                  </div>
+                  <div style="display:flex;gap:12px;padding:10px 0;padding-left:16px;margin-left:6px;border-left:2px solid #EDEFF1">
+                    <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:#F94202;flex-shrink:0">2·</span>
+                    <div style="font-size:13px;line-height:1.45;color:#3A4046"><b>¿Por qué?</b> Movimientos cargados con fecha o referencia distinta a la del banco.</div>
+                  </div>
+                  <div style="display:flex;gap:12px;padding:10px 0;padding-left:16px;margin-left:6px;border-left:2px solid #EDEFF1">
+                    <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:#F94202;flex-shrink:0">3·</span>
+                    <div style="font-size:13px;line-height:1.45;color:#3A4046"><b>¿Por qué?</b> Cada analista captura siguiendo su propio criterio, sin checklist único.</div>
+                  </div>
+                  <div style="display:flex;gap:12px;padding:10px 0 0;padding-left:16px;margin-left:6px;border-left:2px solid #111">
+                    <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;color:#111;flex-shrink:0">↳</span>
+                    <div style="font-size:13px;line-height:1.45;color:#111"><b>Causa raíz:</b> no existe trabajo estandarizado para la conciliación; la validación es manual y tardía.</div>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:20px 22px;box-shadow:0 1px 2px rgba(17,17,17,.04)">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                  <span style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#8A9096;font-weight:600">Pareto · causas de reproceso</span>
+                </div>
+                <div style="font-size:12px;color:#8A9096;margin-bottom:16px">Conciliaciones rehechas el último trimestre, por causa (n=146)</div>
+                <svg viewBox="0 0 760 230" style="width:100%;height:auto;display:block">
+                  <line x1="40" y1="20" x2="720" y2="20" stroke="#F2F4F5"></line>
+                  <line x1="40" y1="70" x2="720" y2="70" stroke="#F2F4F5"></line>
+                  <line x1="40" y1="120" x2="720" y2="120" stroke="#F2F4F5"></line>
+                  <line x1="40" y1="170" x2="720" y2="170" stroke="#EDEFF1"></line>
+                  <!-- bars -->
+                  <rect x="60" y="34" width="96" height="136" rx="3" fill="#F94202"></rect>
+                  <rect x="190" y="78" width="96" height="92" rx="3" fill="#F94202" fill-opacity="0.82"></rect>
+                  <rect x="320" y="116" width="96" height="54" rx="3" fill="#D7DBDF"></rect>
+                  <rect x="450" y="138" width="96" height="32" rx="3" fill="#D7DBDF"></rect>
+                  <rect x="580" y="150" width="96" height="20" rx="3" fill="#D7DBDF"></rect>
+                  <!-- cumulative line -->
+                  <polyline points="108,84 238,40 368,26 498,22 628,20" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"></polyline>
+                  <circle cx="108" cy="84" r="3.5" fill="#111"></circle>
+                  <circle cx="238" cy="40" r="3.5" fill="#111"></circle>
+                  <circle cx="368" cy="26" r="3.5" fill="#111"></circle>
+                  <circle cx="498" cy="22" r="3.5" fill="#111"></circle>
+                  <circle cx="628" cy="20" r="3.5" fill="#111"></circle>
+                  <text x="108" y="74" text-anchor="middle" font-family="Space Grotesk" font-size="10" font-weight="700" fill="#111">37%</text>
+                  <text x="238" y="32" text-anchor="middle" font-family="Space Grotesk" font-size="10" font-weight="700" fill="#111">63%</text>
+                  <text x="368" y="18" text-anchor="middle" font-family="Space Grotesk" font-size="10" font-weight="700" fill="#6B7177">78%</text>
+                  <!-- bar values -->
+                  <text x="108" y="50" text-anchor="middle" font-family="Space Grotesk" font-size="12" font-weight="700" fill="#fff">54</text>
+                  <text x="238" y="94" text-anchor="middle" font-family="Space Grotesk" font-size="12" font-weight="700" fill="#fff">38</text>
+                  <text x="368" y="132" text-anchor="middle" font-family="Space Grotesk" font-size="11" font-weight="700" fill="#6B7177">22</text>
+                  <text x="498" y="154" text-anchor="middle" font-family="Space Grotesk" font-size="11" font-weight="700" fill="#6B7177">18</text>
+                  <text x="628" y="166" text-anchor="middle" font-family="Space Grotesk" font-size="11" font-weight="700" fill="#6B7177">14</text>
+                  <!-- x labels -->
+                  <text x="108" y="190" text-anchor="middle" font-family="Hanken Grotesk" font-size="10.5" fill="#6B7177">Criterio de</text>
+                  <text x="108" y="203" text-anchor="middle" font-family="Hanken Grotesk" font-size="10.5" fill="#6B7177">captura</text>
+                  <text x="238" y="190" text-anchor="middle" font-family="Hanken Grotesk" font-size="10.5" fill="#6B7177">Fecha/ref.</text>
+                  <text x="238" y="203" text-anchor="middle" font-family="Hanken Grotesk" font-size="10.5" fill="#6B7177">errónea</text>
+                  <text x="368" y="190" text-anchor="middle" font-family="Hanken Grotesk" font-size="10.5" fill="#A4A9AE">Tipo de</text>
+                  <text x="368" y="203" text-anchor="middle" font-family="Hanken Grotesk" font-size="10.5" fill="#A4A9AE">cambio</text>
+                  <text x="498" y="190" text-anchor="middle" font-family="Hanken Grotesk" font-size="10.5" fill="#A4A9AE">Duplicados</text>
+                  <text x="628" y="190" text-anchor="middle" font-family="Hanken Grotesk" font-size="10.5" fill="#A4A9AE">Otros</text>
+                </svg>
+                <div style="display:flex;align-items:center;gap:8px;margin-top:14px;background:#FBF1DC;border:1px solid #EFDFB6;border-radius:7px;padding:10px 13px">
+                  <span style="color:#9A6B00;font-weight:700">◑</span>
+                  <span style="font-size:12.5px;color:#3A4046">Dos causas (<b>criterio de captura</b> y <b>fecha/referencia</b>) explican el <b>63%</b> de los reprocesos. Ahí se concentran las contramedidas.</span>
+                </div>
+              </div>
+            </div>
+            <!-- recommender rail -->
+            <div style="background:#111;border-radius:10px;padding:18px 18px 20px;position:sticky;top:0">
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:4px">
+                <span style="width:24px;height:24px;border-radius:6px;background:#1d1d1d;border:1px solid #2f2f2f;display:flex;align-items:center;justify-content:center;color:#F94202;font-size:13px">✦</span>
+                <span style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:#fff">Recomendador de herramientas</span>
+              </div>
+              <p style="font-size:11.5px;line-height:1.5;color:#9CA1A6;margin:0 0 14px">Describe el problema y sugiere las herramientas lean que mejor encajan en cada paso del A3.</p>
+              <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#6B7177;margin-bottom:7px">El problema</div>
+              <textarea rows="4" defaultValue="En el cierre mensual de la cartera BPO, las conciliaciones bancarias generan diferencias que obligan a rehacer asientos. El reproceso concentra el retraso del cierre." style="width:100%;background:#1a1a1a;border:1px solid #2f2f2f;border-radius:7px;color:#E7E9EB;font-size:12px;line-height:1.5;padding:10px 12px;resize:none;outline:none"></textarea>
+              <button style="width:100%;margin:10px 0 18px;font-family:inherit;font-size:12.5px;font-weight:600;color:#111;background:#F94202;border:none;border-radius:7px;padding:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px">✦ Sugerir herramientas</button>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px">
+                <span style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#6B7177">4 sugerencias</span>
+                <span style="font-size:11px;color:#9CA1A6">{{ addedCount }} añadidas</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:9px">
+                <sc-for list="{{ tools }}" as="tool" hint-placeholder-count="4">
+                  <div style="background:#1a1a1a;border:1px solid #2a2a2a;border-radius:8px;padding:13px 14px">
+                    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:7px">
+                      <span style="font-size:13px;font-weight:700;color:#fff;line-height:1.25">{{ tool.name }}</span>
+                      <span style="font-size:9.5px;font-weight:600;color:#F94202;background:#2a1a12;border:1px solid #3a261c;border-radius:4px;padding:2px 6px;white-space:nowrap">{{ tool.step }}</span>
+                    </div>
+                    <p style="font-size:11.5px;line-height:1.5;color:#9CA1A6;margin:0 0 11px">{{ tool.why }}</p>
+                    <sc-if value="{{ tool.notAdded }}">
+                      <button onClick="{{ tool.onAdd }}" style="width:100%;font-family:inherit;font-size:11.5px;font-weight:600;color:#E7E9EB;background:#262626;border:1px solid #333;border-radius:6px;padding:7px;cursor:pointer">+ Añadir al A3</button>
+                    </sc-if>
+                    <sc-if value="{{ tool.added }}">
+                      <button style="width:100%;font-family:inherit;font-size:11.5px;font-weight:600;color:#0F7A45;background:#0f2419;border:1px solid #1c4030;border-radius:6px;padding:7px;cursor:default">✓ Añadida al paso {{ tool.step }}</button>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isContexto }}">
+          <div style="display:grid;grid-template-columns:1.55fr 1fr;gap:22px;align-items:start">
+            <div>
+              <h3 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.02em;margin:0 0 5px">Paso 1 · Contexto</h3>
+              <p style="font-size:13px;line-height:1.55;color:#6B7177;margin:0 0 20px;max-width:64ch">Por qué este problema importa al negocio y a quién afecta.</p>
+              <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:22px 24px;box-shadow:0 1px 2px rgba(17,17,17,.04)">
+                <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#8A9096;font-weight:600;margin-bottom:10px">Antecedente</div>
+                <p style="font-size:14px;line-height:1.65;color:#222;margin:0 0 20px">El cierre contable mensual de la cartera BPO concentra su retraso en las <b>conciliaciones bancarias</b>. Las diferencias que aparecen al cuadrar el extracto contra el mayor obligan a rehacer asientos ya cargados, generando reproceso y horas extra al final de cada mes.</p>
+                <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#8A9096;font-weight:600;margin-bottom:10px">Por qué ahora</div>
+                <p style="font-size:14px;line-height:1.65;color:#222;margin:0 0 4px">Tres clientes de la cartera han renegociado su SLA de cierre a <b>5 días hábiles</b>. Con la operativa actual no se cumple sin sobrecarga del equipo.</p>
+              </div>
+            </div>
+            <div style="background:#F7F8F9;border:1px solid #E6E9EC;border-radius:8px;padding:18px 20px">
+              <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#8A9096;font-weight:600;margin-bottom:12px">Alcance</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#222;padding:6px 0"><span style="color:#0F7A45;font-weight:700">✓</span>Conciliación bancaria mensual</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#222;padding:6px 0"><span style="color:#0F7A45;font-weight:700">✓</span>Cartera BPO (12 clientes)</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#8A9096;padding:6px 0;border-top:1px solid #EDEFF1;margin-top:6px;padding-top:12px"><span style="color:#B4271B;font-weight:700">✕</span>Conciliación de tarjetas</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#8A9096;padding:6px 0"><span style="color:#B4271B;font-weight:700">✕</span>Cierre fiscal anual</div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isActual }}">
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.02em;margin:0 0 5px">Paso 2 · Condición actual</h3>
+          <p style="font-size:13px;line-height:1.55;color:#6B7177;margin:0 0 20px;max-width:64ch">Los hechos, medidos. El punto de partida contra el que compararemos.</p>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px">
+            <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:16px 18px;box-shadow:0 1px 2px rgba(17,17,17,.04)"><div style="font-size:12px;color:#6B7177;margin-bottom:10px">Lead time de cierre</div><div style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;font-variant-numeric:tabular-nums">11,0 <span style="font-size:13px;color:#8A9096;font-weight:600">d</span></div></div>
+            <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:16px 18px;box-shadow:0 1px 2px rgba(17,17,17,.04)"><div style="font-size:12px;color:#6B7177;margin-bottom:10px">Conciliaciones con reproceso</div><div style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;font-variant-numeric:tabular-nums">8,6 <span style="font-size:13px;color:#8A9096;font-weight:600">%</span></div></div>
+            <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:16px 18px;box-shadow:0 1px 2px rgba(17,17,17,.04)"><div style="font-size:12px;color:#6B7177;margin-bottom:10px">Horas extra / cierre</div><div style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;font-variant-numeric:tabular-nums">42 <span style="font-size:13px;color:#8A9096;font-weight:600">h</span></div></div>
+            <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:16px 18px;box-shadow:0 1px 2px rgba(17,17,17,.04)"><div style="font-size:12px;color:#6B7177;margin-bottom:10px">Asientos rehechos / mes</div><div style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;font-variant-numeric:tabular-nums">146</div></div>
+          </div>
+          <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:22px 24px;box-shadow:0 1px 2px rgba(17,17,17,.04);max-width:1180px">
+            <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#8A9096;font-weight:600;margin-bottom:14px">Flujo actual de conciliación</div>
+            <div style="display:flex;align-items:center;gap:0;flex-wrap:wrap">
+              <div style="background:#F2F4F5;border:1px solid #E2E5E8;border-radius:7px;padding:10px 14px;font-size:12.5px;font-weight:600">Descarga extracto</div>
+              <span style="color:#C7CCD1;padding:0 10px">→</span>
+              <div style="background:#F2F4F5;border:1px solid #E2E5E8;border-radius:7px;padding:10px 14px;font-size:12.5px;font-weight:600">Captura manual</div>
+              <span style="color:#C7CCD1;padding:0 10px">→</span>
+              <div style="background:#FBE9E6;border:1px solid #F1CFC9;border-radius:7px;padding:10px 14px;font-size:12.5px;font-weight:600;color:#B4271B">Cuadre manual ▲</div>
+              <span style="color:#C7CCD1;padding:0 10px">→</span>
+              <div style="background:#FBE9E6;border:1px solid #F1CFC9;border-radius:7px;padding:10px 14px;font-size:12.5px;font-weight:600;color:#B4271B">Reproceso ▲</div>
+              <span style="color:#C7CCD1;padding:0 10px">→</span>
+              <div style="background:#F2F4F5;border:1px solid #E2E5E8;border-radius:7px;padding:10px 14px;font-size:12.5px;font-weight:600">Cierre</div>
+            </div>
+            <p style="font-size:12.5px;color:#6B7177;margin:16px 0 0;line-height:1.55">Los dos puntos en rojo (cuadre y reproceso) son manuales y ocurren al final, cuando ya no hay margen. Ahí se acumula el retraso.</p>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isMeta }}">
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.02em;margin:0 0 5px">Paso 3 · Meta</h3>
+          <p style="font-size:13px;line-height:1.55;color:#6B7177;margin:0 0 20px;max-width:64ch">Adónde queremos llegar, medible y con fecha.</p>
+          <div style="background:#111;border-radius:10px;padding:26px 28px;margin-bottom:16px;max-width:1180px">
+            <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#F94202;font-weight:600;margin-bottom:10px">Objetivo</div>
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:600;letter-spacing:-0.01em;color:#fff;line-height:1.35;margin:0;max-width:46ch">Reducir las conciliaciones con reproceso del <span style="color:#F94202">8,6%</span> al <span style="color:#F94202">3%</span> y el lead time de cierre de <span style="color:#F94202">11</span> a <span style="color:#F94202">5 días</span> antes del <span style="color:#F94202">30 sep 2026</span>.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:1180px">
+            <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:18px 20px;box-shadow:0 1px 2px rgba(17,17,17,.04)">
+              <div style="font-size:12.5px;font-weight:600;color:#3A4046;margin-bottom:14px">Reprocesos</div>
+              <div style="display:flex;align-items:baseline;gap:10px"><span style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:#8A9096;text-decoration:line-through;font-variant-numeric:tabular-nums">8,6%</span><span style="color:#C7CCD1">→</span><span style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;color:#0F7A45;font-variant-numeric:tabular-nums">3%</span></div>
+            </div>
+            <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:18px 20px;box-shadow:0 1px 2px rgba(17,17,17,.04)">
+              <div style="font-size:12.5px;font-weight:600;color:#3A4046;margin-bottom:14px">Lead time</div>
+              <div style="display:flex;align-items:baseline;gap:10px"><span style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:#8A9096;text-decoration:line-through;font-variant-numeric:tabular-nums">11 d</span><span style="color:#C7CCD1">→</span><span style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;color:#0F7A45;font-variant-numeric:tabular-nums">5 d</span></div>
+            </div>
+            <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:18px 20px;box-shadow:0 1px 2px rgba(17,17,17,.04)">
+              <div style="font-size:12.5px;font-weight:600;color:#3A4046;margin-bottom:14px">Fecha objetivo</div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;color:#111;font-variant-numeric:tabular-nums">30 sep 2026</div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isContramedidas }}">
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.02em;margin:0 0 5px">Paso 5 · Contramedidas</h3>
+          <p style="font-size:13px;line-height:1.55;color:#6B7177;margin:0 0 20px;max-width:64ch">Qué haremos contra cada causa raíz. Una contramedida por causa priorizada.</p>
+          <div style="display:flex;flex-direction:column;gap:12px;max-width:1180px">
+            <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:18px 20px;box-shadow:0 1px 2px rgba(17,17,17,.04);display:flex;align-items:flex-start;gap:16px">
+              <span style="width:26px;height:26px;border-radius:7px;background:#111;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">C1</span>
+              <div style="flex:1">
+                <div style="font-size:14px;font-weight:700;margin-bottom:5px">Trabajo estandarizado: checklist único de conciliación</div>
+                <div style="font-size:12.5px;color:#6B7177;line-height:1.5">Contra <b>criterio de captura</b> (37%). Mismo orden y validaciones para todo el equipo.</div>
+              </div>
+              <span style="font-size:10.5px;color:#0F7A45;background:#E9F4EE;border:1px solid #CCE7D8;border-radius:5px;padding:4px 9px;font-weight:600;white-space:nowrap">Impacto alto</span>
+            </div>
+            <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:18px 20px;box-shadow:0 1px 2px rgba(17,17,17,.04);display:flex;align-items:flex-start;gap:16px">
+              <span style="width:26px;height:26px;border-radius:7px;background:#111;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">C2</span>
+              <div style="flex:1">
+                <div style="font-size:14px;font-weight:700;margin-bottom:5px">Poka-yoke: validación de fecha y referencia al cargar</div>
+                <div style="font-size:12.5px;color:#6B7177;line-height:1.5">Contra <b>fecha/referencia errónea</b> (26%). El sistema bloquea el asiento si no cuadra con el banco.</div>
+              </div>
+              <span style="font-size:10.5px;color:#0F7A45;background:#E9F4EE;border:1px solid #CCE7D8;border-radius:5px;padding:4px 9px;font-weight:600;white-space:nowrap">Impacto alto</span>
+            </div>
+            <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:18px 20px;box-shadow:0 1px 2px rgba(17,17,17,.04);display:flex;align-items:flex-start;gap:16px">
+              <span style="width:26px;height:26px;border-radius:7px;background:#111;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">C3</span>
+              <div style="flex:1">
+                <div style="font-size:14px;font-weight:700;margin-bottom:5px">Automatizar el cuadre de bancos (regla de matching)</div>
+                <div style="font-size:12.5px;color:#6B7177;line-height:1.5">Adelanta la detección de diferencias del cierre al día a día. Reduce el cuadre manual final.</div>
+              </div>
+              <span style="font-size:10.5px;color:#9A6B00;background:#FBF1DC;border:1px solid #EFDFB6;border-radius:5px;padding:4px 9px;font-weight:600;white-space:nowrap">Impacto medio</span>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isPlan }}">
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.02em;margin:0 0 5px">Paso 6 · Plan</h3>
+          <p style="font-size:13px;line-height:1.55;color:#6B7177;margin:0 0 20px;max-width:64ch">Quién hace qué y cuándo. Estas acciones alimentan el tablero Kanban.</p>
+          <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;box-shadow:0 1px 2px rgba(17,17,17,.04);overflow:hidden;max-width:1180px">
+            <div style="display:grid;grid-template-columns:2.4fr 1fr 0.9fr 1fr;gap:0;background:#F7F8F9;border-bottom:1px solid #E6E9EC;padding:11px 20px;font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;color:#8A9096;font-weight:600">
+              <span>Acción</span><span>Responsable</span><span>Fecha</span><span>Estado</span>
+            </div>
+            <div style="display:grid;grid-template-columns:2.4fr 1fr 0.9fr 1fr;gap:0;padding:14px 20px;border-bottom:1px solid #F2F4F5;align-items:center"><span style="font-size:13px;font-weight:600">Estandarizar checklist de conciliación</span><span style="font-size:12.5px;color:#3A4046">R. Andrade</span><span style="font-size:12.5px;color:#6B7177;font-variant-numeric:tabular-nums">22 jun</span><span><span style="font-size:11px;color:#6B7177;background:#EEF0F2;border-radius:5px;padding:3px 9px">Por hacer</span></span></div>
+            <div style="display:grid;grid-template-columns:2.4fr 1fr 0.9fr 1fr;gap:0;padding:14px 20px;border-bottom:1px solid #F2F4F5;align-items:center"><span style="font-size:13px;font-weight:600">Automatizar cuadre de bancos</span><span style="font-size:12.5px;color:#3A4046">D. López</span><span style="font-size:12.5px;color:#B4271B;font-weight:600;font-variant-numeric:tabular-nums">18 jun</span><span><span style="font-size:11px;color:#F94202;background:#FCEDE6;border-radius:5px;padding:3px 9px;font-weight:600">En curso</span></span></div>
+            <div style="display:grid;grid-template-columns:2.4fr 1fr 0.9fr 1fr;gap:0;padding:14px 20px;border-bottom:1px solid #F2F4F5;align-items:center"><span style="font-size:13px;font-weight:600">Capacitación NIIF para juniors</span><span style="font-size:12.5px;color:#3A4046">M. Pérez</span><span style="font-size:12.5px;color:#6B7177;font-variant-numeric:tabular-nums">20 jun</span><span><span style="font-size:11px;color:#F94202;background:#FCEDE6;border-radius:5px;padding:3px 9px;font-weight:600">En curso</span></span></div>
+            <div style="display:grid;grid-template-columns:2.4fr 1fr 0.9fr 1fr;gap:0;padding:14px 20px;align-items:center"><span style="font-size:13px;font-weight:600;color:#6B7177">Doble revisión en cierres</span><span style="font-size:12.5px;color:#3A4046">R. Andrade</span><span style="font-size:12.5px;color:#6B7177;font-variant-numeric:tabular-nums">5 jun</span><span><span style="font-size:11px;color:#0F7A45;background:#E9F4EE;border-radius:5px;padding:3px 9px;font-weight:600">✓ Hecho</span></span></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isSeguimiento }}">
+          <h3 style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.02em;margin:0 0 5px">Paso 7 · Seguimiento</h3>
+          <p style="font-size:13px;line-height:1.55;color:#6B7177;margin:0 0 20px;max-width:64ch">Cómo confirmamos que las contramedidas funcionan y qué revisamos en cada ciclo.</p>
+          <div style="display:grid;grid-template-columns:1.55fr 1fr;gap:22px;align-items:start;max-width:1180px">
+            <div style="background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:22px 24px;box-shadow:0 1px 2px rgba(17,17,17,.04)">
+              <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#8A9096;font-weight:600;margin-bottom:14px">KPI de seguimiento</div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #F2F4F5"><span style="font-size:13.5px;font-weight:600">% conciliaciones con reproceso</span><span style="display:flex;align-items:center;gap:7px"><span style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums">5,1%</span><span style="font-size:11px;color:#0F7A45;font-weight:700">▼ mejora</span></span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid #F2F4F5"><span style="font-size:13.5px;font-weight:600">Lead time de cierre</span><span style="display:flex;align-items:center;gap:7px"><span style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums">8,2 d</span><span style="font-size:11px;color:#0F7A45;font-weight:700">▼ mejora</span></span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0"><span style="font-size:13.5px;font-weight:600">Adopción del checklist</span><span style="display:flex;align-items:center;gap:7px"><span style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums">72%</span><span style="font-size:11px;color:#9A6B00;font-weight:700">▬ en curso</span></span></div>
+            </div>
+            <div style="background:#F7F8F9;border:1px solid #E6E9EC;border-radius:8px;padding:18px 20px">
+              <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#8A9096;font-weight:600;margin-bottom:12px">Ritmo de revisión</div>
+              <div style="display:flex;align-items:center;gap:9px;font-size:13px;padding:6px 0"><span style="width:7px;height:7px;border-radius:50%;background:#F94202"></span>Revisión semanal del equipo</div>
+              <div style="display:flex;align-items:center;gap:9px;font-size:13px;padding:6px 0"><span style="width:7px;height:7px;border-radius:50%;background:#C7CCD1"></span>Cierre mensual con cliente</div>
+              <div style="margin-top:14px;padding-top:14px;border-top:1px solid #EDEFF1;font-size:12.5px;color:#6B7177;line-height:1.55">Próxima revisión: <b style="color:#111">22 jun</b>. Si el reproceso baja de 3% dos meses seguidos, se estandariza al resto de la cartera.</div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { tab: 'analisis', added: {}, problem: 'En el cierre mensual de la cartera BPO, las conciliaciones bancarias generan diferencias que obligan a rehacer asientos. El reproceso concentra el retraso del cierre.' };
+  TABS = [
+    { id:'contexto',      n:'1', label:'Contexto',        st:'done' },
+    { id:'actual',        n:'2', label:'Condición actual', st:'done' },
+    { id:'meta',          n:'3', label:'Meta',            st:'done' },
+    { id:'analisis',      n:'4', label:'Análisis',        st:'wip'  },
+    { id:'contramedidas', n:'5', label:'Contramedidas',   st:'todo' },
+    { id:'plan',          n:'6', label:'Plan',            st:'todo' },
+    { id:'seguimiento',   n:'7', label:'Seguimiento',     st:'todo' },
+  ];
+  TOOLS = [
+    { id:'ishikawa', name:'Diagrama de Ishikawa', step:'Análisis', why:'Agrupa las causas del reproceso por categoría (método, persona, sistema, dato) para no quedarse en síntomas.' },
+    { id:'pareto', name:'Análisis de Pareto', step:'Análisis', why:'El 80% de los reprocesos viene de pocas causas. Prioriza dónde concentrar las contramedidas.' },
+    { id:'cincoporques', name:'5 Por qués', step:'Análisis', why:'Llega a la causa raíz de las diferencias en la conciliación bancaria, no a la primera explicación.' },
+    { id:'pokayoke', name:'Poka-yoke (a prueba de error)', step:'Contramedidas', why:'Validaciones automáticas que impiden cargar un asiento descuadrado antes de cerrar.' },
+  ];
+  renderVals() {
+    const tab = this.state.tab, added = this.state.added;
+    return {
+      tabs: this.TABS.map(t => ({
+        ...t,
+        active: t.id === tab,
+        inactive: t.id !== tab,
+        sDone: t.st === 'done',
+        sWip: t.st === 'wip',
+        sTodo: t.st === 'todo',
+        onClick: () => this.setState({ tab: t.id }),
+      })),
+      isContexto: tab === 'contexto',
+      isActual: tab === 'actual',
+      isMeta: tab === 'meta',
+      isAnalisis: tab === 'analisis',
+      isContramedidas: tab === 'contramedidas',
+      isPlan: tab === 'plan',
+      isSeguimiento: tab === 'seguimiento',
+      tools: this.TOOLS.map(t => ({ ...t, added: !!added[t.id], notAdded: !added[t.id], onAdd: () => this.setState(s => ({ added: { ...s.added, [t.id]: true } })) })),
+      addedCount: Object.keys(added).length,
+    };
+  }
+}
+</script>
+</body>
+</html>

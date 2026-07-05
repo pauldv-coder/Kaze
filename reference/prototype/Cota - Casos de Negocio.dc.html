@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0}
+  input,select{font-family:inherit}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:#C7CCD1;border-radius:6px;border:2px solid #ECEEF1}
+  @keyframes cotaPageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div data-screen-label="Casos de Negocio" style="font-family:'Hanken Grotesk',sans-serif;background:#ECEEF1;color:#111111;height:100vh;display:flex;-webkit-font-smoothing:antialiased;overflow:hidden">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside style="width:222px;flex-shrink:0;background:#111111;color:#E7E9EB;display:flex;flex-direction:column;padding:18px 0">
+    <a href="Cota%20-%20Lista%20de%20Proyectos.dc.html" style="display:flex;align-items:center;gap:10px;padding:0 18px 20px;border-bottom:1px solid #262626;text-decoration:none">
+      <div style="width:26px;height:26px;border-radius:6px;background:#1c1c1c;display:flex;align-items:center;justify-content:center"><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #F94202"></div></div>
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;letter-spacing:-0.02em;color:#fff">Cota</span>
+    </a>
+    <div style="margin:16px 14px 18px;background:#1d1d1d;border-radius:8px;padding:3px;display:flex">
+      <div style="flex:1;text-align:center;font-size:11.5px;font-weight:600;color:#111;background:#F94202;border-radius:6px;padding:6px 0">Consultor</div>
+      <a href="Cota%20-%20Vista%20de%20Cliente.dc.html" style="flex:1;text-align:center;font-size:11.5px;font-weight:500;color:#9CA1A6;padding:6px 0;text-decoration:none">Cliente</a>
+    </div>
+    <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#6B7177;padding:0 18px 8px">Espacio de trabajo</div>
+    <nav style="display:flex;flex-direction:column;gap:1px;padding:0 8px">
+      <a href="Cota%20-%20Lista%20de%20Proyectos.dc.html" style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;font-size:13px;color:#A8ADB2;text-decoration:none"><span style="width:4px;height:14px;border-radius:3px;background:transparent;flex-shrink:0"></span><span style="flex:1">Proyectos</span><span style="font-size:8px;color:#5A5F64;flex-shrink:0">▶</span></a>
+      <a href="Cota%20-%20Acciones%20Kanban.dc.html" style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;font-size:13px;color:#A8ADB2;text-decoration:none"><span style="width:4px;height:14px;border-radius:3px;background:transparent;flex-shrink:0"></span><span style="flex:1">Acciones</span><span style="font-size:8px;color:#5A5F64;flex-shrink:0">▶</span></a>
+      <a href="Cota%20-%20Indicadores%20Seguimiento.dc.html" style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;font-size:13px;color:#A8ADB2;text-decoration:none"><span style="width:4px;height:14px;border-radius:3px;background:transparent;flex-shrink:0"></span><span style="flex:1">Indicadores</span><span style="font-size:8px;color:#5A5F64;flex-shrink:0">▶</span></a>
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;background:#1d1d1d;font-size:13px;font-weight:600;color:#fff"><span style="width:4px;height:14px;border-radius:3px;background:#F94202;flex-shrink:0"></span><span style="flex:1">Casos de negocio</span><span style="font-size:8px;color:#6B7177;display:inline-block;transform:rotate(90deg);flex-shrink:0">▶</span></div>
+      <div style="margin:1px 0 6px 19px;padding-left:12px;border-left:1px solid #2C2C2C;display:flex;flex-direction:column;gap:1px">
+        <div style="display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:6px"><span style="width:5px;height:5px;border-radius:50%;background:#F94202;flex-shrink:0"></span><span style="flex:1;min-width:0;font-size:12px;color:#fff;font-weight:600">Toda la cartera</span></div>
+        <div style="display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:6px"><span style="width:5px;height:5px;border-radius:50%;background:#4A4A4A;flex-shrink:0"></span><span style="flex:1;min-width:0;font-size:12px;color:#9CA1A6">Aprobados</span></div>
+        <div style="display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:6px"><span style="width:5px;height:5px;border-radius:50%;background:#4A4A4A;flex-shrink:0"></span><span style="flex:1;min-width:0;font-size:12px;color:#9CA1A6">En revisión</span></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;font-size:13px;color:#A8ADB2"><span style="width:4px;height:14px;border-radius:3px;background:transparent;flex-shrink:0"></span><span style="flex:1">Plantillas A3</span><span style="font-size:8px;color:#5A5F64;flex-shrink:0">▶</span></div>
+    </nav>
+    <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#6B7177;padding:22px 18px 8px">Cartera · inversión</div>
+    <div style="padding:0 18px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px"><span style="font-size:12px;color:#A8ADB2">Invertido</span><span style="font-size:12.5px;font-weight:700;color:#fff;font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums">{{ totInvertido }}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px"><span style="font-size:12px;color:#A8ADB2">Ahorro/año</span><span style="font-size:12.5px;font-weight:700;color:#37D399;font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums">{{ totAhorro }}</span></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:12px;color:#A8ADB2">Payback medio</span><span style="font-size:12.5px;font-weight:700;color:#fff;font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums">{{ totPayback }}</span></div>
+    </div>
+    <div style="margin-top:auto;padding:14px 18px 0;border-top:1px solid #262626">
+      <div style="display:flex;align-items:center;gap:9px"><span style="width:26px;height:26px;border-radius:50%;background:#2a2a2a;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#F94202">CV</span><div><div style="font-size:12px;font-weight:600;color:#fff">C. Vidal</div><div style="font-size:10.5px;color:#6B7177">Consultora lean</div></div></div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main style="flex:1;display:flex;flex-direction:column;min-width:0;animation:cotaPageIn .4s cubic-bezier(.22,.61,.36,1) both">
+    <header style="background:#fff;border-bottom:1px solid #DADEE2;padding:18px 28px 15px;flex-shrink:0">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px">
+        <div>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.02em;margin:0 0 4px">Casos de negocio</h2>
+          <div style="font-size:12.5px;color:#8A9096">Justificación económica de los planes que requieren inversión · {{ totalCasos }} casos en {{ totalProyectos }} proyectos</div>
+        </div>
+        <button style="font-family:inherit;font-size:12.5px;font-weight:600;color:#fff;background:#F94202;border:none;border-radius:7px;padding:9px 15px;cursor:pointer;white-space:nowrap">+ Nuevo caso</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+        <span style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600;margin-right:2px">Filtros</span>
+        <sc-for list="{{ dropdowns }}" as="d" hint-placeholder-count="2">
+          <div style="position:relative">
+            <button onClick="{{ d.onToggle }}" style="font-family:inherit;font-size:12px;font-weight:500;color:#3A4046;border:1px solid #E2E5E8;border-radius:7px;padding:7px 11px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;max-width:240px;{{ d.btnStyle }}">
+              <span style="color:#9AA0A6">{{ d.label }}:</span>
+              <span style="font-weight:600;color:#111;overflow:hidden;text-overflow:ellipsis">{{ d.valueLabel }}</span>
+              <span style="color:#B4B9BE;font-size:10px;margin-left:1px">▼</span>
+            </button>
+            <sc-if value="{{ d.isOpen }}">
+              <div onClick="{{ d.close }}" style="position:fixed;inset:0;z-index:30"></div>
+              <div style="position:absolute;top:calc(100% + 6px);left:0;z-index:31;background:#fff;border:1px solid #D6DADE;border-radius:9px;box-shadow:0 12px 30px rgba(17,17,17,.16);padding:5px;min-width:200px;max-width:300px;max-height:300px;overflow:auto">
+                <sc-for list="{{ d.options }}" as="o" hint-placeholder-count="4">
+                  <div onClick="{{ o.onClick }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 10px;border-radius:6px;font-size:12.5px;cursor:pointer;{{ o.rowStyle }}">
+                    <span style="overflow:hidden;text-overflow:ellipsis">{{ o.label }}</span>
+                    <span style="font-size:11px;color:#A4A9AE;font-variant-numeric:tabular-nums;flex-shrink:0">{{ o.count }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        <sc-if value="{{ hayFiltros }}">
+          <button onClick="{{ limpiar }}" style="font-family:inherit;font-size:12px;font-weight:600;color:#B4271B;background:none;border:none;cursor:pointer;padding:7px 8px;white-space:nowrap">Limpiar ✕</button>
+        </sc-if>
+        <span style="margin-left:auto;font-size:12px;color:#8A9096;white-space:nowrap;font-variant-numeric:tabular-nums">{{ resultLabel }}</span>
+      </div>
+    </header>
+
+    <div style="flex:1;display:flex;min-height:0">
+
+      <!-- LIST -->
+      <div style="width:344px;flex-shrink:0;border-right:1px solid #DADEE2;overflow:auto;padding:14px 14px 30px;background:#F4F6F7">
+        <sc-for list="{{ list }}" as="c" hint-placeholder-count="5">
+          <div onClick="{{ c.select }}" style="background:#fff;border:1px solid {{ c.cardBorder }};border-radius:11px;padding:14px 15px;margin-bottom:10px;cursor:pointer;box-shadow:{{ c.cardShadow }}">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:11px">
+              <div style="min-width:0">
+                <div style="font-size:13.5px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.titulo }}</div>
+                <div style="font-size:11px;color:#9AA0A6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px">{{ c.cliente }}</div>
+              </div>
+              <span style="display:flex;align-items:center;gap:5px;border-radius:6px;padding:3px 8px;font-size:10.5px;font-weight:700;flex-shrink:0;{{ c.estadoChip }}"><span style="width:6px;height:6px;border-radius:50%;background:{{ c.estadoDot }}"></span>{{ c.estadoLabel }}</span>
+            </div>
+            <div style="display:flex;gap:0;border:1px solid #EEF1F3;border-radius:8px;overflow:hidden;margin-bottom:10px">
+              <div style="flex:1;padding:8px 10px;border-right:1px solid #EEF1F3">
+                <div style="font-size:9.5px;color:#9AA0A6;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px">Inversión</div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-0.01em">{{ c.invTxt }}</div>
+              </div>
+              <div style="flex:1;padding:8px 10px;border-right:1px solid #EEF1F3">
+                <div style="font-size:9.5px;color:#9AA0A6;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px">Payback</div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-0.01em;color:{{ c.paybackColor }}">{{ c.paybackTxt }}</div>
+              </div>
+              <div style="flex:1;padding:8px 10px">
+                <div style="font-size:9.5px;color:#9AA0A6;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:3px">ROI hoy</div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-0.01em;color:{{ c.roiColor }}">{{ c.roiTxt }}</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;font-size:11px;color:#8A9096">
+              <span style="display:flex;align-items:center;gap:5px;font-weight:600;color:{{ c.fcColor }}"><span style="width:6px;height:6px;border-radius:50%;background:{{ c.fcColor }}"></span>{{ c.fcLabel }}</span>
+              <span style="margin-left:auto;white-space:nowrap">{{ c.medCount }} mediciones</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- DETAIL -->
+      <div style="flex:1;overflow:auto;min-width:0;padding:22px 28px 40px">
+
+        <!-- header -->
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:20px">
+          <div>
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:7px">
+              <span style="font-size:11.5px;font-weight:600;color:#8A9096">{{ sel.cliente }}</span>
+              <span style="font-size:11px;color:#C7CCD1">·</span>
+              <a href="Cota%20-%20Editor%20A3%20v2.dc.html" style="font-size:11.5px;color:#F94202;font-weight:600;text-decoration:none">{{ sel.code_a3 }} ↗</a>
+              <span style="font-size:11px;color:#C7CCD1">·</span>
+              <span style="font-size:11.5px;color:#8A9096">{{ sel.code }}</span>
+            </div>
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.02em;margin:0 0 5px">{{ sel.titulo }}</h3>
+            <div style="font-size:12.5px;color:#8A9096;max-width:62ch;line-height:1.5">{{ sel.descripcion }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:9px;flex-shrink:0">
+            <span style="display:flex;align-items:center;gap:6px;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;{{ sel.estadoChip }}"><span style="width:7px;height:7px;border-radius:50%;background:{{ sel.estadoDot }}"></span>{{ sel.estadoLabel }}</span>
+            <div style="font-size:11px;color:#9AA0A6">{{ sel.aprobacion }}</div>
+          </div>
+        </div>
+
+        <!-- stat row -->
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px">
+          <div style="background:#fff;border:1px solid #E4E7EA;border-radius:12px;padding:15px 16px">
+            <div style="font-size:10.5px;color:#9AA0A6;font-weight:600;margin-bottom:7px">Inversión total</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:23px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;line-height:1">{{ sel.invTotal }}</div>
+            <div style="font-size:10.5px;color:#9AA0A6;margin-top:5px">CapEx {{ sel.capexTxt }} · OpEx {{ sel.opexTxt }}/a</div>
+          </div>
+          <div style="background:#fff;border:1px solid #E4E7EA;border-radius:12px;padding:15px 16px">
+            <div style="font-size:10.5px;color:#9AA0A6;font-weight:600;margin-bottom:7px">Ahorro anual neto</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:23px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;line-height:1;color:#0F7A45">{{ sel.ahorroAnual }}</div>
+            <div style="font-size:10.5px;color:#9AA0A6;margin-top:5px">{{ sel.ahorroBrutoTxt }} bruto/a</div>
+          </div>
+          <div style="background:#fff;border:1px solid #E4E7EA;border-radius:12px;padding:15px 16px">
+            <div style="font-size:10.5px;color:#9AA0A6;font-weight:600;margin-bottom:7px">Payback</div>
+            <div style="display:flex;align-items:baseline;gap:4px"><span style="font-family:'Space Grotesk',sans-serif;font-size:23px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;line-height:1;color:{{ sel.paybackColor }}">{{ sel.paybackVal }}</span><span style="font-size:12px;color:#6B7177;font-weight:600">m</span></div>
+            <div style="font-size:10.5px;color:#9AA0A6;margin-top:5px">plan · forecast {{ sel.paybackFc }}</div>
+          </div>
+          <div style="background:#fff;border:1px solid #E4E7EA;border-radius:12px;padding:15px 16px">
+            <div style="font-size:10.5px;color:#9AA0A6;font-weight:600;margin-bottom:7px">ROI a hoy</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:23px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;line-height:1;color:{{ sel.roiColor }}">{{ sel.roiHoy }}</div>
+            <div style="font-size:10.5px;color:#9AA0A6;margin-top:5px">proyectado {{ sel.roiPlan }} a 12m</div>
+          </div>
+          <div style="background:#111;border-radius:12px;padding:15px 16px">
+            <div style="font-size:10.5px;color:#9CA1A6;font-weight:600;margin-bottom:7px">VAN 36m · TIR</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:23px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;line-height:1;color:#fff">{{ sel.van }}</div>
+            <div style="font-size:10.5px;color:#9CA1A6;margin-top:5px">TIR {{ sel.tir }} · tasa {{ sel.tasa }}</div>
+          </div>
+        </div>
+
+        <!-- CHART + side -->
+        <div style="display:grid;grid-template-columns:1.62fr 1fr;gap:18px;margin-bottom:18px;align-items:start">
+
+          <!-- recovery chart -->
+          <div style="background:#fff;border:1px solid #E4E7EA;border-radius:14px;padding:20px 22px 14px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;gap:12px">
+              <div>
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600">Recuperación de la inversión</div>
+                <div style="font-size:11.5px;color:#9AA0A6;margin-top:2px">Flujo acumulado · el cruce con $0 es el payback</div>
+              </div>
+              <span style="display:flex;align-items:center;gap:6px;border-radius:7px;padding:5px 11px;font-size:11.5px;font-weight:700;flex-shrink:0;{{ sel.fcChip }}"><span style="width:7px;height:7px;border-radius:50%;background:{{ sel.fcColor }}"></span>{{ sel.fcLabel }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;font-size:11px;color:#6B7177;margin-bottom:6px">
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:16px;height:0;border-top:2px dashed #9AA0A6"></span>Plan</span>
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:16px;height:2.5px;background:#0F7A45;border-radius:2px"></span>Real</span>
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:16px;height:0;border-top:2px dotted #F94202"></span>Forecast</span>
+              <span style="display:flex;align-items:center;gap:6px"><span style="width:0;height:14px;border-left:2px dashed #B4271B"></span>Fecha límite</span>
+            </div>
+            <svg viewBox="0 0 820 320" style="width:100%;height:auto;display:block">
+              <!-- Y axis label -->
+              <text x="16" y="170" text-anchor="middle" font-family="Hanken Grotesk" font-size="11.5" font-weight="600" fill="#8A9096" transform="rotate(-90 16 170)">Flujo acumulado (USD)</text>
+              <!-- X axis label -->
+              <text x="430" y="312" text-anchor="middle" font-family="Hanken Grotesk" font-size="11.5" font-weight="600" fill="#8A9096">Meses desde el inicio</text>
+              <!-- gridlines + Y ticks -->
+              <sc-for list="{{ sel.gridY }}" as="g" hint-placeholder-count="4">
+                <line x1="74" y1="{{ g.y }}" x2="788" y2="{{ g.y }}" stroke="{{ g.stroke }}" stroke-width="{{ g.w }}"></line>
+                <text x="68" y="{{ g.ty }}" text-anchor="end" font-family="Hanken Grotesk" font-size="11" fill="#9AA0A6">{{ g.label }}</text>
+              </sc-for>
+              <!-- deadline marker -->
+              <line x1="{{ sel.deadlineX }}" y1="34" x2="{{ sel.deadlineX }}" y2="270" stroke="#B4271B" stroke-width="1.5" stroke-dasharray="5 4"></line>
+              <rect x="{{ sel.deadlineLabX }}" y="30" width="86" height="20" rx="5" fill="#B4271B"></rect>
+              <text x="{{ sel.deadlineTxtX }}" y="44" text-anchor="middle" font-family="Hanken Grotesk" font-size="10.5" font-weight="700" fill="#fff">{{ sel.deadlineLab }}</text>
+              <!-- today marker -->
+              <line x1="{{ sel.todayX }}" y1="34" x2="{{ sel.todayX }}" y2="270" stroke="#11111126" stroke-width="1" stroke-dasharray="2 4"></line>
+              <text x="{{ sel.todayX }}" y="284" text-anchor="middle" font-family="Hanken Grotesk" font-size="10" fill="#B4B9BE">hoy</text>
+              <!-- plan line -->
+              <polyline points="{{ sel.planLine }}" fill="none" stroke="#9AA0A6" stroke-width="2" stroke-dasharray="6 5" stroke-linejoin="round"></polyline>
+              <!-- real area + line -->
+              <polygon points="{{ sel.realArea }}" fill="#0F7A45" fill-opacity="0.07"></polygon>
+              <polyline points="{{ sel.realLine }}" fill="none" stroke="#0F7A45" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"></polyline>
+              <!-- forecast dotted -->
+              <polyline points="{{ sel.foreLine }}" fill="none" stroke="#F94202" stroke-width="2.5" stroke-dasharray="2 5" stroke-linecap="round"></polyline>
+              <!-- real points -->
+              <sc-for list="{{ sel.realDots }}" as="p" hint-placeholder-count="3">
+                <circle cx="{{ p.x }}" cy="{{ p.y }}" r="3.6" fill="#fff" stroke="#0F7A45" stroke-width="2"></circle>
+              </sc-for>
+              <!-- break-even marker -->
+              <sc-if value="{{ sel.hasBep }}">
+                <circle cx="{{ sel.bepX }}" cy="{{ sel.zeroY }}" r="5.5" fill="#F94202"></circle>
+              </sc-if>
+              <!-- X ticks -->
+              <sc-for list="{{ sel.xticks }}" as="t" hint-placeholder-count="4">
+                <text x="{{ t.x }}" y="284" text-anchor="middle" font-family="Hanken Grotesk" font-size="11" fill="#B4B9BE">{{ t.label }}</text>
+              </sc-for>
+            </svg>
+          </div>
+
+          <!-- side: beneficio + cómo se calcula -->
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="background:#F4F8F5;border:1px solid #D4EADE;border-radius:14px;padding:16px 18px">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:600;margin-bottom:8px">Cómo se valoriza el ahorro</div>
+              <div style="font-size:12px;color:#3A6B4E;line-height:1.5;margin-bottom:12px">(línea base − medición del KPI) × valor unitario. Cada medición sugiere el ahorro y queda editable.</div>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <div style="display:flex;justify-content:space-between;gap:10px"><span style="font-size:12px;color:#5A6066">KPI · {{ sel.kpiLabel }}</span><span style="font-size:12px;font-weight:700;color:#1A4730;font-variant-numeric:tabular-nums;font-family:'Space Grotesk',sans-serif">base {{ sel.lineaBase }}{{ sel.unidad }}</span></div>
+                <div style="display:flex;justify-content:space-between;gap:10px"><span style="font-size:12px;color:#5A6066">Valor unitario</span><span style="font-size:12px;font-weight:700;color:#1A4730;font-variant-numeric:tabular-nums;font-family:'Space Grotesk',sans-serif">{{ sel.unitTxt }}/{{ sel.unidad }}·mes</span></div>
+                <div style="display:flex;justify-content:space-between;gap:10px"><span style="font-size:12px;color:#5A6066">Ahorro mensual hoy</span><span style="font-size:12px;font-weight:700;color:#1A4730;font-variant-numeric:tabular-nums;font-family:'Space Grotesk',sans-serif">{{ sel.ahorroMesHoy }}</span></div>
+              </div>
+            </div>
+
+            <!-- registrar medición -->
+            <div style="background:#fff;border:1px solid #E4E7EA;border-radius:14px;padding:16px 18px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+                <div style="font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:600">Registrar medición</div>
+                <span style="font-size:11px;color:#9AA0A6">se refleja en Indicadores</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;gap:8px">
+                  <input value="{{ medFecha }}" onInput="{{ onMedFecha }}" placeholder="jun 2026" style="flex:1;min-width:0;border:1px solid #E2E5E8;border-radius:7px;padding:8px 10px;font-size:12.5px;color:#1A1A1A;outline:none"/>
+                  <div style="display:flex;align-items:center;gap:5px;border:1px solid #E2E5E8;border-radius:7px;padding:0 10px;flex:1;min-width:0">
+                    <input value="{{ medKpi }}" onInput="{{ onMedKpi }}" placeholder="KPI" inputmode="decimal" style="width:100%;border:none;padding:8px 0;font-size:12.5px;color:#1A1A1A;outline:none"/>
+                    <span style="font-size:11.5px;color:#9AA0A6;white-space:nowrap">{{ sel.unidad }}</span>
+                  </div>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <div style="display:flex;align-items:center;gap:5px;border:1px solid #E2E5E8;border-radius:7px;padding:0 10px;flex:1;min-width:0;background:#FAFBFC">
+                    <span style="font-size:12px;color:#9AA0A6">$</span>
+                    <input value="{{ medAhorro }}" onInput="{{ onMedAhorro }}" placeholder="ahorro/mes" inputmode="decimal" style="width:100%;border:none;padding:8px 0;font-size:12.5px;color:#1A1A1A;outline:none;background:none"/>
+                    <span style="font-size:10.5px;color:#B4B9BE;white-space:nowrap">/mes</span>
+                  </div>
+                  <button onClick="{{ addMedicion }}" style="font-family:inherit;font-size:12px;font-weight:600;color:#fff;background:#0F7A45;border:none;border-radius:7px;padding:9px 13px;cursor:pointer;white-space:nowrap;{{ medBtnStyle }}">Registrar</button>
+                </div>
+                <sc-if value="{{ medSugerido }}">
+                  <div style="font-size:11px;color:#8A9096">Sugerido: {{ medSugeridoTxt }} · ajústalo si difiere</div>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LEDGER + MEDICIONES -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+
+          <!-- libro de gastos -->
+          <div style="background:#fff;border:1px solid #E4E7EA;border-radius:14px;padding:20px 22px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600">Libro de gastos · histórico</div>
+              <button onClick="{{ toggleGasto }}" style="font-family:inherit;font-size:11.5px;font-weight:600;color:#F94202;background:#FFF4EF;border:1px solid #F9C4AC;border-radius:6px;padding:5px 10px;cursor:pointer">+ Gasto</button>
+            </div>
+            <div style="font-size:11.5px;color:#9AA0A6;margin-bottom:14px">Inversión inicial, recurrentes y gastos nuevos quedan registrados con fecha</div>
+            <sc-if value="{{ gastoOpen }}">
+              <div style="background:#FAFBFC;border:1px solid #E6E9EC;border-radius:9px;padding:11px;margin-bottom:13px;display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;gap:7px">
+                  <input value="{{ gFecha }}" onInput="{{ onGFecha }}" placeholder="jun 2026" style="flex:1;min-width:0;border:1px solid #E2E5E8;border-radius:6px;padding:7px 9px;font-size:12px;outline:none"/>
+                  <input value="{{ gLabel }}" onInput="{{ onGLabel }}" placeholder="Concepto" style="flex:1.4;min-width:0;border:1px solid #E2E5E8;border-radius:6px;padding:7px 9px;font-size:12px;outline:none"/>
+                </div>
+                <div style="display:flex;gap:7px">
+                  <select value="{{ gTipo }}" onChange="{{ onGTipo }}" style="flex:1;min-width:0;border:1px solid #E2E5E8;border-radius:6px;padding:7px 8px;font-size:12px;outline:none;background:#fff">
+                    <option value="CapEx">CapEx</option>
+                    <option value="OpEx">OpEx</option>
+                  </select>
+                  <select value="{{ gRec }}" onChange="{{ onGRec }}" style="flex:1.1;min-width:0;border:1px solid #E2E5E8;border-radius:6px;padding:7px 8px;font-size:12px;outline:none;background:#fff">
+                    <option value="unico">Único</option>
+                    <option value="mensual">Mensual</option>
+                    <option value="anual">Anual</option>
+                  </select>
+                  <div style="display:flex;align-items:center;gap:4px;border:1px solid #E2E5E8;border-radius:6px;padding:0 9px;flex:1;min-width:0">
+                    <span style="font-size:12px;color:#9AA0A6">$</span>
+                    <input value="{{ gMonto }}" onInput="{{ onGMonto }}" placeholder="monto" inputmode="decimal" style="width:100%;border:none;padding:7px 0;font-size:12px;outline:none"/>
+                  </div>
+                  <button onClick="{{ addGasto }}" style="font-family:inherit;font-size:12px;font-weight:600;color:#fff;background:#F94202;border:none;border-radius:6px;padding:7px 12px;cursor:pointer;{{ gBtnStyle }}">Añadir</button>
+                </div>
+              </div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column">
+              <sc-for list="{{ sel.gastos }}" as="g" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #F0F2F4">
+                  <span style="font-size:11px;color:#9AA0A6;font-variant-numeric:tabular-nums;width:62px;flex-shrink:0">{{ g.fecha }}</span>
+                  <span style="font-size:12.5px;color:#3A4046;min-width:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ g.label }}</span>
+                  <sc-if value="{{ g.nuevo }}"><span style="font-size:9.5px;font-weight:700;color:#C44214;background:#FFF1EB;border-radius:4px;padding:1px 6px;flex-shrink:0">nuevo</span></sc-if>
+                  <span style="font-size:10px;font-weight:700;color:{{ g.tipoColor }};background:{{ g.tipoBg }};border-radius:4px;padding:1px 6px;flex-shrink:0">{{ g.tipoLabel }}</span>
+                  <span style="font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;font-family:'Space Grotesk',sans-serif;flex-shrink:0;width:54px;text-align:right">{{ g.monto }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding-top:12px;font-size:12px">
+              <span style="color:#8A9096">Total comprometido</span>
+              <span style="font-weight:700;font-family:'Space Grotesk',sans-serif;font-variant-numeric:tabular-nums">{{ sel.gastoTotal }}</span>
+            </div>
+          </div>
+
+          <!-- mediciones -->
+          <div style="background:#fff;border:1px solid #E4E7EA;border-radius:14px;padding:20px 22px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600">Mediciones · histórico</div>
+              <span style="font-size:11px;color:#A4A9AE">{{ sel.medCount }} registros</span>
+            </div>
+            <div style="font-size:11.5px;color:#9AA0A6;margin-bottom:14px">Cada lectura del KPI y el ahorro realizado que alimenta el forecast</div>
+            <sc-if value="{{ sel.sinMed }}">
+              <div style="text-align:center;padding:26px 8px;color:#A4A9AE;font-size:12.5px;border:1.5px dashed #DADEE2;border-radius:9px">Sin mediciones aún. Registra la primera para activar el forecast.</div>
+            </sc-if>
+            <div style="display:flex;flex-direction:column">
+              <sc-for list="{{ sel.medicionesView }}" as="m" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #F0F2F4">
+                  <span style="font-size:11px;color:#9AA0A6;font-variant-numeric:tabular-nums;width:62px;flex-shrink:0">{{ m.fecha }}</span>
+                  <span style="display:flex;align-items:baseline;gap:4px;flex:1"><span style="font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums;font-family:'Space Grotesk',sans-serif">{{ m.kpi }}</span><span style="font-size:11px;color:#9AA0A6">{{ sel.unidad }}</span></span>
+                  <span style="font-size:11px;font-weight:700;color:{{ m.deltaColor }};font-variant-numeric:tabular-nums;width:60px;text-align:right">{{ m.delta }}</span>
+                  <span style="font-size:12.5px;font-weight:700;color:#0F7A45;font-variant-numeric:tabular-nums;font-family:'Space Grotesk',sans-serif;width:74px;text-align:right">{{ m.ahorro }}/m</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  HOY = '2026-06-20';
+
+  ESTADOS = {
+    aprobado:{ label:'Aprobado', dot:'#0F7A45', chip:'background:#E9F4EE;color:#0F7A45' },
+    revision:{ label:'En revisión', dot:'#C99A00', chip:'background:#FCF3E1;color:#9A6B00' },
+    borrador:{ label:'Borrador', dot:'#9AA0A6', chip:'background:#EEF0F2;color:#6B7177' },
+    rechazado:{ label:'Rechazado', dot:'#B4271B', chip:'background:#FBE9E6;color:#B4271B' },
+  };
+
+  SEED = [
+    { id:'bc1', code:'BC-07', titulo:'Automatización del cuadre de bancos', cliente:'Andrade & Vega', code_a3:'A3-014',
+      descripcion:'Motor de conciliación que detecta diferencias a diario en lugar de descubrirlas al cierre. Sustituye el cuadre manual de 4 bancos.',
+      estado:'revision', aprobador:'R. Andrade', aprobadorIni:'RA', aprobacion:'Pendiente · revisión 18 jun',
+      kpiLabel:'Lead time de cierre', unidad:'d', lineaBase:11, meta:5, unitValue:950,
+      ahorroBrutoAnual:32000, tasa:0.12, inicio:'2026-04-01', fechaLimite:'2026-12-31',
+      gastos:[
+        { fecha:'2026-04-01', label:'Licencia software de conciliación', tipo:'CapEx', rec:'unico', monto:9000, plan:true },
+        { fecha:'2026-04-01', label:'Implementación e integración TI', tipo:'CapEx', rec:'unico', monto:6500, plan:true },
+        { fecha:'2026-04-08', label:'Capacitación del equipo', tipo:'CapEx', rec:'unico', monto:2500, plan:true },
+        { fecha:'2026-04-15', label:'Soporte y mantención', tipo:'OpEx', rec:'anual', monto:4200, plan:true },
+        { fecha:'2026-06-05', label:'Ajuste regla matching bancos 3-4', tipo:'CapEx', rec:'unico', monto:1500, plan:false },
+      ],
+      mediciones:[
+        { fecha:'2026-05-01', mes:1, kpi:9.8, ahorro:1150 },
+        { fecha:'2026-06-01', mes:2, kpi:8.6, ahorro:2280 },
+        { fecha:'2026-06-18', mes:2.6, kpi:8.2, ahorro:2650 },
+      ] },
+    { id:'bc2', code:'BC-09', titulo:'Carro de cambio rápido pre-armado (SMED)', cliente:'Manufactura Délano', code_a3:'A3-025',
+      descripcion:'Carro con herramientas y matrices listas para convertir tareas internas en externas y reducir la parada de línea por cambio de formato.',
+      estado:'aprobado', aprobador:'C. Vidal', aprobadorIni:'CV', aprobacion:'Aprobado · 2 jun 2026',
+      kpiLabel:'Tiempo de cambio de formato', unidad:'min', lineaBase:32, meta:12, unitValue:128,
+      ahorroBrutoAnual:21500, tasa:0.12, inicio:'2026-03-15', fechaLimite:'2026-09-30',
+      gastos:[
+        { fecha:'2026-03-15', label:'Fabricación del carro y utillaje', tipo:'CapEx', rec:'unico', monto:5200, plan:true },
+        { fecha:'2026-03-15', label:'Rediseño de matrices', tipo:'CapEx', rec:'unico', monto:2300, plan:true },
+        { fecha:'2026-03-20', label:'Mantención de utillaje', tipo:'OpEx', rec:'anual', monto:900, plan:true },
+      ],
+      mediciones:[
+        { fecha:'2026-04-15', mes:1, kpi:26, ahorro:768 },
+        { fecha:'2026-05-15', mes:2, kpi:23, ahorro:1152 },
+        { fecha:'2026-06-15', mes:3, kpi:20, ahorro:1536 },
+      ] },
+    { id:'bc3', code:'BC-11', titulo:'Integración alta de cliente ↔ CRM', cliente:'Logística Sur', code_a3:'A3-021',
+      descripcion:'Elimina la doble captura entre el formulario de alta y el CRM. Requiere desarrollo de conector y licencias de API.',
+      estado:'borrador', aprobador:'J. Marín', aprobadorIni:'JM', aprobacion:'Borrador · sin enviar',
+      kpiLabel:'Tiempo de alta de cliente', unidad:'d', lineaBase:8.2, meta:4, unitValue:288,
+      ahorroBrutoAnual:14500, tasa:0.12, inicio:'2026-06-01', fechaLimite:'2027-03-31',
+      gastos:[
+        { fecha:'2026-06-01', label:'Desarrollo del conector API', tipo:'CapEx', rec:'unico', monto:9000, plan:true },
+        { fecha:'2026-06-01', label:'Pruebas y puesta en marcha', tipo:'CapEx', rec:'unico', monto:3000, plan:true },
+        { fecha:'2026-06-01', label:'Licencia API anual', tipo:'OpEx', rec:'anual', monto:3000, plan:true },
+      ],
+      mediciones:[] },
+    { id:'bc4', code:'BC-05', titulo:'Estación de inspección por atributos', cliente:'Manufactura Délano', code_a3:'A3-012',
+      descripcion:'Estación al final de la línea 2 para frenar defectos antes del empaque. Ya implementada; caso con resultados verificados.',
+      estado:'aprobado', aprobador:'C. Vidal', aprobadorIni:'CV', aprobacion:'Aprobado · 14 abr 2026',
+      kpiLabel:'Defectos por mil', unidad:'‰', lineaBase:5.3, meta:1, unitValue:368,
+      ahorroBrutoAnual:19000, tasa:0.12, inicio:'2026-01-15', fechaLimite:'2026-07-31',
+      gastos:[
+        { fecha:'2026-01-15', label:'Equipamiento de inspección', tipo:'CapEx', rec:'unico', monto:6400, plan:true },
+        { fecha:'2026-01-15', label:'Adecuación de puesto', tipo:'CapEx', rec:'unico', monto:3300, plan:true },
+        { fecha:'2026-01-20', label:'Operador parcial', tipo:'OpEx', rec:'mensual', monto:150, plan:true },
+        { fecha:'2026-03-10', label:'Recalibración de sensores', tipo:'OpEx', rec:'unico', monto:600, plan:false },
+      ],
+      mediciones:[
+        { fecha:'2026-02-15', mes:1, kpi:4.0, ahorro:478 },
+        { fecha:'2026-03-15', mes:2, kpi:3.0, ahorro:846 },
+        { fecha:'2026-04-15', mes:3, kpi:2.1, ahorro:1178 },
+        { fecha:'2026-05-15', mes:4, kpi:1.5, ahorro:1398 },
+        { fecha:'2026-06-15', mes:5, kpi:1.1, ahorro:1546 },
+      ] },
+  ];
+
+  state = {
+    selected:'bc1', open:null, fCliente:'todos', fEstado:'todos',
+    data: null,
+    medFecha:'jun 2026', medKpi:'', medAhorro:'', medTouched:false,
+    gastoOpen:false, gFecha:'', gLabel:'', gTipo:'CapEx', gRec:'unico', gMonto:'',
+  };
+
+  constructor(props){ super(props); this.state.data = JSON.parse(JSON.stringify(this.SEED)); this.mergeShared(); this.applyOverrides(); }
+
+  applyOverrides(){
+    for(const c of this.state.data){
+      let ov=null; try{ ov=JSON.parse(localStorage.getItem('cota.case.'+c.code)||'null'); }catch(e){}
+      if(ov){ if(ov.fechaLimite) c.fechaLimite=ov.fechaLimite; if(ov.capex!=null) c.capexOverride=ov.capex; }
+    }
+  }
+
+  sharedKey(a3){ return 'cota.med.'+a3; }
+  readShared(a3){ try{ return JSON.parse(localStorage.getItem(this.sharedKey(a3))||'[]'); }catch(e){ return []; } }
+  appendShared(a3,m){ try{ const a=this.readShared(a3); a.push(m); localStorage.setItem(this.sharedKey(a3),JSON.stringify(a)); }catch(e){} }
+  mergeShared(){
+    for(const c of this.state.data){
+      const ext=this.readShared(c.code);
+      for(const m of ext){
+        if(c.mediciones.some(x=>x.fecha===m.fecha && x.kpi===m.kpi)) continue;
+        const mes=Math.max(0,this.monthsBetween(c.inicio, m.fecha));
+        const ahorro = (m.ahorro!=null) ? m.ahorro : Math.max(0,(c.lineaBase-m.kpi)*c.unitValue);
+        c.mediciones.push({ fecha:m.fecha, mes, kpi:m.kpi, ahorro, externa:true });
+      }
+    }
+  }
+
+  cases(){ return this.state.data || this.SEED; }
+  getCase(id){ return this.cases().find(c=>c.id===id); }
+
+  monthsBetween(a, b){
+    const da=new Date(a), db=new Date(b);
+    return (db.getFullYear()-da.getFullYear())*12 + (db.getMonth()-da.getMonth()) + (db.getDate()-da.getDate())/30;
+  }
+  k0(n){ const s=n<0?'−':''; return s+'$'+Math.round(Math.abs(n)/1000*10)/10+'k'; }
+  money(n){ return '$'+Math.round(n).toLocaleString('es'); }
+  pct(x){ return (x>=0?'+':'−')+Math.abs(Math.round(x*100))+'%'; }
+  num(v){ const n=parseFloat(String(v).replace(',','.')); return isNaN(n)?null:n; }
+
+  costModel(c){
+    const oneTimePlan = (c.capexOverride!=null) ? c.capexOverride : c.gastos.filter(g=>g.plan && g.tipo==='CapEx' && g.rec==='unico').reduce((s,g)=>s+g.monto,0);
+    const recurringMonthly = c.gastos.filter(g=>g.tipo==='OpEx').reduce((s,g)=> s+(g.rec==='anual'?g.monto/12:(g.rec==='mensual'?g.monto:0)),0);
+    const opexAnualPlan = c.gastos.filter(g=>g.plan && g.tipo==='OpEx').reduce((s,g)=> s+(g.rec==='anual'?g.monto:(g.rec==='mensual'?g.monto*12:0)),0);
+    const extras = c.gastos.filter(g=>!g.plan && g.rec==='unico').map(g=>({ m:this.monthsBetween(c.inicio,g.fecha), monto:g.monto }));
+    const grossMonthly = c.ahorroBrutoAnual/12;
+    const planNet = grossMonthly - opexAnualPlan/12;
+    return { oneTimePlan, recurringMonthly, opexAnualPlan, extras, grossMonthly, planNet };
+  }
+
+  build(c){
+    const cm = this.costModel(c);
+    const H = 18;
+    const todayM = Math.max(0, this.monthsBetween(c.inicio, this.HOY));
+    const meds = [...c.mediciones].sort((a,b)=>a.mes-b.mes);
+    const rate = (m)=>{ let r=0; for(const x of meds){ if(x.mes<=m) r=x.ahorro; } return r; };
+
+    // plan series (integer months)
+    const plan=[]; for(let m=0;m<=H;m++) plan.push(-cm.oneTimePlan + cm.planNet*m);
+    const planBE = cm.planNet>0 ? cm.oneTimePlan/cm.planNet : null;
+
+    // real series up to today (monthly), with extras + recurring + realized savings
+    const realPts=[]; let realCum=-cm.oneTimePlan; realPts.push({m:0,v:realCum});
+    const last=Math.floor(todayM);
+    for(let m=1;m<=last;m++){
+      realCum += rate(m) - cm.recurringMonthly;
+      for(const e of cm.extras){ if(e.m>m-1 && e.m<=m) realCum -= e.monto; }
+      realPts.push({m,v:realCum});
+    }
+    // fractional today point
+    if(todayM>last){
+      let v=realCum + (rate(todayM)-cm.recurringMonthly)*(todayM-last);
+      for(const e of cm.extras){ if(e.m>last && e.m<=todayM) v-=e.monto; }
+      realPts.push({m:todayM, v});
+    }
+    const lastReal = realPts[realPts.length-1];
+    const realizedToDate = lastReal.v; // net cash to date
+
+    // forecast from last real, at recent net rate
+    const recentRate = meds.length ? meds[meds.length-1].ahorro : 0;
+    const foreNet = recentRate - cm.recurringMonthly;
+    const fore=[]; for(let m=lastReal.m; m<=H; m+=0.5) fore.push({m, v:lastReal.v + foreNet*(m-lastReal.m)});
+    // forecast break-even
+    let foreBE=null;
+    if(foreNet>0 && lastReal.v<0){ foreBE = lastReal.m + (-lastReal.v)/foreNet; }
+    else if(lastReal.v>=0){ foreBE = lastReal.m; }
+
+    const deadlineM = this.monthsBetween(c.inicio, c.fechaLimite);
+    return { cm, H, todayM, meds, plan, planBE, realPts, lastReal, realizedToDate, fore, foreBE, foreNet, deadlineM, recentRate };
+  }
+
+  geom(b){
+    const L=74, R=788, top=46, bot=258, H=b.H;
+    const allV=[...b.plan.map(p=>p), ...b.realPts.map(p=>p.v), ...b.fore.map(p=>p.v), 0];
+    let max=Math.max(...allV), min=Math.min(...allV);
+    const pad=(max-min)*0.12||1; max+=pad; min-=pad; const span=(max-min)||1;
+    const X=m=> L + (m/H)*(R-L);
+    const Y=v=> top + (1-(v-min)/span)*(bot-top);
+    return {L,R,top,bot,max,min,span,X,Y};
+  }
+
+  renderVals(){
+    const S=this.state, C=this.cases();
+    const countBy=fn=>{ const n=C.filter(fn).length; return n?String(n):''; };
+    const clientes=[...new Set(C.map(c=>c.cliente))];
+
+    const dims=[
+      { key:'fCliente', id:'cliente', label:'Cliente', def:'Todos',
+        opts: clientes.map(c=>({val:c,label:c,count:countBy(x=>x.cliente===c)})) },
+      { key:'fEstado', id:'estado', label:'Estado', def:'Cualquiera',
+        opts: Object.keys(this.ESTADOS).map(e=>({val:e,label:this.ESTADOS[e].label,count:countBy(x=>x.estado===e)})) },
+    ];
+    const dropdowns=dims.map(d=>{
+      const sel=S[d.key]||'todos';
+      const all=[{val:'todos',label:d.def,count:''},...d.opts];
+      return {
+        id:d.id, label:d.label, isOpen:S.open===d.id,
+        valueLabel: sel==='todos'?d.def:(d.opts.find(o=>o.val===sel)?.label||d.def),
+        btnStyle: sel!=='todos'?'border-color:#F9C4AC;background:#FFF4EF':'border-color:#E2E5E8;background:#fff',
+        onToggle:()=>this.setState(s=>({open:s.open===d.id?null:d.id})),
+        close:()=>this.setState({open:null}),
+        options:all.map(o=>({label:o.label,count:o.count||'',
+          rowStyle: sel===o.val?'background:#FFF4EF;color:#F94202;font-weight:600':'color:#3A4046',
+          onClick:()=>this.setState({[d.key]:o.val,open:null})})),
+      };
+    });
+
+    const fCliente=S.fCliente||'todos', fEstado=S.fEstado||'todos';
+    const filtered=C.filter(c=> (fCliente==='todos'||c.cliente===fCliente) && (fEstado==='todos'||c.estado===fEstado));
+
+    const fcOf=(b)=>{
+      if(!b.meds.length) return { label:'Sin mediciones', color:'#9AA0A6', chip:'background:#EEF0F2;color:#6B7177' };
+      if(b.foreBE!=null && b.foreBE<=b.deadlineM) return { label:'Proyectado a tiempo', color:'#0F7A45', chip:'background:#E9F4EE;color:#0F7A45' };
+      return { label:'En riesgo', color:'#B4271B', chip:'background:#FBE9E6;color:#B4271B' };
+    };
+    const roiOf=(c,b)=>{
+      const costToDate = b.cm.oneTimePlan + b.cm.extras.filter(e=>e.m<=b.todayM).reduce((s,e)=>s+e.monto,0) + b.cm.recurringMonthly*b.todayM;
+      return costToDate>0 ? b.realizedToDate/costToDate : 0;
+    };
+
+    const list=filtered.map(c=>{
+      const b=this.build(c), est=this.ESTADOS[c.estado], active=S.selected===c.id, fc=fcOf(b), roi=roiOf(c,b);
+      return {
+        ...c, select:()=>this.setState({selected:c.id}),
+        estadoLabel:est.label, estadoDot:est.dot, estadoChip:est.chip,
+        invTxt:this.k0(b.cm.oneTimePlan), 
+        paybackTxt:(b.planBE?Math.round(b.planBE*10)/10:'—')+'m', paybackColor: b.planBE&&b.planBE<=12?'#0F7A45':(b.planBE&&b.planBE<=24?'#9A6B00':'#B4271B'),
+        roiTxt:this.pct(roi), roiColor: roi>=0?'#0F7A45':'#B4271B',
+        fcLabel:fc.label, fcColor:fc.color, medCount:c.mediciones.length,
+        cardBorder: active?'#F94202':'#E4E7EA',
+        cardShadow: active?'0 4px 16px rgba(249,66,2,.16)':'0 1px 2px rgba(17,17,17,.04)',
+      };
+    });
+
+    let selC=filtered.find(c=>c.id===S.selected) || filtered[0] || C[0];
+    const b=this.build(selC), est=this.ESTADOS[selC.estado], g=this.geom(b), fc=fcOf(b), roi=roiOf(selC,b);
+
+    // VAN/TIR annual flows (3y) net of recurring
+    const netAnnual = selC.ahorroBrutoAnual - b.cm.opexAnualPlan;
+    const flows=[-b.cm.oneTimePlan, netAnnual, netAnnual, netAnnual];
+    const npvA=(r)=>flows.reduce((s,v,y)=>s+v/Math.pow(1+r,y),0);
+    let van=0; for(let y=0;y<flows.length;y++) van+=flows[y]/Math.pow(1+selC.tasa,y);
+    let tirA=null, lo=-0.99, hi=10;
+    if(npvA(lo)*npvA(hi)<0){ for(let i=0;i<80;i++){ const m=(lo+hi)/2; if(npvA(m)>0)lo=m; else hi=m; } tirA=(lo+hi)/2; }
+    const roiPlan = b.cm.oneTimePlan>0 ? netAnnual/b.cm.oneTimePlan : 0;
+
+    // chart series strings
+    const planLine=b.plan.map((v,m)=> g.X(m).toFixed(1)+','+g.Y(v).toFixed(1)).join(' ');
+    const realLine=b.realPts.map(p=> g.X(p.m).toFixed(1)+','+g.Y(p.v).toFixed(1)).join(' ');
+    const realArea=realLine+' '+g.X(b.lastReal.m).toFixed(1)+','+g.Y(g.min).toFixed(1)+' '+g.X(0).toFixed(1)+','+g.Y(g.min).toFixed(1);
+    const foreLine=b.fore.map(p=> g.X(p.m).toFixed(1)+','+g.Y(p.v).toFixed(1)).join(' ');
+    const realDots=b.meds.map(m=>({ x:g.X(m.mes).toFixed(1), y:g.Y(b.realPts.find(p=>Math.abs(p.m-m.mes)<0.55)?.v ?? (-b.cm.oneTimePlan)).toFixed(1) }));
+
+    // Y grid (4 ticks)
+    const gridY=[0,1,2,3].map(i=>{ const v=g.max-(i/3)*(g.max-g.min); const y=g.top+(i/3)*(g.bot-g.top); return { y:y.toFixed(1), ty:(y+4).toFixed(1), label:this.k0(v), stroke: Math.abs(v)<g.span*0.04?'#9AA0A6':'#F0F2F4', w: Math.abs(v)<g.span*0.04?'1.4':'1' }; });
+    // ensure a $0 line exists distinctly
+    const zeroY=g.Y(0);
+    const xticks=[0,6,12,18].map(m=>({ x:g.X(m).toFixed(1), label:m+'m' }));
+    const deadlineX=g.X(Math.min(b.deadlineM,b.H));
+    const todayX=g.X(Math.min(b.todayM,b.H));
+    const bep = b.foreBE!=null ? b.foreBE : b.planBE;
+
+    const tipoMap=(t)=> t==='CapEx'?{c:'#C44214',bg:'#FFF1EB'}:{c:'#2A6FDB',bg:'#F0F4FB'};
+    const gastosView=selC.gastos.map(x=>{ const tm=tipoMap(x.tipo); const recL = x.rec==='unico'?'':(x.rec==='mensual'?'/mes':'/año'); return {
+      fecha:this.fmtFecha(x.fecha), label:x.label, monto:this.k0(x.monto), nuevo:!x.plan,
+      tipoLabel:x.tipo+recL, tipoColor:tm.c, tipoBg:tm.bg };
+    });
+    const gastoTotal = selC.gastos.reduce((s,x)=>s+x.monto,0);
+
+    const medsSorted=[...selC.mediciones].sort((a,b2)=>b2.mes-a.mes);
+    const medicionesView=medsSorted.map(m=>{
+      const d=selC.lineaBase-m.kpi; const good=selC.lineaBase>selC.meta? d>0 : d<0;
+      return { fecha:this.fmtFecha(m.fecha), kpi:String(m.kpi).replace('.',','),
+        delta:(d>=0?'▼ ':'▲ ')+Math.abs(Math.round(d*10)/10).toString().replace('.',','), deltaColor: good?'#0F7A45':'#B4271B',
+        ahorro:this.k0(m.ahorro) };
+    });
+
+    // suggested saving from typed KPI
+    const kpiTyped=this.num(S.medKpi);
+    let medSugerido=false, medSugeridoTxt='';
+    if(kpiTyped!=null){ const sug=Math.max(0,(selC.lineaBase-kpiTyped))*selC.unitValue; medSugerido=true; medSugeridoTxt=this.money(sug)+'/mes'; }
+    const medAhorroShown = (S.medTouched || S.medAhorro!=='') ? S.medAhorro : (kpiTyped!=null? String(Math.round(Math.max(0,(selC.lineaBase-kpiTyped))*selC.unitValue)) : '');
+
+    const sel={
+      ...selC,
+      estadoLabel:est.label, estadoDot:est.dot, estadoChip:est.chip,
+      invTotal:this.k0(b.cm.oneTimePlan), capexTxt:this.k0(b.cm.oneTimePlan), opexTxt:this.k0(b.cm.opexAnualPlan),
+      ahorroAnual:this.k0(b.cm.grossMonthly*12 - b.cm.opexAnualPlan), ahorroBrutoTxt:this.k0(selC.ahorroBrutoAnual),
+      paybackVal:(b.planBE?Math.round(b.planBE*10)/10:'—'), paybackColor: b.planBE&&b.planBE<=12?'#0F7A45':(b.planBE&&b.planBE<=24?'#9A6B00':'#B4271B'),
+      paybackFc: b.foreBE!=null? (Math.round(b.foreBE*10)/10)+'m' : '—',
+      roiHoy:this.pct(roi), roiColor: roi>=0?'#0F7A45':'#B4271B', roiPlan:this.pct(roiPlan),
+      van:this.k0(van), tir: tirA==null?'>200%':this.pct(tirA).replace('+',''), tasa:Math.round(selC.tasa*100)+'%',
+      fcLabel:fc.label, fcColor:fc.color, fcChip:fc.chip,
+      kpiLabel:selC.kpiLabel, lineaBase:String(selC.lineaBase).replace('.',','), unidad:selC.unidad,
+      unitTxt:this.money(selC.unitValue), ahorroMesHoy:this.k0(b.recentRate),
+      // chart
+      planLine, realLine, realArea, foreLine, realDots,
+      gridY, zeroY:zeroY.toFixed(1),
+      xticks, deadlineX:deadlineX.toFixed(1), deadlineLabX:(deadlineX-43).toFixed(1), deadlineTxtX:deadlineX.toFixed(1), deadlineLab:'Límite '+this.fmtFecha(selC.fechaLimite),
+      todayX:todayX.toFixed(1),
+      hasBep: bep!=null && bep<=b.H, bepX:g.X(Math.min(bep??0,b.H)).toFixed(1),
+      // ledger + meds
+      gastos:gastosView, gastoTotal:this.k0(gastoTotal),
+      medicionesView, medCount:String(selC.mediciones.length), sinMed:selC.mediciones.length===0,
+    };
+
+    return {
+      dropdowns,
+      hayFiltros:[fCliente,fEstado].some(v=>v!=='todos'),
+      limpiar:()=>this.setState({open:null,fCliente:'todos',fEstado:'todos'}),
+      resultLabel: filtered.length+' de '+C.length+' casos',
+      totalCasos:C.length, totalProyectos:new Set(C.map(c=>c.code_a3)).size,
+      totInvertido:this.k0(C.reduce((s,c)=>s+this.costModel(c).oneTimePlan,0)),
+      totAhorro:this.k0(C.reduce((s,c)=>{const cm=this.costModel(c);return s+cm.grossMonthly*12-cm.opexAnualPlan;},0)),
+      totPayback: (Math.round(C.reduce((s,c)=>{const bb=this.build(c);return s+(bb.planBE||0);},0)/C.length*10)/10)+' m',
+      list, sel,
+      // medición form
+      medFecha:S.medFecha, medKpi:S.medKpi, medAhorro:medAhorroShown,
+      onMedFecha:e=>this.setState({medFecha:e.target.value}),
+      onMedKpi:e=>this.setState({medKpi:e.target.value}),
+      onMedAhorro:e=>this.setState({medAhorro:e.target.value, medTouched:true}),
+      medSugerido, medSugeridoTxt,
+      medBtnStyle:(this.num(S.medKpi)!=null)?'opacity:1':'opacity:.5;cursor:not-allowed',
+      addMedicion:()=>this.addMedicion(),
+      // gasto form
+      gastoOpen:S.gastoOpen, toggleGasto:()=>this.setState({gastoOpen:!S.gastoOpen}),
+      gFecha:S.gFecha, gLabel:S.gLabel, gTipo:S.gTipo, gRec:S.gRec, gMonto:S.gMonto,
+      onGFecha:e=>this.setState({gFecha:e.target.value}),
+      onGLabel:e=>this.setState({gLabel:e.target.value}),
+      onGTipo:e=>this.setState({gTipo:e.target.value}),
+      onGRec:e=>this.setState({gRec:e.target.value}),
+      onGMonto:e=>this.setState({gMonto:e.target.value}),
+      gBtnStyle:(this.num(S.gMonto)!=null && S.gLabel.trim())?'opacity:1':'opacity:.5;cursor:not-allowed',
+      addGasto:()=>this.addGasto(),
+    };
+  }
+
+  fmtFecha(d){ const M=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic']; const x=new Date(d); return x.getDate()+' '+M[x.getMonth()]; }
+
+  addMedicion(){
+    const c=this.getCase(this.state.selected); if(!c) return;
+    const kpi=this.num(this.state.medKpi); if(kpi==null) return;
+    let ahorro=this.num(this.state.medAhorro);
+    if(ahorro==null) ahorro=Math.max(0,(c.lineaBase-kpi)*c.unitValue);
+    const mes=Math.max(0,this.monthsBetween(c.inicio,this.HOY));
+    c.mediciones.push({ fecha:this.HOY, mes, kpi, ahorro, manual:true });
+    this.appendShared(c.code, { fecha:this.HOY, kpi, ahorro });
+    this.setState({ medKpi:'', medAhorro:'', medTouched:false, data:this.state.data });
+  }
+  addGasto(){
+    const c=this.getCase(this.state.selected); if(!c) return;
+    const monto=this.num(this.state.gMonto); if(monto==null || !this.state.gLabel.trim()) return;
+    c.gastos.push({ fecha:this.HOY, label:this.state.gLabel.trim(), tipo:this.state.gTipo, rec:this.state.gRec, monto, plan:false });
+    this.setState({ gLabel:'', gMonto:'', gastoOpen:false, data:this.state.data });
+  }
+}
+</script>
+</body>
+</html>

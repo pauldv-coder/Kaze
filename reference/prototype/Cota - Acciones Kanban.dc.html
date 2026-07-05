@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:#C7CCD1;border-radius:6px;border:2px solid #ECEEF1}
+  @keyframes cotaSlideIn{from{transform:translateX(26px);opacity:0}to{transform:translateX(0);opacity:1}}
+  @keyframes cotaPageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div data-screen-label="Acciones Kanban" style="font-family:'Hanken Grotesk',sans-serif;background:#ECEEF1;color:#111111;height:100vh;display:flex;-webkit-font-smoothing:antialiased;overflow:hidden">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside style="width:222px;flex-shrink:0;background:#111111;color:#E7E9EB;display:flex;flex-direction:column;padding:18px 0">
+    <a href="Cota%20-%20Lista%20de%20Proyectos.dc.html" style="display:flex;align-items:center;gap:10px;padding:0 18px 20px;border-bottom:1px solid #262626;text-decoration:none">
+      <div style="width:26px;height:26px;border-radius:6px;background:#1c1c1c;display:flex;align-items:center;justify-content:center"><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #F94202"></div></div>
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;letter-spacing:-0.02em;color:#fff">Cota</span>
+    </a>
+    <div style="margin:16px 14px 18px;background:#1d1d1d;border-radius:8px;padding:3px;display:flex">
+      <div style="flex:1;text-align:center;font-size:11.5px;font-weight:600;color:#111;background:#F94202;border-radius:6px;padding:6px 0">Consultor</div>
+      <a href="Cota%20-%20Vista%20de%20Cliente.dc.html" style="flex:1;text-align:center;font-size:11.5px;font-weight:500;color:#9CA1A6;padding:6px 0;text-decoration:none">Cliente</a>
+    </div>
+    <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#6B7177;padding:0 18px 8px">Espacio de trabajo</div>
+    <nav style="display:flex;flex-direction:column;gap:1px;padding:0 8px">
+      <a href="Cota%20-%20Lista%20de%20Proyectos.dc.html" style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;font-size:13px;color:#A8ADB2;text-decoration:none"><span style="width:4px;height:14px;border-radius:3px;background:transparent;flex-shrink:0"></span><span style="flex:1">Proyectos</span><span style="font-size:8px;color:#5A5F64;flex-shrink:0">▶</span></a>
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;background:#1d1d1d;font-size:13px;font-weight:600;color:#fff"><span style="width:4px;height:14px;border-radius:3px;background:#F94202;flex-shrink:0"></span><span style="flex:1">Acciones</span><span style="font-size:8px;color:#6B7177;display:inline-block;transform:rotate(90deg);flex-shrink:0">▶</span></div>
+      <div style="margin:1px 0 6px 19px;padding-left:12px;border-left:1px solid #2C2C2C;display:flex;flex-direction:column;gap:1px">
+        <div style="display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:6px"><span style="width:5px;height:5px;border-radius:50%;background:#F94202;flex-shrink:0"></span><span style="flex:1;min-width:0;font-size:12px;color:#fff;font-weight:600">Asignadas a mí</span><span style="font-size:10.5px;color:#F94202;font-weight:700;font-variant-numeric:tabular-nums">5</span></div>
+        <div style="display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:6px"><span style="width:5px;height:5px;border-radius:50%;background:#4A4A4A;flex-shrink:0"></span><span style="flex:1;min-width:0;font-size:12px;color:#9CA1A6">Vencidas</span><span style="font-size:10.5px;color:#E8634A;font-weight:700;font-variant-numeric:tabular-nums">3</span></div>
+        <div style="display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:6px"><span style="width:5px;height:5px;border-radius:50%;background:#4A4A4A;flex-shrink:0"></span><span style="flex:1;min-width:0;font-size:12px;color:#9CA1A6">Esta semana</span><span style="font-size:10.5px;color:#6B7177;font-variant-numeric:tabular-nums">6</span></div>
+      </div>
+      <a href="Cota%20-%20Indicadores%20Seguimiento.dc.html" style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;font-size:13px;color:#A8ADB2;text-decoration:none"><span style="width:4px;height:14px;border-radius:3px;background:transparent;flex-shrink:0"></span><span style="flex:1">Indicadores</span><span style="font-size:8px;color:#5A5F64;flex-shrink:0">▶</span></a>
+      <a href="Cota%20-%20Casos%20de%20Negocio.dc.html" style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;font-size:13px;color:#A8ADB2;text-decoration:none"><span style="width:4px;height:14px;border-radius:3px;background:transparent;flex-shrink:0"></span><span style="flex:1">Casos de negocio</span><span style="font-size:8px;color:#5A5F64;flex-shrink:0">▶</span></a>
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;font-size:13px;color:#A8ADB2"><span style="width:4px;height:14px;border-radius:3px;background:transparent;flex-shrink:0"></span><span style="flex:1">Plantillas A3</span><span style="font-size:8px;color:#5A5F64;flex-shrink:0">▶</span></div>
+    </nav>
+    <div style="margin-top:auto;padding:14px 18px 0;border-top:1px solid #262626">
+      <div style="display:flex;align-items:center;gap:9px"><span style="width:26px;height:26px;border-radius:50%;background:#2a2a2a;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#F94202">CV</span><div><div style="font-size:12px;font-weight:600;color:#fff">C. Vidal</div><div style="font-size:10.5px;color:#6B7177">Consultora lean</div></div></div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main style="flex:1;display:flex;flex-direction:column;min-width:0;animation:cotaPageIn .4s cubic-bezier(.22,.61,.36,1) both">
+    <header style="background:#fff;border-bottom:1px solid #DADEE2;padding:18px 28px 15px;flex-shrink:0">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px">
+        <div>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.02em;margin:0 0 4px">Acciones</h2>
+          <div style="font-size:12.5px;color:#8A9096">Tablero PDCA de la cartera · {{ totalAcciones }} acciones en {{ totalProyectos }} proyectos · arrastra para mover</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="display:flex;background:#F2F4F5;border-radius:7px;padding:3px">
+            <button onClick="{{ verTablero }}" style="font-family:inherit;font-size:12px;font-weight:600;border:none;cursor:pointer;border-radius:5px;padding:6px 12px;{{ vistaTableroStyle }}">Tablero</button>
+            <button onClick="{{ verLista }}" style="font-family:inherit;font-size:12px;font-weight:600;border:none;cursor:pointer;border-radius:5px;padding:6px 12px;{{ vistaListaStyle }}">Lista</button>
+          </div>
+          <button style="font-family:inherit;font-size:12.5px;font-weight:600;color:#fff;background:#F94202;border:none;border-radius:7px;padding:9px 15px;cursor:pointer;white-space:nowrap">+ Nueva acción</button>
+        </div>
+      </div>
+
+      <!-- filter bar -->
+      <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+        <span style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600;margin-right:2px">Filtros</span>
+        <sc-for list="{{ dropdowns }}" as="d" hint-placeholder-count="4">
+          <div style="position:relative">
+            <button onClick="{{ d.onToggle }}" style="font-family:inherit;font-size:12px;font-weight:500;color:#3A4046;border:1px solid #E2E5E8;border-radius:7px;padding:7px 11px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;max-width:240px;{{ d.btnStyle }}">
+              <span style="color:#9AA0A6">{{ d.label }}:</span>
+              <span style="font-weight:600;color:#111;overflow:hidden;text-overflow:ellipsis">{{ d.valueLabel }}</span>
+              <span style="color:#B4B9BE;font-size:10px;margin-left:1px">▼</span>
+            </button>
+            <sc-if value="{{ d.isOpen }}">
+              <div onClick="{{ d.close }}" style="position:fixed;inset:0;z-index:30"></div>
+              <div style="position:absolute;top:calc(100% + 6px);left:0;z-index:31;background:#fff;border:1px solid #D6DADE;border-radius:9px;box-shadow:0 12px 30px rgba(17,17,17,.16);padding:5px;min-width:200px;max-width:300px;max-height:300px;overflow:auto">
+                <sc-for list="{{ d.options }}" as="o" hint-placeholder-count="4">
+                  <div onClick="{{ o.onClick }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 10px;border-radius:6px;font-size:12.5px;cursor:pointer;line-height:1.3;{{ o.rowStyle }}">
+                    <span style="overflow:hidden;text-overflow:ellipsis">{{ o.label }}</span>
+                    <span style="font-size:11px;color:#A4A9AE;font-variant-numeric:tabular-nums;flex-shrink:0">{{ o.count }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        <sc-if value="{{ hayFiltros }}">
+          <button onClick="{{ limpiar }}" style="font-family:inherit;font-size:12px;font-weight:600;color:#B4271B;background:none;border:none;cursor:pointer;padding:7px 8px;white-space:nowrap">Limpiar ✕</button>
+        </sc-if>
+        <span style="margin-left:auto;font-size:12px;color:#8A9096;white-space:nowrap;font-variant-numeric:tabular-nums">{{ resultLabel }}</span>
+      </div>
+    </header>
+
+    <!-- ===== BOARD ===== -->
+    <sc-if value="{{ esTablero }}">
+      <div style="flex:1;overflow:auto;padding:18px 22px 28px">
+        <div style="display:flex;gap:16px;height:100%;min-width:1040px">
+          <sc-for list="{{ columns }}" as="col" hint-placeholder-count="4">
+            <div onDragOver="{{ col.onDragOver }}" onDrop="{{ col.onDrop }}" onDragLeave="{{ col.onDragLeave }}" style="flex:1;min-width:248px;display:flex;flex-direction:column;border-radius:11px;padding:11px 11px 6px;max-height:100%;transition:background .12s,box-shadow .12s;{{ col.dropStyle }}">
+              <!-- column head -->
+              <div style="display:flex;align-items:center;gap:8px;padding:3px 5px 12px">
+                <span style="width:9px;height:9px;border-radius:3px;background:{{ col.dot }}"></span>
+                <span style="font-size:12.5px;font-weight:700;color:#2A3036;letter-spacing:0.01em">{{ col.label }}</span>
+                <span style="font-size:11px;color:#7A8086;font-weight:600;font-variant-numeric:tabular-nums;background:#fff;border-radius:20px;padding:1px 8px">{{ col.count }}</span>
+                <span style="margin-left:auto;font-size:10.5px;color:#9AA0A6;font-weight:600;white-space:nowrap">{{ col.phase }}</span>
+              </div>
+              <!-- cards -->
+              <div style="display:flex;flex-direction:column;gap:9px;overflow:auto;padding:1px 2px 6px;flex:1">
+                <sc-for list="{{ col.cards }}" as="c" hint-placeholder-count="3">
+                  <div draggable="true" onDragStart="{{ c.onDragStart }}" onDragEnd="{{ c.onDragEnd }}" onClick="{{ c.open }}" style="background:#fff;border:1px solid #DCE0E4;border-left:3px solid {{ c.accent }};border-radius:9px;padding:12px 13px;box-shadow:0 1px 2px rgba(17,17,17,.05);cursor:grab;opacity:{{ c.opacity }}">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px">
+                      <span style="display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:0.04em;color:#7A8086;font-variant-numeric:tabular-nums"><span style="color:#C7CCD1;font-size:11px;letter-spacing:-1px">⠿</span>{{ c.code }}</span>
+                      <span style="font-size:10px;font-weight:700;border-radius:5px;padding:2px 7px;{{ c.priChip }}">{{ c.priLabel }}</span>
+                    </div>
+                    <div style="font-size:13px;font-weight:600;line-height:1.35;color:#1A1A1A;margin-bottom:9px;text-wrap:pretty">{{ c.titulo }}</div>
+                    <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#8A9096;margin-bottom:10px">
+                      <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.cliente }}</span>
+                    </div>
+                    <sc-if value="{{ c.hasKpi }}">
+                      <div style="display:flex;align-items:center;gap:6px;background:#F4F6F7;border-radius:6px;padding:5px 8px;margin-bottom:10px">
+                        <span style="font-size:10.5px;color:#7A8086;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">↗ {{ c.kpiLabel }}</span>
+                        <span style="font-size:10.5px;font-weight:700;color:{{ c.kpiColor }};margin-left:auto;white-space:nowrap">{{ c.kpiDelta }}</span>
+                      </div>
+                    </sc-if>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                      <span style="display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;{{ c.dueStyle }}">
+                        <span>{{ c.dueIcon }}</span>{{ c.due }}
+                      </span>
+                      <span style="display:flex;align-items:center;gap:5px">
+                        <sc-if value="{{ c.hasNotes }}"><span style="font-size:10.5px;color:#9AA0A6;display:flex;align-items:center;gap:3px">✎ {{ c.notesCount }}</span></sc-if>
+                        <span style="width:24px;height:24px;border-radius:50%;background:#111;color:#F94202;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif">{{ c.owner }}</span>
+                      </span>
+                    </div>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ col.vacio }}">
+                  <div style="text-align:center;padding:22px 8px;color:#9AA0A6;font-size:11.5px;border:1.5px dashed #C7CCD1;border-radius:9px">Suelta una acción aquí</div>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ===== LIST ===== -->
+    <sc-if value="{{ esLista }}">
+      <div style="flex:1;overflow:auto;padding:16px 28px 36px">
+        <div style="display:grid;grid-template-columns:74px minmax(220px,2.4fr) 150px 120px 108px 120px 30px;gap:16px;padding:0 16px 10px;align-items:center;min-width:940px">
+          <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600">Código</div>
+          <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600">Acción</div>
+          <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600">Estado</div>
+          <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600">Prioridad</div>
+          <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600">Resp.</div>
+          <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600">Vence</div>
+          <div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <sc-for list="{{ listRows }}" as="c" hint-placeholder-count="8">
+            <div onClick="{{ c.open }}" style="display:grid;grid-template-columns:74px minmax(220px,2.4fr) 150px 120px 108px 120px 30px;gap:16px;align-items:center;background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:12px 16px;box-shadow:0 1px 2px rgba(17,17,17,.04);cursor:pointer;min-width:940px">
+              <span style="font-size:11px;font-weight:700;color:#7A8086;font-variant-numeric:tabular-nums">{{ c.code }}</span>
+              <div style="min-width:0">
+                <div style="font-size:13px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.titulo }}</div>
+                <div style="font-size:11px;color:#8A9096;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px">{{ c.cliente }}</div>
+              </div>
+              <span style="display:inline-flex;align-items:center;gap:6px;border-radius:6px;padding:4px 9px;font-size:11.5px;font-weight:600;width:fit-content;{{ c.estadoChip }}"><span style="width:7px;height:7px;border-radius:50%;background:{{ c.accent }}"></span>{{ c.estadoLabel }}</span>
+              <span style="font-size:11px;font-weight:700;border-radius:5px;padding:3px 8px;width:fit-content;{{ c.priChip }}">{{ c.priLabel }}</span>
+              <span style="display:flex;align-items:center;gap:7px;font-size:12px;color:#3A4046"><span style="width:22px;height:22px;border-radius:50%;background:#111;color:#F94202;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif">{{ c.owner }}</span>{{ c.ownerName }}</span>
+              <span style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;{{ c.dueStyle }}"><span>{{ c.dueIcon }}</span>{{ c.due }}</span>
+              <span style="text-align:right;color:#C7CCD1;font-size:18px;font-weight:300">›</span>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ vacio }}">
+          <div style="text-align:center;padding:54px 0;color:#9AA0A6;font-size:13.5px">Ninguna acción coincide con los filtros.</div>
+        </sc-if>
+      </div>
+    </sc-if>
+  </main>
+
+  <!-- ===== DETAIL DRAWER ===== -->
+  <sc-if value="{{ hasSelected }}">
+    <div onClick="{{ cerrarDetalle }}" style="position:fixed;inset:0;background:rgba(17,17,17,.34);z-index:39"></div>
+    <div style="position:fixed;top:0;right:0;bottom:0;width:454px;max-width:94vw;background:#fff;z-index:40;box-shadow:-12px 0 40px rgba(17,17,17,.18);display:flex;flex-direction:column;animation:cotaSlideIn .2s ease-out">
+
+      <!-- drawer head -->
+      <div style="padding:20px 24px 16px;border-bottom:1px solid #EAECEE;flex-shrink:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:9px">
+            <span style="font-size:11px;font-weight:700;color:#7A8086;font-variant-numeric:tabular-nums;letter-spacing:0.04em">{{ sel.code }}</span>
+            <span style="font-size:11px;color:#C7CCD1">·</span>
+            <span style="font-size:11px;color:#8A9096">{{ sel.code_a3 }}</span>
+          </div>
+          <button onClick="{{ cerrarDetalle }}" style="width:30px;height:30px;border-radius:7px;border:1px solid #E2E5E8;background:#fff;color:#6B7177;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+        </div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;letter-spacing:-0.01em;line-height:1.25;margin-bottom:6px;text-wrap:pretty">{{ sel.titulo }}</div>
+        <div style="font-size:12.5px;color:#8A9096">{{ sel.cliente }}</div>
+      </div>
+
+      <!-- drawer body -->
+      <div style="flex:1;overflow:auto;padding:18px 24px 24px">
+
+        <!-- estado switcher -->
+        <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600;margin-bottom:9px">Estado · arrastra o elige</div>
+        <div style="display:flex;gap:6px;margin-bottom:20px">
+          <sc-for list="{{ sel.statusBtns }}" as="s" hint-placeholder-count="4">
+            <button onClick="{{ s.onClick }}" style="flex:1;font-family:inherit;font-size:11px;font-weight:600;border-radius:7px;padding:8px 4px;cursor:pointer;line-height:1.2;{{ s.style }}">{{ s.label }}</button>
+          </sc-for>
+        </div>
+
+        <!-- meta grid -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:20px">
+          <div style="background:#F6F7F8;border-radius:9px;padding:12px 13px">
+            <div style="font-size:10.5px;color:#9AA0A6;font-weight:600;margin-bottom:6px">Responsable</div>
+            <div style="display:flex;align-items:center;gap:8px"><span style="width:24px;height:24px;border-radius:50%;background:#111;color:#F94202;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif">{{ sel.owner }}</span><span style="font-size:12.5px;font-weight:600">{{ sel.ownerName }}</span></div>
+          </div>
+          <div style="background:#F6F7F8;border-radius:9px;padding:12px 13px">
+            <div style="font-size:10.5px;color:#9AA0A6;font-weight:600;margin-bottom:6px">Prioridad</div>
+            <span style="font-size:11.5px;font-weight:700;border-radius:5px;padding:3px 9px;{{ sel.priChip }}">{{ sel.priLabel }}</span>
+          </div>
+          <div style="background:#F6F7F8;border-radius:9px;padding:12px 13px">
+            <div style="font-size:10.5px;color:#9AA0A6;font-weight:600;margin-bottom:6px">Vencimiento</div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;{{ sel.dueStyle }}"><span>{{ sel.dueIcon }}</span>{{ sel.due }}</div>
+          </div>
+          <div style="background:#F6F7F8;border-radius:9px;padding:12px 13px">
+            <div style="font-size:10.5px;color:#9AA0A6;font-weight:600;margin-bottom:6px">Proyecto A3</div>
+            <a href="Cota%20-%20Editor%20A3%20v2.dc.html" style="font-size:12.5px;font-weight:700;color:#F94202;text-decoration:none">{{ sel.code_a3 }} ↗</a>
+          </div>
+        </div>
+
+        <!-- kpi -->
+        <sc-if value="{{ sel.hasKpi }}">
+          <div style="display:flex;align-items:center;gap:10px;background:#111;border-radius:10px;padding:13px 15px;margin-bottom:20px">
+            <span style="font-size:12px;color:#A8ADB2">Impacto en</span>
+            <span style="font-size:12.5px;color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ sel.kpiLabel }}</span>
+            <span style="margin-left:auto;font-size:13.5px;font-weight:700;color:{{ sel.kpiDeltaColor }};white-space:nowrap">{{ sel.kpiDelta }}</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ sel.inversion }}">
+          <a href="Cota%20-%20Casos%20de%20Negocio.dc.html" style="display:flex;align-items:center;gap:10px;background:#FFF4EF;border:1px dashed #F9A47E;border-radius:10px;padding:12px 15px;margin-bottom:20px;text-decoration:none">
+            <span style="width:22px;height:22px;border-radius:6px;background:#F94202;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif">$</span>
+            <span style="font-size:12.5px;color:#C44214;font-weight:600">Requiere inversión — ver caso de negocio</span>
+            <span style="margin-left:auto;font-size:13px;color:#F94202;font-weight:700">↗</span>
+          </a>
+        </sc-if>
+
+        <!-- descripcion -->
+        <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600;margin-bottom:8px">Descripción</div>
+        <p style="font-size:13px;line-height:1.6;color:#3A4046;margin:0 0 22px;text-wrap:pretty">{{ sel.desc }}</p>
+
+        <!-- notas -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px">
+          <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600">Notas de avance</div>
+          <span style="font-size:11px;color:#A4A9AE;font-variant-numeric:tabular-nums">{{ sel.notesCount }}</span>
+        </div>
+
+        <!-- add note -->
+        <div style="border:1px solid #E2E5E8;border-radius:10px;padding:11px;margin-bottom:16px">
+          <textarea value="{{ draftNote }}" onInput="{{ onDraft }}" placeholder="Escribe un avance, bloqueo o decisión…" style="width:100%;border:none;outline:none;resize:none;font-family:inherit;font-size:13px;line-height:1.5;color:#1A1A1A;min-height:54px;background:none"></textarea>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px">
+            <span style="display:flex;align-items:center;gap:7px;font-size:11.5px;color:#8A9096"><span style="width:20px;height:20px;border-radius:50%;background:#111;color:#F94202;font-size:8.5px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif">CV</span>Carmen Vidal</span>
+            <button onClick="{{ agregarNota }}" style="font-family:inherit;font-size:12px;font-weight:600;color:#fff;background:#F94202;border:none;border-radius:7px;padding:7px 14px;cursor:pointer;{{ addBtnStyle }}">Agregar nota</button>
+          </div>
+        </div>
+
+        <!-- notes thread -->
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <sc-for list="{{ sel.notes }}" as="n" hint-placeholder-count="2">
+            <div style="display:flex;gap:11px;padding:11px 2px">
+              <span style="width:28px;height:28px;flex-shrink:0;border-radius:50%;background:#111;color:#F94202;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif">{{ n.autor }}</span>
+              <div style="min-width:0;flex:1">
+                <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:3px">
+                  <span style="font-size:12.5px;font-weight:600;color:#1A1A1A">{{ n.autorNombre }}</span>
+                  <span style="font-size:11px;color:#A4A9AE">{{ n.fecha }}</span>
+                </div>
+                <div style="font-size:12.5px;line-height:1.5;color:#3A4046;text-wrap:pretty">{{ n.texto }}</div>
+              </div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ sel.sinNotas }}">
+            <div style="text-align:center;padding:18px 8px;color:#A4A9AE;font-size:12px">Aún no hay notas. Registra el primer avance.</div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = {
+    vista:'tablero', open:null,
+    fCliente:'todos', fResp:'todos', fPrioridad:'todos',
+    dragCode:null, dragOverCol:null,
+    selected:null, draftNote:'',
+    notes:{
+      'AC-41':[
+        {autor:'DL', fecha:'hace 1 d', texto:'Checklist borrador listo; falta validar los pasos de cuadre con tesorería.'},
+        {autor:'CV', fecha:'hace 4 d', texto:'Definidos los 9 puntos de control con el equipo contable.'},
+      ],
+      'AC-52':[
+        {autor:'JM', fecha:'hace 2 d', texto:'Bloqueados por TI: el formulario depende del release de CRM de julio.'},
+      ],
+      'AC-57':[
+        {autor:'RA', fecha:'hoy', texto:'Carro piloto probado en línea 1: el cambio bajó a 18 min.'},
+      ],
+    },
+  };
+
+  CONSULTORES = { CV:'Carmen Vidal', DL:'Diego López', MP:'María Paz', JM:'Javier Marín', RA:'Rodrigo Andrade' };
+
+  COLS = [
+    { id:'todo', label:'Por hacer', phase:'Plan', dot:'#9AA0A6', accent:'#C7CCD1' },
+    { id:'doing', label:'En curso', phase:'Do', dot:'#F94202', accent:'#F94202' },
+    { id:'check', label:'En revisión', phase:'Check', dot:'#C99A00', accent:'#C99A00' },
+    { id:'done', label:'Hecho', phase:'Act', dot:'#0F7A45', accent:'#0F7A45' },
+  ];
+
+  PRIOS = {
+    alta:{ label:'Alta', chip:'background:#FBE9E6;color:#B4271B' },
+    media:{ label:'Media', chip:'background:#FCF3E1;color:#9A6B00' },
+    baja:{ label:'Baja', chip:'background:#EEF0F2;color:#6B7177' },
+  };
+
+  ACCIONES = [
+    { code:'AC-41', titulo:'Estandarizar el checklist de conciliación', cliente:'Andrade & Vega', code_a3:'A3-014', estado:'doing', prioridad:'alta', owner:'DL', due:-2, kpiLabel:'Lead time de cierre', kpiDelta:'▼ 2,8 d', kpiGood:true, desc:'Documentar un checklist único de conciliación bancaria para que todo el equipo siga los mismos pasos de cuadre, sin criterios personales.' },
+    { code:'AC-39', titulo:'Validación poka-yoke al cargar asientos', cliente:'Andrade & Vega', code_a3:'A3-014', estado:'doing', prioridad:'media', owner:'DL', due:16, kpiLabel:'Reproceso', kpiDelta:'▼ 0,9 pt', kpiGood:true, inversion:true, desc:'Agregar validaciones automáticas en el formulario de asientos para impedir cargas con descuadres o cuentas inválidas.' },
+    { code:'AC-44', titulo:'Capacitación NIIF para juniors', cliente:'Andrade & Vega', code_a3:'A3-014', estado:'todo', prioridad:'baja', owner:'CV', due:42, kpiLabel:'', kpiDelta:'', kpiGood:true, desc:'Programa de 4 sesiones para reducir errores de criterio contable en el equipo junior.' },
+    { code:'AC-37', titulo:'Calendario de cierre compartido', cliente:'Andrade & Vega', code_a3:'A3-009', estado:'done', prioridad:'media', owner:'DL', due:-30, kpiLabel:'Días de cierre', kpiDelta:'▼ 0,7 d', kpiGood:true, desc:'Publicar los hitos del cierre en un calendario común para alinear a todo el equipo y evitar tareas de última hora.' },
+    { code:'AC-45', titulo:'Plantilla única de papeles de trabajo', cliente:'Andrade & Vega', code_a3:'A3-009', estado:'check', prioridad:'media', owner:'MP', due:3, kpiLabel:'', kpiDelta:'', kpiGood:true, desc:'Unificar el formato de papeles de trabajo para acelerar la revisión y la trazabilidad entre periodos.' },
+    { code:'AC-52', titulo:'Rediseñar formulario de alta de cliente', cliente:'Logística Sur', code_a3:'A3-021', estado:'doing', prioridad:'alta', owner:'JM', due:-5, kpiLabel:'Tiempo de alta', kpiDelta:'▲ 0,6 d', kpiGood:false, desc:'Simplificar el formulario de alta eliminando campos redundantes y reordenando el flujo de captura.' },
+    { code:'AC-53', titulo:'Eliminar doble captura en CRM', cliente:'Logística Sur', code_a3:'A3-021', estado:'todo', prioridad:'alta', owner:'RA', due:9, kpiLabel:'', kpiDelta:'', kpiGood:true, inversion:true, desc:'Integrar el alta con el CRM para no recapturar los datos del cliente en dos sistemas.' },
+    { code:'AC-48', titulo:'Conteo cíclico ABC en bodega', cliente:'Logística Sur', code_a3:'A3-018', estado:'check', prioridad:'media', owner:'DL', due:5, kpiLabel:'Merma', kpiDelta:'▼ 0,9 pt', kpiGood:true, desc:'Implementar conteos cíclicos priorizando los SKU de mayor valor para detectar mermas antes del inventario anual.' },
+    { code:'AC-49', titulo:'Etiquetado de ubicaciones FIFO', cliente:'Logística Sur', code_a3:'A3-018', estado:'done', prioridad:'baja', owner:'DL', due:-12, kpiLabel:'', kpiDelta:'', kpiGood:true, desc:'Rotular las ubicaciones para forzar la rotación FIFO y reducir el producto vencido.' },
+    { code:'AC-57', titulo:'Carro de cambio rápido pre-armado', cliente:'Manufactura Délano', code_a3:'A3-025', estado:'doing', prioridad:'alta', owner:'RA', due:1, kpiLabel:'Tiempo de cambio', kpiDelta:'▼ 7 min', kpiGood:true, inversion:true, desc:'Preparar un carro con todas las herramientas y matrices del cambio para convertir tareas internas en externas (SMED).' },
+    { code:'AC-58', titulo:'Separar tareas internas y externas (SMED)', cliente:'Manufactura Délano', code_a3:'A3-025', estado:'todo', prioridad:'media', owner:'MP', due:14, kpiLabel:'', kpiDelta:'', kpiGood:true, desc:'Mapear el cambio de formato y clasificar cada tarea para moverla fuera de la parada de máquina.' },
+    { code:'AC-33', titulo:'Inspección por atributos en línea 2', cliente:'Manufactura Délano', code_a3:'A3-012', estado:'done', prioridad:'media', owner:'CV', due:-40, kpiLabel:'Defectos', kpiDelta:'▼ 4,2 ‰', kpiGood:true, desc:'Estación de inspección por atributos al final de la línea 2 para frenar defectos antes del empaque.' },
+  ];
+
+  fmtDue(d){
+    if(d<0){ const n=Math.abs(d); return { txt:'Vencida '+n+' d', icon:'⚠', style:'color:#B4271B' }; }
+    if(d===0) return { txt:'Hoy', icon:'◷', style:'color:#9A6B00' };
+    if(d<=3) return { txt:'En '+d+' d', icon:'◷', style:'color:#9A6B00' };
+    if(d<=30){ const w=Math.round(d/7); return { txt:'En '+(w<=1?'1 sem':w+' sem'), icon:'◷', style:'color:#6B7177' }; }
+    return { txt:'En '+Math.round(d/30)+' mes', icon:'◷', style:'color:#9AA0A6' };
+  }
+
+  setEstado(code, colId){
+    const act = this.ACCIONES.find(x=>x.code===code);
+    if(act && act.estado!==colId){ act.estado = colId; this.forceUpdate(); }
+  }
+
+  agregarNota(){
+    const t = (this.state.draftNote||'').trim();
+    const code = this.state.selected;
+    if(!t || !code) return;
+    const arr = (this.state.notes[code]||[]).slice();
+    arr.unshift({ autor:'CV', fecha:'ahora', texto:t });
+    this.setState({ notes:{ ...this.state.notes, [code]:arr }, draftNote:'' });
+  }
+
+  renderVals(){
+    const S = this.state;
+    const A = this.ACCIONES;
+    const countBy = (fn)=>{ const n=A.filter(fn).length; return n?String(n):''; };
+    const clientes = [...new Set(A.map(a=>a.cliente))];
+    const resps = [...new Set(A.map(a=>a.owner))];
+
+    const dims = [
+      { key:'fCliente', id:'cliente', label:'Cliente', def:'Todos',
+        opts: clientes.map(c=>({ val:c, label:c, count:countBy(a=>a.cliente===c) })) },
+      { key:'fResp', id:'resp', label:'Responsable', def:'Todos',
+        opts: resps.map(r=>({ val:r, label:this.CONSULTORES[r]||r, count:countBy(a=>a.owner===r) })) },
+      { key:'fPrioridad', id:'prioridad', label:'Prioridad', def:'Cualquiera',
+        opts: Object.keys(this.PRIOS).map(p=>({ val:p, label:this.PRIOS[p].label, count:countBy(a=>a.prioridad===p) })) },
+    ];
+    const dropdowns = dims.map(d=>{
+      const sel = S[d.key]||'todos';
+      const all = [{ val:'todos', label:d.def, count:'' }, ...d.opts];
+      return {
+        id:d.id, label:d.label, isOpen:S.open===d.id,
+        valueLabel: sel==='todos' ? d.def : (d.opts.find(o=>o.val===sel)?.label || d.def),
+        btnStyle: sel!=='todos' ? 'border-color:#F9C4AC;background:#FFF4EF' : 'border-color:#E2E5E8;background:#fff',
+        onToggle: ()=>this.setState(s=>({ open:s.open===d.id?null:d.id })),
+        close: ()=>this.setState({ open:null }),
+        options: all.map(o=>({
+          label:o.label, count:o.count||'',
+          rowStyle: sel===o.val ? 'background:#FFF4EF;color:#F94202;font-weight:600' : 'color:#3A4046',
+          onClick: ()=>this.setState({ [d.key]:o.val, open:null }),
+        })),
+      };
+    });
+
+    const fCliente=S.fCliente||'todos', fResp=S.fResp||'todos', fPrioridad=S.fPrioridad||'todos';
+    const pass = a => (fCliente==='todos'||a.cliente===fCliente)
+                   && (fResp==='todos'||a.owner===fResp)
+                   && (fPrioridad==='todos'||a.prioridad===fPrioridad);
+    const filtered = A.filter(pass);
+
+    const notesOf = code => this.state.notes[code] || [];
+
+    const decorate = (a) => {
+      const due = this.fmtDue(a.due);
+      const pri = this.PRIOS[a.prioridad];
+      const nc = notesOf(a.code).length;
+      return {
+        ...a,
+        priLabel:pri.label, priChip:pri.chip,
+        due:due.txt, dueIcon:due.icon, dueStyle:due.style,
+        hasKpi:!!a.kpiLabel,
+        kpiColor: a.kpiGood ? '#0F7A45' : '#B4271B',
+        owner:a.owner, ownerName:this.CONSULTORES[a.owner]?.split(' ')[0] || a.owner,
+        hasNotes: nc>0, notesCount:nc,
+        opacity: S.dragCode===a.code ? '0.4' : '1',
+        onDragStart: (e)=>{ if(e&&e.dataTransfer) e.dataTransfer.effectAllowed='move'; this.setState({ dragCode:a.code }); },
+        onDragEnd: ()=>this.setState({ dragCode:null, dragOverCol:null }),
+        open: ()=>this.setState({ selected:a.code, draftNote:'' }),
+      };
+    };
+
+    const columns = this.COLS.map(col=>{
+      const cards = filtered.filter(a=>a.estado===col.id).map(a=>({ ...decorate(a), accent:col.accent }));
+      const over = S.dragOverCol===col.id;
+      return {
+        ...col, cards, count:cards.length, vacio:cards.length===0,
+        dropStyle: over ? 'background:#DCE7DF;box-shadow:inset 0 0 0 2px #0F7A45' : 'background:#E4E7EA',
+        onDragOver: (e)=>{ if(e)e.preventDefault(); if(S.dragOverCol!==col.id) this.setState({ dragOverCol:col.id }); },
+        onDragLeave: ()=>{ if(S.dragOverCol===col.id) this.setState({ dragOverCol:null }); },
+        onDrop: (e)=>{ if(e)e.preventDefault(); const code=this.state.dragCode; if(code) this.setEstado(code, col.id); this.setState({ dragCode:null, dragOverCol:null }); },
+      };
+    });
+
+    const estadoLbl = { todo:'Por hacer', doing:'En curso', check:'En revisión', done:'Hecho' };
+    const colAccent = Object.fromEntries(this.COLS.map(c=>[c.id,c.accent]));
+    const colChip = { todo:'background:#EEF0F2;color:#6B7177', doing:'background:#FFF1EB;color:#C44214', check:'background:#FCF3E1;color:#9A6B00', done:'background:#E9F4EE;color:#0F7A45' };
+    const listRows = filtered.map(a=>({
+      ...decorate(a),
+      accent:colAccent[a.estado],
+      estadoLabel:estadoLbl[a.estado],
+      estadoChip:colChip[a.estado],
+    }));
+
+    // selected detail
+    const selA = A.find(a=>a.code===S.selected);
+    let sel = null;
+    if(selA){
+      const d = decorate(selA);
+      const ns = notesOf(selA.code).map(n=>({ ...n, autorNombre:this.CONSULTORES[n.autor]||n.autor }));
+      sel = {
+        ...d,
+        kpiDeltaColor: selA.kpiGood ? '#37D399' : '#FF7A66',
+        notes:ns, notesCount:String(ns.length), sinNotas:ns.length===0,
+        statusBtns: this.COLS.map(c=>({
+          label:c.label,
+          onClick: ()=>this.setEstado(selA.code, c.id),
+          style: selA.estado===c.id
+            ? 'background:#111;color:#fff;border:1px solid #111'
+            : 'background:#fff;color:#6B7177;border:1px solid #E2E5E8',
+        })),
+      };
+    }
+
+    const hayFiltros = [fCliente,fResp,fPrioridad].some(v=>v!=='todos');
+    const actT='color:#111;background:#fff;box-shadow:0 1px 2px rgba(17,17,17,.06)', inT='color:#8A9096;background:transparent';
+
+    return {
+      dropdowns, hayFiltros,
+      limpiar: ()=>this.setState({ open:null, fCliente:'todos', fResp:'todos', fPrioridad:'todos' }),
+      resultLabel: filtered.length+' de '+A.length+' acciones',
+      totalAcciones: A.length,
+      totalProyectos: new Set(A.map(a=>a.code_a3)).size,
+      columns, listRows, vacio:filtered.length===0,
+      esTablero: S.vista==='tablero', esLista: S.vista==='lista',
+      verTablero: ()=>this.setState({vista:'tablero'}),
+      verLista: ()=>this.setState({vista:'lista'}),
+      vistaTableroStyle: S.vista==='tablero'?actT:inT,
+      vistaListaStyle: S.vista==='lista'?actT:inT,
+      hasSelected: !!sel, sel,
+      cerrarDetalle: ()=>this.setState({ selected:null, draftNote:'' }),
+      draftNote: S.draftNote,
+      onDraft: (e)=>this.setState({ draftNote:e.target.value }),
+      agregarNota: ()=>this.agregarNota(),
+      addBtnStyle: (S.draftNote||'').trim() ? 'opacity:1;cursor:pointer' : 'opacity:.45;cursor:not-allowed',
+    };
+  }
+}
+</script>
+</body>
+</html>

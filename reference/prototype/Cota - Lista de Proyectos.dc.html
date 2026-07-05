@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:#C7CCD1;border-radius:6px;border:2px solid #ECEEF1}
+  @keyframes cotaPageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes cotaChildIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div data-screen-label="Lista de Proyectos" style="font-family:'Hanken Grotesk',sans-serif;background:#ECEEF1;color:#111111;height:100vh;display:flex;-webkit-font-smoothing:antialiased;overflow:hidden">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside style="width:222px;flex-shrink:0;background:#111111;color:#E7E9EB;display:flex;flex-direction:column;padding:18px 0">
+    <a href="Cota%20-%20Lista%20de%20Proyectos.dc.html" style="display:flex;align-items:center;gap:10px;padding:0 18px 20px;border-bottom:1px solid #262626;text-decoration:none">
+      <div style="width:26px;height:26px;border-radius:6px;background:#1c1c1c;display:flex;align-items:center;justify-content:center"><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #F94202"></div></div>
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;letter-spacing:-0.02em;color:#fff">Cota</span>
+    </a>
+    <div style="margin:16px 14px 18px;background:#1d1d1d;border-radius:8px;padding:3px;display:flex">
+      <div style="flex:1;text-align:center;font-size:11.5px;font-weight:600;color:#111;background:#F94202;border-radius:6px;padding:6px 0">Consultor</div>
+      <a href="Cota%20-%20Vista%20de%20Cliente.dc.html" style="flex:1;text-align:center;font-size:11.5px;font-weight:500;color:#9CA1A6;padding:6px 0;text-decoration:none">Cliente</a>
+    </div>
+    <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#6B7177;padding:0 18px 8px">Espacio de trabajo</div>
+    <nav style="display:flex;flex-direction:column;gap:1px;padding:0 8px">
+      <sc-for list="{{ modules }}" as="m" hint-placeholder-count="5">
+        <div>
+          <div onClick="{{ m.onToggle }}" style="display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:6px;cursor:pointer;{{ m.rowStyle }}">
+            <span style="width:4px;height:14px;border-radius:3px;background:{{ m.bar }};flex-shrink:0"></span>
+            <span style="flex:1;font-size:13px;{{ m.labelStyle }}">{{ m.label }}</span>
+            <sc-if value="{{ m.hasChildren }}">
+              <span style="font-size:8px;color:#6B7177;display:inline-block;{{ m.chevStyle }}">▶</span>
+            </sc-if>
+          </div>
+          <sc-if value="{{ m.expanded }}">
+            <div style="margin:1px 0 6px 19px;padding-left:12px;border-left:1px solid #2C2C2C;display:flex;flex-direction:column;gap:1px;animation:cotaChildIn .26s ease both">
+              <sc-for list="{{ m.kids }}" as="k" hint-placeholder-count="3">
+                <div onClick="{{ k.onClick }}" style="display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:6px;cursor:pointer;{{ k.rowStyle }}">
+                  <span style="width:5px;height:5px;border-radius:50%;background:{{ k.dot }};flex-shrink:0"></span>
+                  <span style="flex:1;min-width:0;font-size:12px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;{{ k.labelStyle }}">{{ k.label }}</span>
+                  <span style="font-size:10.5px;color:#6B7177;font-variant-numeric:tabular-nums;flex-shrink:0">{{ k.count }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </nav>
+    <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#6B7177;padding:22px 18px 8px">Clientes</div>
+    <nav style="display:flex;flex-direction:column;gap:1px;padding:0 8px">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 11px;border-radius:6px;font-size:12.5px;color:#A8ADB2"><span>Despacho Andrade &amp; Vega</span><span style="font-size:11px;color:#6B7177;font-variant-numeric:tabular-nums">2</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 11px;border-radius:6px;font-size:12.5px;color:#A8ADB2"><span>Logística Sur</span><span style="font-size:11px;color:#6B7177;font-variant-numeric:tabular-nums">2</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 11px;border-radius:6px;font-size:12.5px;color:#A8ADB2"><span>Manufactura Délano</span><span style="font-size:11px;color:#6B7177;font-variant-numeric:tabular-nums">2</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 11px;border-radius:6px;font-size:12.5px;color:#A8ADB2"><span>Clínica Norte</span><span style="font-size:11px;color:#6B7177;font-variant-numeric:tabular-nums">1</span></div>
+    </nav>
+    <div style="margin-top:auto;padding:14px 18px 0;border-top:1px solid #262626">
+      <div style="display:flex;align-items:center;gap:9px"><span style="width:26px;height:26px;border-radius:50%;background:#2a2a2a;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#F94202">CV</span><div><div style="font-size:12px;font-weight:600;color:#fff">C. Vidal</div><div style="font-size:10.5px;color:#6B7177">Consultora lean</div></div></div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main style="flex:1;display:flex;flex-direction:column;min-width:0;animation:cotaPageIn .4s cubic-bezier(.22,.61,.36,1) both">
+    <header style="background:#fff;border-bottom:1px solid #DADEE2;padding:18px 28px 0;flex-shrink:0">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px">
+        <div>
+          <h2 style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.02em;margin:0 0 4px">Proyectos</h2>
+          <div style="font-size:12.5px;color:#8A9096">{{ faseSubtitulo }}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="display:flex;align-items:center;gap:8px;background:#F4F6F7;border:1px solid #E2E5E8;border-radius:7px;padding:8px 12px;width:230px">
+            <span style="color:#9AA0A6;font-size:13px">⌕</span>
+            <input value="{{ query }}" onInput="{{ onQuery }}" placeholder="Buscar proyecto o cliente…" style="border:none;background:none;outline:none;font-family:inherit;font-size:12.5px;color:#3A4046;width:100%"/>
+          </div>
+          <button onClick="{{ onOpenNew }}" style="font-family:inherit;font-size:12.5px;font-weight:600;color:#fff;background:#F94202;border:none;border-radius:7px;padding:9px 15px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap">+ Nuevo proyecto</button>
+        </div>
+      </div>
+
+      <!-- summary strip -->
+      <div style="display:flex;gap:0;border:1px solid #E2E5E8;border-radius:8px;overflow:hidden;margin-bottom:18px">
+        <div style="flex:1;padding:13px 18px;border-right:1px solid #EDEFF1">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums">8</div>
+          <div style="font-size:11.5px;color:#8A9096;margin-top:1px">Proyectos totales</div>
+        </div>
+        <div style="flex:1;padding:13px 18px;border-right:1px solid #EDEFF1">
+          <div style="display:flex;align-items:baseline;gap:7px"><span style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;color:#0F7A45">5</span><span style="font-size:12px;font-weight:600;color:#0F7A45">activos</span></div>
+          <div style="font-size:11.5px;color:#8A9096;margin-top:1px">KPIs mejorando</div>
+        </div>
+        <div style="flex:1;padding:13px 18px;border-right:1px solid #EDEFF1">
+          <div style="display:flex;align-items:baseline;gap:7px"><span style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;color:#B4271B">1</span><span style="font-size:12px;font-weight:600;color:#B4271B">en riesgo</span></div>
+          <div style="font-size:11.5px;color:#8A9096;margin-top:1px">Requiere atención</div>
+        </div>
+        <div style="flex:1;padding:13px 18px;border-right:1px solid #EDEFF1">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums">3</div>
+          <div style="font-size:11.5px;color:#8A9096;margin-top:1px">Acciones vencidas</div>
+        </div>
+        <div style="flex:1;padding:13px 18px;border-right:1px solid #EDEFF1">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;color:#6B7177">2</div>
+          <div style="font-size:11.5px;color:#8A9096;margin-top:1px">Cerrados este trim.</div>
+        </div>
+        <a href="Cota%20-%20Casos%20de%20Negocio.dc.html" style="flex:1;padding:13px 18px;text-decoration:none;display:block">
+          <div style="display:flex;align-items:baseline;gap:6px"><span style="font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;color:#0F7A45">$71k</span><span style="font-size:12px;font-weight:600;color:#0F7A45">/año</span></div>
+          <div style="font-size:11.5px;color:#8A9096;margin-top:1px">Ahorro · $48k inv · 4 casos ↗</div>
+        </a>
+      </div>
+
+      <!-- filter bar -->
+      <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding-bottom:15px">
+        <span style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600;margin-right:2px">Filtros</span>
+        <sc-for list="{{ dropdowns }}" as="d" hint-placeholder-count="5">
+          <div style="position:relative">
+            <button onClick="{{ d.onToggle }}" style="font-family:inherit;font-size:12px;font-weight:500;color:#3A4046;border:1px solid #E2E5E8;border-radius:7px;padding:7px 11px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;max-width:260px;{{ d.btnStyle }}">
+              <span style="color:#9AA0A6">{{ d.label }}:</span>
+              <span style="font-weight:600;color:#111;overflow:hidden;text-overflow:ellipsis">{{ d.valueLabel }}</span>
+              <span style="color:#B4B9BE;font-size:10px;margin-left:1px">▼</span>
+            </button>
+            <sc-if value="{{ d.isOpen }}">
+              <div onClick="{{ d.close }}" style="position:fixed;inset:0;z-index:30"></div>
+              <div style="position:absolute;top:calc(100% + 6px);left:0;z-index:31;background:#fff;border:1px solid #D6DADE;border-radius:9px;box-shadow:0 12px 30px rgba(17,17,17,.16);padding:5px;min-width:200px;max-width:320px;max-height:300px;overflow:auto">
+                <sc-for list="{{ d.options }}" as="o" hint-placeholder-count="4">
+                  <div onClick="{{ o.onClick }}" style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 10px;border-radius:6px;font-size:12.5px;cursor:pointer;line-height:1.3;{{ o.rowStyle }}">
+                    <span style="overflow:hidden;text-overflow:ellipsis">{{ o.label }}</span>
+                    <span style="font-size:11px;color:#A4A9AE;font-variant-numeric:tabular-nums;flex-shrink:0">{{ o.count }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        <sc-if value="{{ hayFiltros }}">
+          <button onClick="{{ limpiar }}" style="font-family:inherit;font-size:12px;font-weight:600;color:#B4271B;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;padding:7px 8px;white-space:nowrap">Limpiar ✕</button>
+        </sc-if>
+        <div style="position:relative;margin-left:auto">
+          <button onClick="{{ ordenDropdown.onToggle }}" style="font-family:inherit;font-size:12px;font-weight:500;color:#3A4046;border:1px solid #E2E5E8;border-radius:7px;padding:7px 11px;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;background:#fff">
+            <span style="color:#9AA0A6">⇅ {{ ordenDropdown.label }}:</span>
+            <span style="font-weight:600;color:#111">{{ ordenDropdown.valueLabel }}</span>
+            <span style="color:#B4B9BE;font-size:10px;margin-left:1px">▼</span>
+          </button>
+          <sc-if value="{{ ordenDropdown.isOpen }}">
+            <div onClick="{{ ordenDropdown.close }}" style="position:fixed;inset:0;z-index:30"></div>
+            <div style="position:absolute;top:calc(100% + 6px);right:0;z-index:31;background:#fff;border:1px solid #D6DADE;border-radius:9px;box-shadow:0 12px 30px rgba(17,17,17,.16);padding:5px;min-width:170px">
+              <sc-for list="{{ ordenDropdown.options }}" as="o" hint-placeholder-count="3">
+                <div onClick="{{ o.onClick }}" style="display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:6px;font-size:12.5px;cursor:pointer;{{ o.rowStyle }}">{{ o.label }}</div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+        <span style="font-size:12px;color:#8A9096;white-space:nowrap;font-variant-numeric:tabular-nums">{{ resultLabel }}</span>
+      </div>
+    </header>
+
+    <!-- ===== TABLE ===== -->
+    <div style="flex:1;overflow:auto;padding:18px 28px 40px">
+
+      <!-- column header -->
+      <div style="display:grid;grid-template-columns:minmax(210px,2.4fr) 124px minmax(120px,150px) minmax(180px,1.4fr) 90px 92px 24px;gap:16px;padding:0 18px 11px;align-items:center;min-width:920px">
+        <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600">Proyecto</div>
+        <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600">Estado</div>
+        <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600">A3 · completitud</div>
+        <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600">Indicador principal</div>
+        <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600">Equipo</div>
+        <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9AA0A6;font-weight:600">Actualizado</div>
+        <div></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <sc-for list="{{ rows }}" as="p" hint-placeholder-count="8">
+          <a href="Cota%20-%20Editor%20A3%20v2.dc.html" style="display:grid;grid-template-columns:minmax(210px,2.4fr) 124px minmax(120px,150px) minmax(180px,1.4fr) 90px 92px 24px;gap:16px;align-items:center;background:#fff;border:1px solid #DADEE2;border-radius:8px;padding:{{ p.rowPad }} 18px;box-shadow:0 1px 2px rgba(17,17,17,.04);cursor:pointer;min-width:920px;text-decoration:none;color:inherit">
+
+            <!-- proyecto -->
+            <div style="min-width:0">
+              <div style="font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;letter-spacing:-0.01em;line-height:1.3;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.titulo }}</div>
+              <div style="display:flex;align-items:center;gap:7px;font-size:11.5px;color:#8A9096">
+                <span style="font-variant-numeric:tabular-nums">{{ p.code }}</span>
+                <span style="color:#C7CCD1">·</span>
+                <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.cliente }}</span>
+              </div>
+            </div>
+
+            <!-- estado -->
+            <div>
+              <span style="display:inline-flex;align-items:center;gap:6px;border-radius:6px;padding:4px 9px;font-size:11.5px;font-weight:600;{{ p.estadoChip }}">
+                <span style="width:7px;height:7px;border-radius:50%;background:{{ p.estadoDot }}"></span>{{ p.estadoLabel }}
+              </span>
+            </div>
+
+            <!-- a3 -->
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px">
+                <span style="font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums">{{ p.a3done }}<span style="color:#A4A9AE;font-weight:500">/{{ p.a3total }}</span></span>
+                <span style="font-size:10.5px;color:#9AA0A6">pasos</span>
+              </div>
+              <div style="display:flex;gap:3px">
+                <sc-for list="{{ p.a3cells }}" as="c" hint-placeholder-count="7">
+                  <span style="flex:1;height:5px;border-radius:2px;background:{{ c.bg }}"></span>
+                </sc-for>
+              </div>
+            </div>
+
+            <!-- indicador -->
+            <div style="display:flex;align-items:center;gap:12px;min-width:0">
+              <sc-if value="{{ p.hasKpi }}">
+                <svg viewBox="0 0 88 26" style="width:88px;height:26px;flex-shrink:0;display:block">
+                  <polyline points="{{ p.spark }}" fill="none" stroke="#F94202" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></polyline>
+                  <circle cx="{{ p.sparkX }}" cy="{{ p.sparkY }}" r="2.6" fill="#F94202"></circle>
+                </svg>
+                <div style="min-width:0">
+                  <div style="display:flex;align-items:baseline;gap:5px">
+                    <span style="font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.01em;font-variant-numeric:tabular-nums;line-height:1">{{ p.kpiVal }}</span>
+                    <span style="font-size:11px;color:#8A9096;font-weight:600">{{ p.kpiUnit }}</span>
+                    <span style="font-size:11px;font-weight:700;color:{{ p.deltaColor }};white-space:nowrap">{{ p.delta }}</span>
+                  </div>
+                  <div style="font-size:10.5px;color:#9AA0A6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px">{{ p.kpiLabel }}</div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ p.noKpi }}">
+                <span style="font-size:12px;color:#A4A9AE">Sin medición aún</span>
+              </sc-if>
+            </div>
+
+            <!-- equipo -->
+            <div style="display:flex;align-items:center">
+              <sc-for list="{{ p.team }}" as="m" hint-placeholder-count="2">
+                <span style="width:26px;height:26px;border-radius:50%;background:#111;color:#F94202;font-size:9.5px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff;margin-left:{{ m.ml }};font-family:'Space Grotesk',sans-serif">{{ m.ini }}</span>
+              </sc-for>
+            </div>
+
+            <!-- actualizado -->
+            <div>
+              <div style="font-size:12px;color:#3A4046;font-weight:500">{{ p.updated }}</div>
+              <sc-if value="{{ p.vencida }}">
+                <div style="display:flex;align-items:center;gap:5px;font-size:10.5px;color:#B4271B;font-weight:600;margin-top:2px"><span style="width:5px;height:5px;border-radius:50%;background:#B4271B"></span>{{ p.vencidaTxt }}</div>
+              </sc-if>
+              <sc-if value="{{ p.alDia }}">
+                <div style="font-size:10.5px;color:#9AA0A6;margin-top:2px">al día</div>
+              </sc-if>
+            </div>
+
+            <!-- chevron -->
+            <div style="text-align:right;color:#C7CCD1;font-size:18px;font-weight:300">›</div>
+          </a>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ vacio }}">
+        <div style="text-align:center;padding:60px 0;color:#9AA0A6;font-size:13.5px">Ningún proyecto coincide con el filtro o la búsqueda.</div>
+      </sc-if>
+    </div>
+  </main>
+
+  <sc-if value="{{ newOpen }}">
+    <div onClick="{{ onCloseNew }}" style="position:fixed;inset:0;z-index:80;background:rgba(17,17,17,.42);display:flex;align-items:flex-start;justify-content:center;padding:44px 20px;overflow:auto;animation:cotaPageIn .2s ease both">
+      <div onClick="{{ stopEvt }}" style="width:100%;max-width:544px;background:#fff;border-radius:14px;box-shadow:0 24px 60px rgba(17,17,17,.28);overflow:hidden">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:22px 24px 16px;border-bottom:1px solid #EDEFF1">
+          <div>
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;letter-spacing:-0.02em;margin:0 0 3px">Nuevo proyecto</h3>
+            <div style="font-size:12.5px;color:#8A9096">Empieza por el equipo: quién dirige y acompaña el A3.</div>
+          </div>
+          <button onClick="{{ onCloseNew }}" style="background:none;border:none;color:#A4A9AE;font-size:19px;cursor:pointer;line-height:1;padding:2px 4px" style-hover="color:#111">✕</button>
+        </div>
+        <div style="padding:20px 24px;display:flex;flex-direction:column;gap:18px;max-height:64vh;overflow:auto">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:13px">
+              <span style="width:22px;height:22px;border-radius:6px;background:#111;color:#F94202;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">1</span>
+              <span style="font-size:13px;font-weight:700;color:#111">Equipo del proyecto</span>
+            </div>
+            <div style="margin-bottom:15px">
+              <div style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#8A9096;font-weight:700;margin-bottom:8px">Consultor responsable</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px">
+                <sc-for list="{{ nuevoConsultor }}" as="p" hint-placeholder-count="5">
+                  <button onClick="{{ p.onClick }}" style="display:flex;align-items:center;gap:7px;border-radius:20px;padding:4px 13px 4px 4px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .12s ease;{{ p.chipStyle }}"><span style="width:23px;height:23px;border-radius:50%;font-family:'Space Grotesk',sans-serif;font-size:8.5px;font-weight:700;display:flex;align-items:center;justify-content:center;{{ p.avaStyle }}">{{ p.ini }}</span>{{ p.nombre }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="margin-bottom:15px">
+              <div style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#8A9096;font-weight:700;margin-bottom:8px">Líder del proyecto</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px">
+                <sc-for list="{{ nuevoLider }}" as="p" hint-placeholder-count="5">
+                  <button onClick="{{ p.onClick }}" style="display:flex;align-items:center;gap:7px;border-radius:20px;padding:4px 13px 4px 4px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .12s ease;{{ p.chipStyle }}"><span style="width:23px;height:23px;border-radius:50%;font-family:'Space Grotesk',sans-serif;font-size:8.5px;font-weight:700;display:flex;align-items:center;justify-content:center;{{ p.avaStyle }}">{{ p.ini }}</span>{{ p.nombre }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#8A9096;font-weight:700;margin-bottom:8px">Miembros del equipo <span style="color:#B4B9BE;font-weight:600;text-transform:none;letter-spacing:0">· opcional</span></div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px">
+                <sc-for list="{{ nuevoMiembros }}" as="p" hint-placeholder-count="5">
+                  <button onClick="{{ p.onClick }}" style="display:flex;align-items:center;gap:7px;border-radius:20px;padding:4px 13px 4px 4px;font-family:inherit;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .12s ease;{{ p.chipStyle }}"><span style="width:23px;height:23px;border-radius:50%;font-family:'Space Grotesk',sans-serif;font-size:8.5px;font-weight:700;display:flex;align-items:center;justify-content:center;{{ p.avaStyle }}">{{ p.ini }}</span>{{ p.nombre }}</button>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          <div style="border-top:1px solid #EDEFF1;padding-top:17px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:13px">
+              <span style="width:22px;height:22px;border-radius:6px;background:#EEF0F2;color:#6B7177;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">2</span>
+              <span style="font-size:13px;font-weight:700;color:#111">Datos del proyecto</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div>
+                <div style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#8A9096;font-weight:700;margin-bottom:6px">Nombre del proyecto</div>
+                <input value="{{ nuevoNombre }}" onInput="{{ onNuevoNombre }}" placeholder="p. ej. Reducir tiempos de despacho" style="width:100%;box-sizing:border-box;font-family:inherit;font-size:13px;color:#111;background:#fff;border:1px solid #E2E5E8;border-radius:8px;padding:10px 12px;outline:none" style-focus="border-color:#F4A581" />
+              </div>
+              <div>
+                <div style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:#8A9096;font-weight:700;margin-bottom:6px">Cliente</div>
+                <input value="{{ nuevoCliente }}" onInput="{{ onNuevoCliente }}" placeholder="Nombre del cliente" style="width:100%;box-sizing:border-box;font-family:inherit;font-size:13px;color:#111;background:#fff;border:1px solid #E2E5E8;border-radius:8px;padding:10px 12px;outline:none" style-focus="border-color:#F4A581" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:15px 24px;border-top:1px solid #EDEFF1;background:#FCFCFD">
+          <button onClick="{{ onCloseNew }}" style="font-family:inherit;font-size:12.5px;font-weight:600;color:#6B7177;background:#fff;border:1px solid #D6DADE;border-radius:8px;padding:9px 16px;cursor:pointer">Cancelar</button>
+          <button onClick="{{ onCrear }}" style="font-family:inherit;font-size:12.5px;font-weight:600;border:none;border-radius:8px;padding:9px 18px;{{ crearBtnStyle }}">Crear proyecto</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;densidad&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;comoda&quot;, &quot;options&quot;: [&quot;comoda&quot;, &quot;compacta&quot;], &quot;tsType&quot;: &quot;string&quot; }
+}">
+class Component extends DCLogic {
+  state = { query: '', open: null, orden: 'actualizacion', fCliente: 'todos', fConsultor: 'todos', fCodigo: 'todos', fEstado: 'todos', fAvance: 'todos', fFase: 'todos', navOpen: 'proyectos', newOpen:false, nuevo:{consultor:'',lider:'',miembros:[],nombre:'',cliente:''}, nuevos:[] };
+
+  PROJECTS = [
+    { titulo:'Reducir reprocesos en conciliaciones', code:'A3-014', cliente:'Despacho Andrade & Vega', estado:'progreso',
+      a3done:4, kpiLabel:'Lead time de cierre', kpiVal:'8,2', kpiUnit:'d', delta:'▼ 2,8', deltaGood:true,
+      serie:[11,10.6,9.8,9.1,8.6,8.2], team:['CV','DL'], updated:'Hoy', vencidaTxt:'1 acción vencida' },
+    { titulo:'Cierre mensual ágil', code:'A3-009', cliente:'Despacho Andrade & Vega', estado:'progreso',
+      a3done:6, kpiLabel:'Días de cierre', kpiVal:'4,1', kpiUnit:'d', delta:'▼ 1,2', deltaGood:true,
+      serie:[6.5,6,5.4,4.9,4.4,4.1], team:['CV','MP'], updated:'hace 2 d', vencidaTxt:'' },
+    { titulo:'Onboarding de clientes', code:'A3-021', cliente:'Logística Sur', estado:'riesgo',
+      a3done:3, kpiLabel:'Tiempo de alta', kpiVal:'9,4', kpiUnit:'d', delta:'▲ 0,6', deltaGood:false,
+      serie:[8.2,8.5,8.4,8.8,9,9.4], team:['JM','RA'], updated:'hace 5 d', vencidaTxt:'2 acciones vencidas' },
+    { titulo:'Reducir mermas en bodega', code:'A3-018', cliente:'Logística Sur', estado:'progreso',
+      a3done:5, kpiLabel:'Merma sobre inventario', kpiVal:'2,3', kpiUnit:'%', delta:'▼ 0,9', deltaGood:true,
+      serie:[3.2,3,2.8,2.6,2.4,2.3], team:['DL'], updated:'ayer', vencidaTxt:'' },
+    { titulo:'Setup de línea · SMED', code:'A3-025', cliente:'Manufactura Délano', estado:'progreso',
+      a3done:4, kpiLabel:'Tiempo de cambio', kpiVal:'18', kpiUnit:'min', delta:'▼ 7', deltaGood:true,
+      serie:[32,29,26,23,20,18], team:['RA','MP'], updated:'hace 3 d', vencidaTxt:'' },
+    { titulo:'Defectos de empaque', code:'A3-012', cliente:'Manufactura Délano', estado:'cerrado',
+      a3done:7, kpiLabel:'Defectos por mil', kpiVal:'1,1', kpiUnit:'‰', delta:'▼ 4,2', deltaGood:true,
+      serie:[5.3,4,3,2.1,1.5,1.1], team:['CV'], updated:'12 may', vencidaTxt:'' },
+    { titulo:'Tiempo de espera en admisión', code:'A3-007', cliente:'Clínica Norte', estado:'cerrado',
+      a3done:7, kpiLabel:'Espera promedio', kpiVal:'12', kpiUnit:'min', delta:'▼ 19', deltaGood:true,
+      serie:[31,27,22,18,14,12], team:['JM','DL'], updated:'28 abr', vencidaTxt:'' },
+    { titulo:'Quiebres de stock en tienda', code:'A3-030', cliente:'Retail Vega', estado:'nuevo',
+      a3done:1, kpiLabel:'', kpiVal:'', kpiUnit:'', delta:'', deltaGood:true,
+      serie:[], team:['CV'], updated:'hace 1 d', vencidaTxt:'' },
+  ];
+
+  ESTADOS = {
+    progreso:{ label:'En progreso', dot:'#0F7A45', chip:'background:#E9F4EE;border:1px solid #CCE7D8;color:#0F7A45' },
+    riesgo:{ label:'En riesgo', dot:'#B4271B', chip:'background:#FBE9E6;border:1px solid #F1CFC9;color:#B4271B' },
+    cerrado:{ label:'Cerrado', dot:'#6B7177', chip:'background:#EEF0F2;border:1px solid #E0E3E6;color:#6B7177' },
+    nuevo:{ label:'Por iniciar', dot:'#C7CCD1', chip:'background:#F4F6F7;border:1px solid #E2E5E8;color:#8A9096' },
+  };
+
+  CONSULTORES = { CV:'Carmen Vidal', DL:'Diego López', MP:'María Paz', JM:'Javier Marín', RA:'Rodrigo Andrade' };
+
+  ini(name){ return (name||'').split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
+  openNew(){ this.setState({ newOpen:true }); }
+  closeNew(){ this.setState({ newOpen:false }); }
+  setNuevo(f,v){ this.setState(s=>({ nuevo:{...s.nuevo, [f]:v} })); }
+  toggleMiembro(id){ this.setState(s=>{ const m=s.nuevo.miembros||[]; const has=m.includes(id); return { nuevo:{...s.nuevo, miembros: has? m.filter(x=>x!==id):[...m,id]} }; }); }
+  crearProyecto(){ const nv=this.state.nuevo; if(!(nv.consultor&&nv.lider&&(nv.nombre||'').trim())) return;
+    const team=[nv.consultor, nv.lider, ...(nv.miembros||[])].filter((v,i,a)=>a.indexOf(v)===i);
+    const code='A3-0'+(31+((this.state.nuevos||[]).length));
+    const proj={ titulo:nv.nombre.trim(), code, cliente:(nv.cliente||'').trim()||'Cliente por definir', estado:'nuevo', a3done:1, kpiLabel:'', kpiVal:'', kpiUnit:'', delta:'', deltaGood:true, serie:[], team, updated:'Ahora', vencidaTxt:'' };
+    this.setState(s=>({ nuevos:[proj, ...(s.nuevos||[])], newOpen:false, nuevo:{consultor:'',lider:'',miembros:[],nombre:'',cliente:''} }));
+  }
+
+  spark(serie){
+    const w=88,h=26,p=4;
+    if(!serie || serie.length<2) return { pts:'', x:0, y:0 };
+    const min=Math.min(...serie), max=Math.max(...serie), rng=(max-min)||1;
+    let lastX=0,lastY=0;
+    const pts=serie.map((v,i)=>{
+      const x=p+(i/(serie.length-1))*(w-2*p);
+      const y=p+(1-(v-min)/rng)*(h-2*p);
+      lastX=x; lastY=y;
+      return x.toFixed(1)+','+y.toFixed(1);
+    }).join(' ');
+    return { pts, x:lastX.toFixed(1), y:lastY.toFixed(1) };
+  }
+
+  renderVals(){
+    const compacta = (this.props.densidad ?? 'comoda') === 'compacta';
+    const total = 7;
+    const S = this.state;
+    const orden = S.orden || 'actualizacion';
+    const q = (S.query||'').toLowerCase().trim();
+    const P = [...(this.state.nuevos||[]), ...this.PROJECTS];
+    const newCodes = new Set((this.state.nuevos||[]).map(p=>p.code));
+    const ordMap = {'A3-014':0,'A3-009':2,'A3-021':5,'A3-018':1,'A3-025':3,'A3-012':39,'A3-007':53,'A3-030':1};
+
+    const fCliente=S.fCliente||'todos', fConsultor=S.fConsultor||'todos',
+          fCodigo=S.fCodigo||'todos', fEstado=S.fEstado||'todos', fAvance=S.fAvance||'todos';
+    const fFase = S.fFase || 'todos';
+    const fasePred = p => fFase==='todos' || (fFase==='definicion' && p.a3done<=5) || (fFase==='ejecucion' && p.a3done>=6);
+    const matchQ = p => !q || (p.titulo.toLowerCase().includes(q)||p.cliente.toLowerCase().includes(q)||p.code.toLowerCase().includes(q));
+    const okAvance = (p,v)=> v==='todos' || (v==='inicial'&&p.a3done<4) || (v==='avanzado'&&p.a3done>=4&&p.a3done<7) || (v==='completo'&&p.a3done===7);
+    const passExcept = (p, except) => {
+      if(except!=='fCliente' && fCliente!=='todos' && p.cliente!==fCliente) return false;
+      if(except!=='fConsultor' && fConsultor!=='todos' && !(p.team||[]).includes(fConsultor)) return false;
+      if(except!=='fCodigo' && fCodigo!=='todos' && p.code!==fCodigo) return false;
+      if(except!=='fEstado' && fEstado!=='todos' && p.estado!==fEstado) return false;
+      if(except!=='fAvance' && !okAvance(p,fAvance)) return false;
+      return matchQ(p);
+    };
+    const facet = (key, pred)=> P.filter(p=> passExcept(p,key) && pred(p)).length;
+
+    const clientes = [...new Set(P.map(p=>p.cliente))];
+    const consultores = [...new Set(P.flatMap(p=>p.team||[]))];
+
+    const dims = [
+      { key:'fCliente', id:'cliente', label:'Cliente', def:'Todos',
+        opts: clientes.map(c=>({ val:c, label:c, count:facet('fCliente',p=>p.cliente===c) })) },
+      { key:'fConsultor', id:'consultor', label:'Consultor', def:'Todos',
+        opts: consultores.map(c=>({ val:c, label:this.CONSULTORES[c]||c, count:facet('fConsultor',p=>(p.team||[]).includes(c)) })) },
+      { key:'fCodigo', id:'codigo', label:'Código', def:'Todos',
+        opts: P.filter(p=>passExcept(p,'fCodigo')).map(p=>({ val:p.code, label:p.code+' · '+p.titulo, count:null })) },
+      { key:'fEstado', id:'estado', label:'Estado', def:'Cualquiera',
+        opts: Object.keys(this.ESTADOS).map(e=>({ val:e, label:this.ESTADOS[e].label, count:facet('fEstado',p=>p.estado===e) })) },
+      { key:'fAvance', id:'avance', label:'Avance A3', def:'Cualquiera',
+        opts: [
+          { val:'inicial', label:'Inicial · 1–3 pasos', count:facet('fAvance',p=>p.a3done<4) },
+          { val:'avanzado', label:'Avanzado · 4–6 pasos', count:facet('fAvance',p=>p.a3done>=4&&p.a3done<7) },
+          { val:'completo', label:'Completo · 7 pasos', count:facet('fAvance',p=>p.a3done===7) },
+        ] },
+    ];
+
+    const dropdowns = dims.map(d=>{
+      const sel = S[d.key] || 'todos';
+      const all = [{ val:'todos', label:d.def, count:null }, ...d.opts];
+      return {
+        id:d.id, label:d.label, isOpen:S.open===d.id,
+        valueLabel: sel==='todos' ? d.def : (d.opts.find(o=>o.val===sel)?.label || d.def),
+        btnStyle: sel!=='todos' ? 'border-color:#F9C4AC;background:#FFF4EF' : 'border-color:#E2E5E8;background:#fff',
+        onToggle: ()=>this.setState(s=>({ open:s.open===d.id?null:d.id })),
+        close: ()=>this.setState({ open:null }),
+        options: all.map(o=>{
+          const zero = o.count===0 && sel!==o.val;
+          return {
+            label:o.label, count: (o.count==null?'':String(o.count)),
+            rowStyle: sel===o.val ? 'background:#FFF4EF;color:#F94202;font-weight:600'
+                      : (zero ? 'color:#C0C5CA;cursor:default' : 'color:#3A4046'),
+            onClick: zero ? ()=>{} : ()=>this.setState({ [d.key]:o.val, open:null }),
+          };
+        }),
+      };
+    });
+
+    let list = P.filter(p=>
+      (fCliente==='todos'||p.cliente===fCliente) &&
+      (fConsultor==='todos'||(p.team||[]).includes(fConsultor)) &&
+      (fCodigo==='todos'||p.code===fCodigo) &&
+      (fEstado==='todos'||p.estado===fEstado) &&
+      okAvance(p,fAvance) && fasePred(p) && matchQ(p)
+    );
+
+    const navOpen = S.navOpen ?? 'proyectos';
+    const toggleNav = id => this.setState(s => ({ navOpen: s.navOpen === id ? null : id }));
+
+    // fase filters become indented children of Proyectos
+    const faseDefs = [
+      { id:'todos', label:'Todos los A3', count:P.length },
+      { id:'definicion', label:'En definición', count:P.filter(p=>p.a3done<=5).length },
+      { id:'ejecucion', label:'En ejecución', count:P.filter(p=>p.a3done>=6).length },
+    ];
+    const faseKids = faseDefs.map(f=>{
+      const on = fFase===f.id;
+      return {
+        label:f.label, count:f.count,
+        dot: on ? '#F94202' : '#4A4A4A',
+        rowStyle: on ? 'background:#1d1d1d' : 'background:transparent',
+        labelStyle: on ? 'color:#fff;font-weight:600' : 'color:#9CA1A6',
+        onClick: ()=>this.setState({ fFase:f.id, open:null }),
+      };
+    });
+
+    const modDefs = [
+      { id:'proyectos', label:'Proyectos', active:true, kids:faseKids },
+      { id:'vsm', label:'Mapas de valor · VSM', kids:[
+        { label:'A3-014 · Estado actual', href:'Cota%20-%20Editor%20A3%20v2.dc.html#vsm' },
+        { label:'A3-014 · Estado futuro', href:'Cota%20-%20Editor%20A3%20v2.dc.html#vsm' },
+        { label:'A3-025 · Estado actual', href:'Cota%20-%20Editor%20A3%20v2.dc.html#vsm' },
+      ]},
+      { id:'acciones', label:'Acciones', href:'Cota%20-%20Acciones%20Kanban.dc.html', kids:[
+        { label:'Tablero Kanban' }, { label:'Mis acciones' }, { label:'Vencidas' },
+      ]},
+      { id:'indicadores', label:'Indicadores', href:'Cota%20-%20Indicadores%20Seguimiento.dc.html', kids:[
+        { label:'Seguimiento' }, { label:'Tendencias' },
+      ]},
+      { id:'casos', label:'Casos de negocio', href:'Cota%20-%20Casos%20de%20Negocio.dc.html', kids:[
+        { label:'Cartera' }, { label:'Aprobados' }, { label:'Borradores' },
+      ]},
+      { id:'plantillas', label:'Plantillas A3', kids:[
+        { label:'Estándar' }, { label:'Resolución rápida' },
+      ]},
+    ];
+    const modules = modDefs.map(m=>{
+      const expanded = navOpen===m.id && (m.kids && m.kids.length>0);
+      const kids = (m.kids||[]).map(k=>{
+        if (k.onClick) return k; // fase kids already styled
+        const href = k.href || m.href;
+        return {
+          label:k.label, count: k.count ?? '',
+          dot:'#4A4A4A',
+          rowStyle:'background:transparent',
+          labelStyle:'color:#9CA1A6',
+          onClick: href ? ()=>{ window.location.href = href; } : ()=>{},
+        };
+      });
+      return {
+        label:m.label,
+        bar: m.active ? '#F94202' : 'transparent',
+        rowStyle: m.active ? 'background:#1d1d1d' : 'background:transparent',
+        labelStyle: m.active ? 'color:#fff;font-weight:600' : 'color:#A8ADB2;font-weight:500',
+        hasChildren: !!(m.kids && m.kids.length),
+        expanded,
+        chevStyle: expanded ? 'transform:rotate(90deg)' : 'transform:rotate(0deg)',
+        kids,
+        onToggle: ()=>{
+          if (m.href && !m.active) { window.location.href = m.href; return; }
+          toggleNav(m.id);
+        },
+      };
+    });
+
+    const faseSubtitulo = fFase==='definicion' ? 'A3 en definición · pasos 1–5 por completar'
+      : fFase==='ejecucion' ? 'A3 en ejecución de plan aprobado · pasos 6–7'
+      : 'Cartera de mejoras lean en curso · 4 clientes';
+
+    const hayFiltros = q!=='' || [fCliente,fConsultor,fCodigo,fEstado,fAvance].some(v=>v!=='todos');
+    const limpiar = ()=>this.setState({ query:'', open:null, fCliente:'todos', fConsultor:'todos', fCodigo:'todos', fEstado:'todos', fAvance:'todos' });
+
+    const ordOpts=[{val:'actualizacion',label:'Actualización'},{val:'codigo',label:'Código'},{val:'cliente',label:'Cliente'}];
+    const ordenDropdown={
+      id:'orden', label:'Ordenar', isOpen:S.open==='orden',
+      valueLabel:(ordOpts.find(o=>o.val===orden)||ordOpts[0]).label,
+      onToggle:()=>this.setState(s=>({open:s.open==='orden'?null:'orden'})),
+      close:()=>this.setState({open:null}),
+      options: ordOpts.map(o=>({ label:o.label, count:'',
+        rowStyle: orden===o.val?'background:#FFF4EF;color:#F94202;font-weight:600':'color:#3A4046',
+        onClick:()=>this.setState({orden:o.val, open:null}) })),
+    };
+
+    if(orden==='actualizacion') list=[...list].sort((a,b)=>(newCodes.has(a.code)?-1:(ordMap[a.code]??99))-(newCodes.has(b.code)?-1:(ordMap[b.code]??99)));
+    else if(orden==='codigo') list=[...list].sort((a,b)=>a.code.localeCompare(b.code));
+    else if(orden==='cliente') list=[...list].sort((a,b)=> a.cliente.localeCompare(b.cliente) || a.code.localeCompare(b.code));
+
+    const rows = list.map(p=>{
+      const est = this.ESTADOS[p.estado];
+      const sp = this.spark(p.serie);
+      const hasKpi = !!p.kpiVal;
+      return {
+        ...p,
+        rowPad: compacta ? '11px' : '15px',
+        estadoLabel:est.label, estadoDot:est.dot, estadoChip:est.chip,
+        a3total:total,
+        a3cells: Array.from({length:total},(_,i)=>({ bg: i<p.a3done ? '#111' : '#E6E9EC' })),
+        hasKpi, noKpi:!hasKpi,
+        spark:sp.pts, sparkX:sp.x, sparkY:sp.y,
+        deltaColor: p.deltaGood ? '#0F7A45' : '#B4271B',
+        team:(p.team||[]).map((ini,i)=>({ ini, ml: i===0?'0':'-7px' })),
+        vencida: !!p.vencidaTxt,
+        alDia: !p.vencidaTxt && p.estado!=='cerrado' && p.estado!=='nuevo',
+      };
+    });
+
+    const CO=this.CONSULTORES;
+    const personas=Object.keys(CO).map(id=>({ id, nombre:CO[id], ini:id }));
+    const nv=this.state.nuevo||{consultor:'',lider:'',miembros:[],nombre:'',cliente:''};
+    const chipStyle=sel=> sel ? 'background:#111;border:1px solid #111;color:#fff' : 'background:#fff;border:1px solid #E2E5E8;color:#3A4046';
+    const avaStyle=(sel,accent)=> sel ? ('background:'+accent+';color:#fff') : 'background:#EEF0F2;color:#8A9096';
+    const nuevoConsultor=personas.map(p=>({ nombre:p.nombre, ini:p.ini, chipStyle:chipStyle(nv.consultor===p.id), avaStyle:avaStyle(nv.consultor===p.id,'#F94202'), onClick:()=>this.setNuevo('consultor',p.id) }));
+    const nuevoLider=personas.map(p=>({ nombre:p.nombre, ini:p.ini, chipStyle:chipStyle(nv.lider===p.id), avaStyle:avaStyle(nv.lider===p.id,'#111'), onClick:()=>this.setNuevo('lider',p.id) }));
+    const nuevoMiembros=personas.map(p=>{ const sel=(nv.miembros||[]).includes(p.id); return { nombre:p.nombre, ini:p.ini, chipStyle:chipStyle(sel), avaStyle:avaStyle(sel,'#0F7A45'), onClick:()=>this.toggleMiembro(p.id) }; });
+    const puedeCrear=!!(nv.consultor && nv.lider && (nv.nombre||'').trim());
+
+    return {
+      modules, faseSubtitulo,
+      dropdowns, ordenDropdown, hayFiltros, limpiar,
+      resultLabel: list.length+' de '+P.length+' proyectos',
+      rows,
+      query:this.state.query,
+      onQuery:e=>this.setState({query:e.target.value}),
+      vacio: rows.length===0,
+      newOpen:this.state.newOpen, onOpenNew:()=>this.openNew(), onCloseNew:()=>this.closeNew(),
+      nuevoConsultor, nuevoLider, nuevoMiembros,
+      nuevoNombre:nv.nombre, onNuevoNombre:e=>this.setNuevo('nombre',e.target.value),
+      nuevoCliente:nv.cliente, onNuevoCliente:e=>this.setNuevo('cliente',e.target.value),
+      puedeCrear, onCrear:()=>this.crearProyecto(),
+      stopEvt:e=>e.stopPropagation(),
+      crearBtnStyle: puedeCrear ? 'background:#F94202;color:#fff;cursor:pointer' : 'background:#F1D9CE;color:#fff;cursor:not-allowed',
+    };
+  }
+}
+</script>
+</body>
+</html>

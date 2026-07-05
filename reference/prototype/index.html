@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cota · Sistema de mejoramiento de procesos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Hanken Grotesk',system-ui,sans-serif;background:#ECEEF1;color:#111;-webkit-font-smoothing:antialiased;line-height:1.5}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1040px;margin:0 auto;padding:56px 32px 96px}
+  .brand{display:flex;align-items:center;gap:12px;margin-bottom:34px}
+  .mark{width:30px;height:30px;border-radius:7px;background:#111;display:flex;align-items:center;justify-content:center}
+  .mark span{width:13px;height:13px;border-radius:50%;border:3px solid #F94202}
+  .brand b{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;letter-spacing:-0.02em}
+  .brand small{font-size:12px;color:#6B7177;border-left:1px solid #B2B9BF;padding-left:12px;margin-left:2px}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#F94202;font-weight:600;margin-bottom:12px}
+  h1{font-family:'Space Grotesk',sans-serif;font-size:30px;line-height:1.14;letter-spacing:-0.025em;margin:0 0 14px;max-width:22ch}
+  .lead{font-size:15px;line-height:1.6;color:#3A4046;margin:0 0 40px;max-width:60ch}
+  .cta{display:inline-flex;align-items:center;gap:10px;background:#111;color:#fff;font-weight:600;font-size:14px;padding:13px 22px;border-radius:8px;transition:transform .15s ease}
+  .cta:hover{transform:translateY(-1px)}
+  .cta .arrow{color:#F94202}
+  .section{margin-top:52px}
+  .section-h{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#8A9096;font-weight:600;margin-bottom:16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px}
+  .card{background:#fff;border:1px solid #DADEE2;border-radius:9px;padding:18px 20px;display:block;transition:border-color .15s ease,transform .15s ease}
+  .card:hover{border-color:#111;transform:translateY(-2px)}
+  .card .t{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:15px;margin-bottom:5px;display:flex;align-items:center;gap:8px}
+  .card .t .dot{width:7px;height:7px;border-radius:50%;background:#F94202;flex-shrink:0}
+  .card .d{font-size:12.5px;line-height:1.5;color:#5A6066;margin:0}
+  .footer{margin-top:56px;padding-top:22px;border-top:1px solid #DDE1E4;font-size:12px;color:#8A9096;line-height:1.6}
+  .footer code{font-family:ui-monospace,monospace;background:#E3E6E9;padding:1px 6px;border-radius:4px;font-size:11px;color:#3A4046}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="mark"><span></span></div>
+      <b>Cota</b>
+      <small>Consultoría lean · sistema de mejoramiento de procesos</small>
+    </div>
+
+    <div class="eyebrow">Módulo de procesos · prototipo navegable</div>
+    <h1>Gestión de proyectos de mejora, de extremo a extremo</h1>
+    <p class="lead">Cartera de A3, editor de mejora en 7 pasos, tablero de acciones PDCA, indicadores, casos de negocio y vista de cliente — todo conectado en un mismo espacio de trabajo. Empieza por la lista de proyectos.</p>
+    <a class="cta" href="Cota%20-%20Lista%20de%20Proyectos.dc.html">Entrar al sistema <span class="arrow">→</span></a>
+
+    <div class="section">
+      <div class="section-h">Espacio de trabajo · consultor</div>
+      <div class="grid">
+        <a class="card" href="Cota%20-%20Lista%20de%20Proyectos.dc.html">
+          <div class="t"><span class="dot"></span>Lista de proyectos</div>
+          <p class="d">Cartera filtrable de A3 con estado, avance por paso, KPI y equipo. Es la portada del consultor.</p>
+        </a>
+        <a class="card" href="Cota%20-%20Editor%20A3%20v2.dc.html">
+          <div class="t"><span class="dot"></span>Editor A3</div>
+          <p class="d">Espacio de 7 pasos: contexto, condición actual, meta, causa raíz (5 porqués, Pareto, VSM), contramedidas, plan Gantt y seguimiento.</p>
+        </a>
+        <a class="card" href="Cota%20-%20Acciones%20Kanban.dc.html">
+          <div class="t"><span class="dot"></span>Acciones · Kanban</div>
+          <p class="d">Tablero PDCA de acciones de mejora de toda la cartera, con vista lista, filtros y panel de detalle.</p>
+        </a>
+        <a class="card" href="Cota%20-%20Indicadores%20Seguimiento.dc.html">
+          <div class="t"><span class="dot"></span>Indicadores</div>
+          <p class="d">Seguimiento de KPIs por proyecto con tendencia, evolución y registro de mediciones compartidas.</p>
+        </a>
+        <a class="card" href="Cota%20-%20Casos%20de%20Negocio.dc.html">
+          <div class="t"><span class="dot"></span>Casos de negocio</div>
+          <p class="d">Justificación económica: inversión, payback, ROI, VAN/TIR y recuperación de caja, con ledgers editables.</p>
+        </a>
+        <a class="card" href="Cota%20-%20Vista%20de%20Cliente.dc.html">
+          <div class="t"><span class="dot"></span>Vista de cliente</div>
+          <p class="d">Informe de mejora listo para presentar o exportar: resumen, KPIs, línea de tiempo y firma del consultor.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-h">Entregables de diseño</div>
+      <div class="grid">
+        <a class="card" href="Cota%20-%20Sistema%20y%20Dashboard.dc.html">
+          <div class="t"><span class="dot"></span>Sistema y dashboard</div>
+          <p class="d">Deck de diseño (Entrega 1+2): dos direcciones visuales — Instrumento vs. Informe — sobre una misma base de tokens.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      Prototipo servido en local. Las páginas comparten datos vía <code>localStorage</code> (mismo origen), por eso deben abrirse desde un servidor HTTP y no con doble clic.
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0}
+  ::-webkit-scrollbar{width:11px;height:11px}
+  ::-webkit-scrollbar-thumb{background:#D4D8DC;border-radius:6px;border:3px solid #F2F4F5}
+  @keyframes cotaScreenIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes cotaCardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div data-screen-label="Vista de Cliente" style="font-family:'Hanken Grotesk',sans-serif;background:#F2F4F5;color:#111111;min-height:100vh;-webkit-font-smoothing:antialiased">
+
+  <!-- ===== TOP BAR ===== -->
+  <header style="position:sticky;top:0;z-index:20;background:rgba(255,255,255,0.86);backdrop-filter:blur(10px);border-bottom:1px solid #E4E7EA;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 34px">
+    <div style="display:flex;align-items:center;gap:16px">
+      <a href="Cota%20-%20Lista%20de%20Proyectos.dc.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit">
+        <div style="width:27px;height:27px;border-radius:8px;background:#111;display:flex;align-items:center;justify-content:center"><div style="width:11px;height:11px;border-radius:50%;border:2.5px solid #F94202"></div></div>
+        <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;letter-spacing:-0.02em">Cota</span>
+      </a>
+      <span style="font-size:12px;color:#9AA0A6;border-left:1px solid #DDE1E4;padding-left:16px">Informe para el cliente · solo lectura</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="background:#F2F4F5;border-radius:9px;padding:3px;display:flex">
+        <button onClick="{{ irEditor }}" style="font-family:inherit;font-size:12.5px;font-weight:600;border:none;cursor:pointer;border-radius:7px;padding:6px 14px;{{ tabConsultorStyle }}">Consultor</button>
+        <button style="font-family:inherit;font-size:12.5px;font-weight:600;border:none;cursor:pointer;border-radius:7px;padding:6px 14px;{{ tabClienteStyle }}">Cliente</button>
+      </div>
+      <sc-if value="{{ mostrarInforme }}">
+        <button onClick="{{ toggleNotas }}" style="font-family:inherit;font-size:13px;font-weight:600;border:1px solid;border-radius:9px;padding:8px 14px;cursor:pointer;{{ notasBtnStyle }}">{{ notasLabel }}</button>
+        <button style="font-family:inherit;font-size:13px;font-weight:600;color:#3A4046;background:#fff;border:1px solid #DDE1E4;border-radius:9px;padding:8px 14px;cursor:pointer">Compartir enlace</button>
+        <button style="font-family:inherit;font-size:13px;font-weight:600;color:#fff;background:#F94202;border:none;border-radius:9px;padding:8px 16px;cursor:pointer;display:flex;align-items:center;gap:7px">↥ Exportar PDF</button>
+      </sc-if>
+    </div>
+  </header>
+
+  <!-- ===== SELECTOR DE CLIENTE / A3 ===== -->
+  <sc-if value="{{ mostrarSelector }}">
+    <div style="max-width:1100px;margin:0 auto;padding:52px 34px 80px;animation:cotaScreenIn .42s cubic-bezier(.22,.61,.36,1) both">
+      <div style="margin-bottom:34px">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#F94202;font-weight:600;margin-bottom:13px">Informes para el cliente</div>
+        <h1 style="font-family:'Newsreader',serif;font-size:38px;line-height:1.1;letter-spacing:-0.015em;font-weight:600;margin:0 0 12px">Elige un cliente y su A3</h1>
+        <p style="font-size:15px;line-height:1.55;color:#5A6066;margin:0;max-width:60ch">Selecciona el cliente y luego el proyecto A3 cuyo informe quieres revisar. Verás solo lo que se comparte con el cliente.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:336px 1fr;gap:26px;align-items:start">
+
+        <!-- columna clientes -->
+        <div>
+          <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#9AA0A6;font-weight:600;margin-bottom:14px;padding-left:2px">1 · Cliente</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ clientes }}" as="c" hint-placeholder-count="4">
+              <div onClick="{{ c.onClick }}" style="display:flex;align-items:center;gap:13px;border:1px solid;border-radius:14px;padding:14px 16px;cursor:pointer;transition:border-color .16s ease,background-color .16s ease,transform .16s ease;{{ c.rowStyle }}" style-hover="transform:translateY(-1px)">
+                <span style="width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;flex-shrink:0;{{ c.iniStyle }}">{{ c.ini }}</span>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:14px;font-weight:600;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;{{ c.nombreColor }}">{{ c.nombre }}</div>
+                  <div style="font-size:12px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;{{ c.sectorColor }}">{{ c.sector }}</div>
+                </div>
+                <span style="font-size:11.5px;font-variant-numeric:tabular-nums;flex-shrink:0;{{ c.sectorColor }}">{{ c.n }} A3</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- columna A3 -->
+        <div>
+          <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#9AA0A6;font-weight:600;margin-bottom:14px;padding-left:2px">2 · A3 de {{ clienteActivoNombre }}</div>
+          <div style="display:flex;flex-direction:column;gap:13px">
+            <sc-for list="{{ a3s }}" as="a" hint-placeholder-count="2">
+              <div onClick="{{ a.onClick }}" style="display:flex;align-items:center;gap:18px;background:#fff;border:1px solid #E8EBED;border-radius:16px;padding:20px 24px;box-shadow:0 4px 14px rgba(17,17,17,.04);cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;animation:cotaCardIn .42s cubic-bezier(.22,.61,.36,1) both" style-hover="transform:translateY(-2px);box-shadow:0 10px 26px rgba(17,17,17,.09);border-color:#D7DBDE">
+                <div style="flex:1;min-width:0">
+                  <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+                    <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;color:#8A9096;font-variant-numeric:tabular-nums">{{ a.code }}</span>
+                    <span style="display:inline-flex;align-items:center;gap:6px;border-radius:7px;padding:3px 9px;font-size:11px;font-weight:600;{{ a.estadoChip }}"><span style="width:6px;height:6px;border-radius:50%;background:{{ a.estadoDot }}"></span>{{ a.estadoLabel }}</span>
+                  </div>
+                  <div style="font-family:'Newsreader',serif;font-size:20px;font-weight:600;letter-spacing:-0.01em;line-height:1.25">{{ a.titulo }}</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:7px 16px;font-size:12.5px;color:#8A9096;margin-top:9px">
+                    <span>Indicador · {{ a.kpi }}</span>
+                    <span style="color:#C7CCD1">·</span>
+                    <span>{{ a.avance }}</span>
+                    <span style="color:#C7CCD1">·</span>
+                    <span>Act. {{ a.updated }}</span>
+                  </div>
+                </div>
+                <span style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#F94202;white-space:nowrap;flex-shrink:0">Ver informe ›</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ===== CONSULTOR NOTICE ===== -->
+  <sc-if value="{{ mostrarInforme }}">
+  <sc-if value="{{ esConsultor }}">
+    <div style="max-width:1180px;margin:18px auto -6px;padding:0 34px">
+      <div style="display:flex;align-items:center;gap:11px;background:#111;color:#E7E9EB;border-radius:11px;padding:12px 18px">
+        <span style="width:7px;height:7px;border-radius:50%;background:#F94202;flex-shrink:0"></span>
+        <span style="font-size:12.5px;line-height:1.4">Estás <b style="color:#fff">previsualizando lo que verá el cliente</b>. Las notas internas en naranja punteado no se incluyen al exportar.</span>
+        <span style="margin-left:auto;font-size:12px;color:#9CA1A6;white-space:nowrap">Vista de consultor</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <div style="max-width:1180px;margin:0 auto;padding:38px 34px 80px;animation:cotaScreenIn .42s cubic-bezier(.22,.61,.36,1) both">
+
+    <!-- ===== HERO ===== -->
+    <section style="margin-bottom:14px">
+      <button onClick="{{ volver }}" style="font-family:inherit;font-size:12.5px;font-weight:600;color:#3A4046;background:#fff;border:1px solid #DDE1E4;border-radius:8px;padding:7px 13px;cursor:pointer;display:flex;align-items:center;gap:6px;margin-bottom:20px">‹ Cambiar cliente / A3</button>
+      <div style="display:flex;align-items:center;gap:10px;font-size:12.5px;color:#8A9096;margin-bottom:20px">
+        <span style="font-weight:600;color:#3A4046">{{ selCliente }}</span>
+        <span style="color:#C7CCD1">·</span>
+        <span>Proyecto {{ selCode }}</span>
+        <span style="color:#C7CCD1">·</span>
+        <span>Periodo {{ selPeriodo }}</span>
+      </div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#F94202;font-weight:600;margin-bottom:14px">Informe de mejora · Lean</div>
+      <h1 style="font-family:'Newsreader',serif;font-size:46px;line-height:1.08;letter-spacing:-0.015em;font-weight:600;margin:0 0 18px;max-width:18ch">{{ selTitulo }}</h1>
+      <p style="font-size:16px;line-height:1.6;color:#3A4046;margin:0 0 26px;max-width:60ch;text-wrap:pretty">Un trimestre de trabajo estandarizando la conciliación bancaria. El cierre contable es hoy más rápido y predecible, con menos retrabajo para tu equipo.</p>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+        <sc-if value="{{ enProgreso }}">
+          <span style="display:flex;align-items:center;gap:8px;background:#ECF6F0;border:1px solid #D4EADE;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:600;color:#0F7A45"><span style="width:7px;height:7px;border-radius:50%;background:#0F7A45"></span>En progreso · 47% de avance a meta</span>
+        </sc-if>
+        <sc-if value="{{ completado }}">
+          <span style="display:flex;align-items:center;gap:8px;background:#ECF6F0;border:1px solid #D4EADE;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:600;color:#0F7A45">✓ Objetivo alcanzado</span>
+        </sc-if>
+        <span style="font-size:13px;color:#8A9096">Última actualización · 15 jun 2026</span>
+      </div>
+    </section>
+
+    <!-- ===== RESUMEN EJECUTIVO ===== -->
+    <section style="background:#fff;border:1px solid #E8EBED;border-radius:16px;padding:30px 34px;box-shadow:0 6px 20px rgba(17,17,17,.05);margin:30px 0">
+      <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:34px;align-items:center">
+        <div>
+          <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#9AA0A6;font-weight:600;margin-bottom:14px">Resumen ejecutivo</div>
+          <p style="font-family:'Newsreader',serif;font-size:21px;line-height:1.5;color:#1A1A1A;margin:0;text-wrap:pretty">En tres meses, el <b>lead time de cierre</b> bajó de 11 a <span style="color:#F94202">8,2 días</span> y las declaraciones <b>sin reproceso</b> subieron al 91,4%. El equipo dedica menos horas extra al retrabajo y más al análisis que tu negocio necesita.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;border-left:1px solid #EDEFF1;padding-left:34px">
+          <div>
+            <div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums">−2,8</span><span style="font-size:14px;font-weight:600;color:#0F7A45">días</span></div>
+            <div style="font-size:12.5px;color:#7A8086;margin-top:2px">menos en el cierre contable</div>
+          </div>
+          <div>
+            <div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums">−40%</span><span style="font-size:14px;font-weight:600;color:#0F7A45">reproceso</span></div>
+            <div style="font-size:12.5px;color:#7A8086;margin-top:2px">de 8,6% a 5,1% de conciliaciones</div>
+          </div>
+          <div>
+            <div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums">3</span><span style="font-size:14px;font-weight:600;color:#3A4046">acciones</span></div>
+            <div style="font-size:12.5px;color:#7A8086;margin-top:2px">implementadas · 2 en curso</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== INDICADORES ===== -->
+    <div style="font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#9AA0A6;font-weight:600;margin:0 0 16px;padding-left:2px">Indicadores clave</div>
+    <section style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:18px">
+
+      <!-- KPI 1 -->
+      <div style="background:#fff;border:1px solid #E8EBED;border-radius:16px;padding:24px 26px;box-shadow:0 6px 18px rgba(17,17,17,.05)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+          <div style="font-size:13.5px;font-weight:600;color:#3A4046">Lead time de cierre</div>
+          <span style="font-size:11px;color:#9AA0A6;background:#F2F4F5;border-radius:6px;padding:4px 8px;white-space:nowrap">meta ↓ 5 d</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:9px">
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:56px;font-weight:700;letter-spacing:-0.025em;font-variant-numeric:tabular-nums;line-height:0.85">8,2</span>
+          <span style="font-size:16px;color:#6B7177;font-weight:600">días</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px;margin-top:16px">
+          <span style="display:flex;align-items:center;gap:6px;background:#ECF6F0;border:1px solid #D4EADE;border-radius:7px;padding:4px 10px;font-size:12.5px;font-weight:700;color:#0F7A45">▼ 2,8 d</span>
+          <span style="font-size:12.5px;font-weight:600;color:#0F7A45">Mejora</span>
+          <span style="font-size:12px;color:#9AA0A6">desde abril</span>
+        </div>
+        <div style="margin-top:18px">
+          <div style="display:flex;justify-content:space-between;font-size:11.5px;color:#9AA0A6;margin-bottom:6px"><span>Avance a meta</span><span style="font-weight:600;color:#3A4046;font-variant-numeric:tabular-nums">47%</span></div>
+          <div style="height:7px;background:#EEF1F3;border-radius:5px;overflow:hidden"><div style="width:47%;height:100%;background:#0F7A45;border-radius:5px"></div></div>
+        </div>
+      </div>
+
+      <!-- KPI 2 -->
+      <div style="background:#fff;border:1px solid #E8EBED;border-radius:16px;padding:24px 26px;box-shadow:0 6px 18px rgba(17,17,17,.05)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+          <div style="font-size:13.5px;font-weight:600;color:#3A4046">Declaraciones sin reproceso</div>
+          <span style="font-size:11px;color:#9AA0A6;background:#F2F4F5;border-radius:6px;padding:4px 8px;white-space:nowrap">meta ↑ 97%</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:9px">
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:56px;font-weight:700;letter-spacing:-0.025em;font-variant-numeric:tabular-nums;line-height:0.85">91,4</span>
+          <span style="font-size:16px;color:#6B7177;font-weight:600">%</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px;margin-top:16px">
+          <span style="display:flex;align-items:center;gap:6px;background:#ECF6F0;border:1px solid #D4EADE;border-radius:7px;padding:4px 10px;font-size:12.5px;font-weight:700;color:#0F7A45">▲ 3,5 pt</span>
+          <span style="font-size:12.5px;font-weight:600;color:#0F7A45">Mejora</span>
+          <span style="font-size:12px;color:#9AA0A6">desde abril</span>
+        </div>
+        <div style="margin-top:18px">
+          <div style="display:flex;justify-content:space-between;font-size:11.5px;color:#9AA0A6;margin-bottom:6px"><span>Avance a meta</span><span style="font-weight:600;color:#3A4046;font-variant-numeric:tabular-nums">49%</span></div>
+          <div style="height:7px;background:#EEF1F3;border-radius:5px;overflow:hidden"><div style="width:49%;height:100%;background:#0F7A45;border-radius:5px"></div></div>
+        </div>
+      </div>
+
+      <!-- KPI 3 -->
+      <div style="background:#fff;border:1px solid #E8EBED;border-radius:16px;padding:24px 26px;box-shadow:0 6px 18px rgba(17,17,17,.05)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+          <div style="font-size:13.5px;font-weight:600;color:#3A4046">Tiempo de respuesta</div>
+          <span style="font-size:11px;color:#9AA0A6;background:#F2F4F5;border-radius:6px;padding:4px 8px;white-space:nowrap">meta ↓ 4 h</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:9px">
+          <span style="font-family:'Space Grotesk',sans-serif;font-size:56px;font-weight:700;letter-spacing:-0.025em;font-variant-numeric:tabular-nums;line-height:0.85">6,3</span>
+          <span style="font-size:16px;color:#6B7177;font-weight:600">horas</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px;margin-top:16px">
+          <span style="display:flex;align-items:center;gap:6px;background:#FCF3E1;border:1px solid #F0E1BD;border-radius:7px;padding:4px 10px;font-size:12.5px;font-weight:700;color:#9A6B00">▬ 0,2 h</span>
+          <span style="font-size:12.5px;font-weight:600;color:#9A6B00">Estancado</span>
+          <span style="font-size:12px;color:#9AA0A6">desde mayo</span>
+        </div>
+        <div style="margin-top:18px">
+          <div style="display:flex;justify-content:space-between;font-size:11.5px;color:#9AA0A6;margin-bottom:6px"><span>Avance a meta</span><span style="font-weight:600;color:#3A4046;font-variant-numeric:tabular-nums">34%</span></div>
+          <div style="height:7px;background:#EEF1F3;border-radius:5px;overflow:hidden"><div style="width:34%;height:100%;background:#C99A00;border-radius:5px"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TREND CHART ===== -->
+    <section style="background:#fff;border:1px solid #E8EBED;border-radius:16px;padding:28px 32px 22px;box-shadow:0 6px 18px rgba(17,17,17,.05);margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+        <div>
+          <div style="font-family:'Newsreader',serif;font-size:22px;font-weight:600;letter-spacing:-0.01em">Cómo evolucionó el cierre contable</div>
+          <div style="font-size:13px;color:#9AA0A6;margin-top:4px">Lead time en días · últimas 10 semanas. Cada marca señala cuándo se puso en marcha una acción de mejora.</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:18px;font-size:12.5px;color:#6B7177">
+          <span style="display:flex;align-items:center;gap:7px"><span style="width:18px;height:2.5px;background:#F94202;border-radius:2px"></span>Real</span>
+          <span style="display:flex;align-items:center;gap:7px"><span style="width:18px;height:0;border-top:2px dashed #9A9FA4"></span>Meta</span>
+        </div>
+      </div>
+      <svg viewBox="0 0 1100 280" style="width:100%;height:auto;display:block">
+        <line x1="44" y1="40" x2="1056" y2="40" stroke="#F0F2F4"></line>
+        <line x1="44" y1="92" x2="1056" y2="92" stroke="#F0F2F4"></line>
+        <line x1="44" y1="144" x2="1056" y2="144" stroke="#F0F2F4"></line>
+        <text x="34" y="44" text-anchor="end" font-family="Hanken Grotesk" font-size="12" fill="#B4B9BE">11</text>
+        <text x="34" y="96" text-anchor="end" font-family="Hanken Grotesk" font-size="12" fill="#B4B9BE">9</text>
+        <text x="34" y="148" text-anchor="end" font-family="Hanken Grotesk" font-size="12" fill="#B4B9BE">7</text>
+        <line x1="44" y1="206" x2="1056" y2="206" stroke="#9A9FA4" stroke-width="1.5" stroke-dasharray="6 5"></line>
+        <text x="1060" y="210" font-family="Hanken Grotesk" font-size="12" font-weight="700" fill="#6B7177">5 d</text>
+        <line x1="400" y1="34" x2="400" y2="230" stroke="#11111122" stroke-width="1" stroke-dasharray="3 4"></line>
+        <line x1="620" y1="34" x2="620" y2="230" stroke="#11111122" stroke-width="1" stroke-dasharray="3 4"></line>
+        <line x1="840" y1="34" x2="840" y2="230" stroke="#11111122" stroke-width="1" stroke-dasharray="3 4"></line>
+        <rect x="392" y="26" width="16" height="16" rx="4" fill="#111"></rect>
+        <text x="400" y="38" text-anchor="middle" font-family="Space Grotesk" font-size="10" font-weight="700" fill="#fff">1</text>
+        <rect x="612" y="26" width="16" height="16" rx="4" fill="#111"></rect>
+        <text x="620" y="38" text-anchor="middle" font-family="Space Grotesk" font-size="10" font-weight="700" fill="#fff">2</text>
+        <rect x="832" y="26" width="16" height="16" rx="4" fill="#111"></rect>
+        <text x="840" y="38" text-anchor="middle" font-family="Space Grotesk" font-size="10" font-weight="700" fill="#fff">3</text>
+        <path d="M44,48 L156,54 L268,62 L400,70 L512,92 L620,118 L732,128 L840,134 L948,138 L1056,140 L1056,230 L44,230 Z" fill="#F94202" fill-opacity="0.06"></path>
+        <polyline points="44,48 156,54 268,62 400,70 512,92 620,118 732,128 840,134 948,138 1056,140" fill="none" stroke="#F94202" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"></polyline>
+        <circle cx="400" cy="70" r="4.5" fill="#fff" stroke="#F94202" stroke-width="2.5"></circle>
+        <circle cx="620" cy="118" r="4.5" fill="#fff" stroke="#F94202" stroke-width="2.5"></circle>
+        <circle cx="840" cy="134" r="4.5" fill="#fff" stroke="#F94202" stroke-width="2.5"></circle>
+        <circle cx="1056" cy="140" r="6" fill="#F94202"></circle>
+        <rect x="990" y="113" width="66" height="23" rx="6" fill="#111"></rect>
+        <text x="1023" y="128" text-anchor="middle" font-family="Space Grotesk" font-size="13" font-weight="700" fill="#fff">8,2 d</text>
+        <text x="44" y="256" text-anchor="middle" font-family="Hanken Grotesk" font-size="12" fill="#B4B9BE">8 abr</text>
+        <text x="400" y="256" text-anchor="middle" font-family="Hanken Grotesk" font-size="12" fill="#B4B9BE">29 abr</text>
+        <text x="620" y="256" text-anchor="middle" font-family="Hanken Grotesk" font-size="12" fill="#B4B9BE">13 may</text>
+        <text x="840" y="256" text-anchor="middle" font-family="Hanken Grotesk" font-size="12" fill="#B4B9BE">5 jun</text>
+        <text x="1056" y="256" text-anchor="middle" font-family="Hanken Grotesk" font-size="12" fill="#B4B9BE">10 jun</text>
+      </svg>
+    </section>
+
+    <!-- ===== HISTORIA DE LA MEJORA ===== -->
+    <section style="display:grid;grid-template-columns:1.55fr 1fr;gap:18px;margin-bottom:18px;align-items:start">
+      <div style="background:#fff;border:1px solid #E8EBED;border-radius:16px;padding:30px 34px;box-shadow:0 6px 18px rgba(17,17,17,.05)">
+        <div style="font-family:'Newsreader',serif;font-size:22px;font-weight:600;letter-spacing:-0.01em;margin-bottom:6px">La historia de la mejora</div>
+        <div style="font-size:13px;color:#9AA0A6;margin-bottom:26px">Qué cambiamos en el proceso y cómo se reflejó en los números.</div>
+
+        <div style="position:relative;padding-left:30px">
+          <div style="position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:#EDEFF1"></div>
+
+          <!-- punto de partida -->
+          <div style="position:relative;margin-bottom:26px">
+            <span style="position:absolute;left:-30px;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;border:2px solid #C7CCD1"></span>
+            <div style="font-size:11.5px;font-weight:600;color:#9AA0A6;font-variant-numeric:tabular-nums;margin-bottom:4px">8 abr · Punto de partida</div>
+            <div style="font-size:14.5px;font-weight:600;color:#1A1A1A;line-height:1.4">El cierre tardaba 11 días y 1 de cada 12 conciliaciones se rehacía.</div>
+          </div>
+
+          <!-- accion 1 -->
+          <div style="position:relative;margin-bottom:26px">
+            <span style="position:absolute;left:-31px;top:1px;width:20px;height:20px;border-radius:5px;background:#111;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">1</span>
+            <div style="font-size:11.5px;font-weight:600;color:#9AA0A6;font-variant-numeric:tabular-nums;margin-bottom:4px">29 abr · D. López</div>
+            <div style="font-size:14.5px;font-weight:600;color:#1A1A1A;line-height:1.4;margin-bottom:7px">Calendario de cierre compartido</div>
+            <p style="font-size:13px;line-height:1.55;color:#5A6066;margin:0 0 9px">Todo el equipo trabaja con los mismos hitos del cierre, sin sorpresas de última hora.</p>
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#ECF6F0;border:1px solid #D4EADE;border-radius:7px;padding:3px 10px;font-size:12px;font-weight:700;color:#0F7A45">▼ 0,7 d en lead time</span>
+          </div>
+
+          <!-- accion 2 -->
+          <div style="position:relative;margin-bottom:26px">
+            <span style="position:absolute;left:-31px;top:1px;width:20px;height:20px;border-radius:5px;background:#111;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">2</span>
+            <div style="font-size:11.5px;font-weight:600;color:#9AA0A6;font-variant-numeric:tabular-nums;margin-bottom:4px">13 may · D. López</div>
+            <div style="font-size:14.5px;font-weight:600;color:#1A1A1A;line-height:1.4;margin-bottom:7px">Automatización del cuadre de bancos</div>
+            <p style="font-size:13px;line-height:1.55;color:#5A6066;margin:0 0 9px">El sistema detecta las diferencias a diario, en lugar de descubrirlas al cerrar el mes.</p>
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#ECF6F0;border:1px solid #D4EADE;border-radius:7px;padding:3px 10px;font-size:12px;font-weight:700;color:#0F7A45">▼ 1,4 d en 4 semanas</span>
+            <sc-if value="{{ esConsultor }}">
+              <div style="margin-top:11px;border:1px dashed #F9A47E;background:#FFF4EF;border-radius:9px;padding:10px 13px">
+                <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#F94202;font-weight:700;margin-bottom:4px">Nota interna · no se exporta</div>
+                <div style="font-size:12.5px;line-height:1.5;color:#3A4046">Falta extender la regla de matching a los bancos 3 y 4. Confirmar con TI antes del cierre de junio.</div>
+              </div>
+            </sc-if>
+          </div>
+
+          <!-- accion 3 -->
+          <div style="position:relative;margin-bottom:26px">
+            <span style="position:absolute;left:-31px;top:1px;width:20px;height:20px;border-radius:5px;background:#111;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center">3</span>
+            <div style="font-size:11.5px;font-weight:600;color:#9AA0A6;font-variant-numeric:tabular-nums;margin-bottom:4px">5 jun · R. Andrade</div>
+            <div style="font-size:14.5px;font-weight:600;color:#1A1A1A;line-height:1.4;margin-bottom:7px">Doble revisión en cierres</div>
+            <p style="font-size:13px;line-height:1.55;color:#5A6066;margin:0 0 9px">Un segundo par de ojos sobre los asientos críticos reduce las correcciones posteriores.</p>
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#ECF6F0;border:1px solid #D4EADE;border-radius:7px;padding:3px 10px;font-size:12px;font-weight:700;color:#0F7A45">▼ reproceso a 5,1%</span>
+          </div>
+
+          <!-- hoy -->
+          <div style="position:relative">
+            <span style="position:absolute;left:-32px;top:0;width:22px;height:22px;border-radius:50%;background:#F94202;display:flex;align-items:center;justify-content:center"><span style="width:8px;height:8px;border-radius:50%;background:#fff"></span></span>
+            <div style="font-size:11.5px;font-weight:700;color:#F94202;font-variant-numeric:tabular-nums;margin-bottom:4px">10 jun · Hoy</div>
+            <div style="font-size:15px;font-weight:700;color:#1A1A1A;line-height:1.4">Cierre en 8,2 días y 91,4% sin reproceso. Vamos camino de la meta de 5 días.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- proximos pasos -->
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="background:#111;color:#E7E9EB;border-radius:16px;padding:26px 28px">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:#F94202;font-weight:600;margin-bottom:12px">Hacia la meta</div>
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:6px">
+            <span style="font-family:'Space Grotesk',sans-serif;font-size:44px;font-weight:700;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;color:#fff;line-height:1">5,0</span>
+            <span style="font-size:15px;color:#9CA1A6;font-weight:600">días · objetivo</span>
+          </div>
+          <p style="font-size:13px;line-height:1.55;color:#A8ADB2;margin:0">Faltan 3,2 días por recortar. Con las dos acciones en curso esperamos alcanzar la meta antes del <b style="color:#fff">30 sep 2026</b>.</p>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E8EBED;border-radius:16px;padding:24px 26px;box-shadow:0 6px 18px rgba(17,17,17,.05)">
+          <div style="font-family:'Newsreader',serif;font-size:18px;font-weight:600;margin-bottom:18px">Próximos pasos</div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;gap:13px">
+              <span style="width:9px;height:9px;border-radius:50%;background:#F94202;flex-shrink:0;margin-top:5px"></span>
+              <div>
+                <div style="font-size:13.5px;font-weight:600;line-height:1.35">Estandarizar el checklist de conciliación</div>
+                <div style="font-size:12px;color:#9AA0A6;margin-top:3px">En curso · estimado 22 jun</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:13px">
+              <span style="width:9px;height:9px;border-radius:50%;background:#F94202;flex-shrink:0;margin-top:5px"></span>
+              <div>
+                <div style="font-size:13.5px;font-weight:600;line-height:1.35">Validación poka-yoke al cargar asientos</div>
+                <div style="font-size:12px;color:#9AA0A6;margin-top:3px">En curso · estimado 5 jul</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:13px">
+              <span style="width:9px;height:9px;border-radius:50%;border:2px solid #C7CCD1;flex-shrink:0;margin-top:4px"></span>
+              <div>
+                <div style="font-size:13.5px;font-weight:600;line-height:1.35;color:#3A4046">Capacitación NIIF para juniors</div>
+                <div style="font-size:12px;color:#9AA0A6;margin-top:3px">Por iniciar · jul 2026</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FIRMA ===== -->
+    <sc-if value="{{ mostrarFirma }}">
+      <section style="display:flex;align-items:center;justify-content:space-between;gap:24px;background:#fff;border:1px solid #E8EBED;border-radius:16px;padding:22px 30px;box-shadow:0 6px 18px rgba(17,17,17,.05)">
+        <div style="display:flex;align-items:center;gap:14px">
+          <span style="width:42px;height:42px;border-radius:50%;background:#111;color:#F94202;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif">CV</span>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:#1A1A1A">Carmen Vidal</div>
+            <div style="font-size:12.5px;color:#8A9096">Consultora lean · Cota</div>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:12px;color:#9AA0A6">Informe generado el 15 jun 2026</div>
+          <div style="font-size:12px;color:#9AA0A6;margin-top:2px">Cualquier duda, responde a este enlace y la vemos en la próxima sesión.</div>
+        </div>
+      </section>
+    </sc-if>
+
+  </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1260, &quot;height&quot;: 1700 },
+  &quot;estado&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;progreso&quot;, &quot;options&quot;: [&quot;progreso&quot;, &quot;completado&quot;], &quot;tsType&quot;: &quot;string&quot; },
+  &quot;mostrarFirma&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot; }
+}">
+class Component extends DCLogic {
+  state = { notas: false, sel: null, pickCliente: null };
+
+  CLIENTES = [
+    { nombre:'Despacho Andrade & Vega', sector:'Servicios contables · Santiago', ini:'AV', a3s:[
+      { code:'A3-014', titulo:'Reducir reprocesos en conciliaciones', kpi:'Lead time de cierre', estado:'progreso', avance:'47% a meta', updated:'15 jun 2026', periodo:'abr — jun 2026' },
+      { code:'A3-009', titulo:'Cierre mensual ágil', kpi:'Días de cierre', estado:'progreso', avance:'68% a meta', updated:'8 jun 2026', periodo:'mar — jun 2026' },
+    ]},
+    { nombre:'Logística Sur', sector:'Transporte y distribución', ini:'LS', a3s:[
+      { code:'A3-021', titulo:'Onboarding de clientes', kpi:'Tiempo de alta', estado:'riesgo', avance:'21% a meta', updated:'12 jun 2026', periodo:'abr — jun 2026' },
+      { code:'A3-018', titulo:'Reducir mermas en bodega', kpi:'Merma sobre inventario', estado:'progreso', avance:'55% a meta', updated:'14 jun 2026', periodo:'mar — jun 2026' },
+    ]},
+    { nombre:'Manufactura Délano', sector:'Manufactura industrial', ini:'MD', a3s:[
+      { code:'A3-025', titulo:'Setup de línea · SMED', kpi:'Tiempo de cambio', estado:'progreso', avance:'44% a meta', updated:'13 jun 2026', periodo:'abr — jun 2026' },
+      { code:'A3-012', titulo:'Defectos de empaque', kpi:'Defectos por mil', estado:'cerrado', avance:'Meta alcanzada', updated:'12 may 2026', periodo:'ene — may 2026' },
+    ]},
+    { nombre:'Clínica Norte', sector:'Salud · ambulatorio', ini:'CN', a3s:[
+      { code:'A3-007', titulo:'Tiempo de espera en admisión', kpi:'Espera promedio', estado:'cerrado', avance:'Meta alcanzada', updated:'28 abr 2026', periodo:'feb — abr 2026' },
+    ]},
+  ];
+
+  ESTADOS = {
+    progreso:{ label:'En progreso', chip:'background:#ECF6F0;border:1px solid #D4EADE;color:#0F7A45', dot:'#0F7A45' },
+    riesgo:{ label:'En riesgo', chip:'background:#FBE9E6;border:1px solid #F1CFC9;color:#B4271B', dot:'#B4271B' },
+    cerrado:{ label:'Cerrado', chip:'background:#EEF0F2;border:1px solid #E0E3E6;color:#6B7177', dot:'#6B7177' },
+  };
+
+  renderVals(){
+    const estado = this.props.estado ?? 'progreso';
+    const completado = estado === 'completado';
+    const notas = this.state.notas;
+    const activo = 'color:#111;background:#fff;box-shadow:0 1px 2px rgba(17,17,17,.06)';
+    const inactivo = 'color:#9AA0A6;background:transparent';
+
+    const sel = this.state.sel;
+    const mostrarInforme = !!sel;
+    const pickCliente = this.state.pickCliente ?? this.CLIENTES[0].nombre;
+    const clienteActivo = this.CLIENTES.find(c=>c.nombre===pickCliente) || this.CLIENTES[0];
+
+    const clientes = this.CLIENTES.map(c=>{
+      const on = c.nombre===pickCliente;
+      return {
+        nombre:c.nombre, sector:c.sector, ini:c.ini, n:c.a3s.length,
+        rowStyle: on ? 'background:#111;border-color:#111' : 'background:#fff;border-color:#E8EBED',
+        nombreColor: on ? 'color:#fff' : 'color:#1A1A1A',
+        sectorColor: on ? 'color:#9CA1A6' : 'color:#8A9096',
+        iniStyle: on ? 'background:#F94202;color:#111' : 'background:#F2F4F5;color:#3A4046',
+        onClick: ()=>this.setState({ pickCliente:c.nombre }),
+      };
+    });
+
+    const a3s = clienteActivo.a3s.map(a=>{
+      const est = this.ESTADOS[a.estado];
+      return { ...a, estadoLabel:est.label, estadoChip:est.chip, estadoDot:est.dot,
+        onClick: ()=>this.setState({ sel:{ ...a, cliente:clienteActivo.nombre } }) };
+    });
+
+    return {
+      mostrarSelector: !mostrarInforme,
+      mostrarInforme,
+      clientes, a3s,
+      clienteActivoNombre: clienteActivo.nombre,
+      selCliente: sel?.cliente || '', selCode: sel?.code || '', selTitulo: sel?.titulo || '', selPeriodo: sel?.periodo || '',
+      volver: ()=>this.setState({ sel:null, notas:false }),
+      completado,
+      enProgreso: !completado,
+      esConsultor: notas,
+      mostrarFirma: this.props.mostrarFirma ?? true,
+      irEditor: () => { window.location.href = 'Cota%20-%20Editor%20A3%20v2.dc.html'; },
+      toggleNotas: () => this.setState({ notas: !this.state.notas }),
+      notasLabel: notas ? 'Ocultar notas internas' : 'Ver notas internas',
+      notasBtnStyle: notas ? 'background:#111;color:#fff;border-color:#111' : 'background:#fff;color:#3A4046;border-color:#DDE1E4',
+      tabClienteStyle: activo,
+      tabConsultorStyle: inactivo,
+    };
+  }
+}
+</script>
+</body>
+</html>
