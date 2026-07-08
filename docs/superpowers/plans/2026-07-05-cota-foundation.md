@@ -18,8 +18,11 @@
 
 ## Progreso
 
-- ✅ **Tasks 1–3 HECHAS** (2026-07-05): scaffold `create-next-app` → **Next.js 16.2.10 + React 19.2.4 + Tailwind v4**, tokens de Cota y fuentes (Space Grotesk / Hanken) aplicados. `npm run build` verde. Nota: con Tailwind v4 los tokens quedaron en `app/globals.css` (`@theme`), no en `tailwind.config.ts`; ignora ese archivo del plan.
-- ⬜ **Tasks 4–14 PENDIENTES**: requieren que el usuario provisione Supabase + Docker (Task 0).
+- ✅ **Tasks 1, 3 HECHAS** (2026-07-05, `a647f5a`): scaffold `create-next-app` → **Next.js 16.2.10 + React 19.2.4 + Tailwind v4**, tokens de Cota y fuentes (Space Grotesk / Hanken) aplicados. `npm run build` verde. Nota: con Tailwind v4 los tokens quedaron en `app/globals.css` (`@theme`), no en `tailwind.config.ts`; ignora ese archivo del plan.
+- ✅ **Task 2 HECHA** (2026-07-08, `8c8048d` + `735c6ad`): deps + vitest.config + scripts. Adición aprobada: **CLI `supabase` como devDependency** (no hay instalación global; usar `npx supabase`). *(El handoff del 07-05 la daba por hecha por error.)*
+- ✅ **Task 4 HECHA** (2026-07-08, `99504ff`): `supabase init` + stack local corriendo. Adaptación aprobada: **puertos remapeados 543xx → 553xx** (el stack local de loro ocupa los default); `enable_signup = false` aplicado antes del primer `start`.
+- ✅ **Task 5 HECHA** (2026-07-08, `3171691`): `0001_schema.sql` byte-idéntico al plan, aplicado y verificado (9 tablas, trigger, 5 índices). Verificaciones psql vía `docker exec supabase_db_cota` (no hay psql en el host).
+- ⬜ **Tasks 6–14 PENDIENTES**. ⚠️ Nota para T6: además de RLS+policies, `0002_rls.sql` debe añadir **GRANTs de Data API** (`grant usage on schema public` + grants a `authenticated`/`service_role` + default privileges) — la CLI actual ya no expone tablas de `public` automáticamente; sin esto el seed (T8) y las queries (T10+) fallan.
 
 ---
 
