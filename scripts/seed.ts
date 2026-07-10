@@ -1,10 +1,11 @@
 import { config } from 'dotenv'
 config({ path: '.env.local' })
 import { createClient } from '@supabase/supabase-js'
+import type { Database } from '../lib/database.types'
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const service = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const db = createClient(url, service, { auth: { autoRefreshToken: false, persistSession: false } })
+const db = createClient<Database>(url, service, { auth: { autoRefreshToken: false, persistSession: false } })
 
 // "Hoy" congelado del prototipo (Indicadores Seguimiento:292, Casos de Negocio:367).
 // Ancla para convertir fechas relativas (due de acciones) en fechas absolutas.
@@ -116,26 +117,40 @@ async function main() {
     })
     if (error) throw error
     teamIds[t.iniciales] = data.user!.id
-    await db.from('profiles').update({ nombre: t.nombre, iniciales: t.iniciales }).eq('id', data.user!.id)
+    const { error: uErr } = await db.from('profiles').update({ nombre: t.nombre, iniciales: t.iniciales }).eq('id', data.user!.id)
+    if (uErr) throw uErr
+  }
+  const teamId = (ini: string) => {
+    const id = teamIds[ini]
+    if (!id) throw new Error(`unknown team initials: ${ini}`)
+    return id
   }
 
   // 2) clientes
   const { data: clientRows, error: cErr } = await db.from('clients').insert(CLIENTS).select()
   if (cErr) throw cErr
-  const clientId = (nombre: string) => clientRows!.find(c => c.nombre === nombre)!.id
+  const clientId = (nombre: string) => {
+    const row = clientRows.find(c => c.nombre === nombre)
+    if (!row) throw new Error(`unknown cliente: ${nombre}`)
+    return row.id
+  }
 
   // 3) proyectos
   const projInput = PROJECTS.map(p => ({
     code: p.code, titulo: p.titulo, estado: p.estado,
     client_id: clientId(p.cliente),
-    consultor_id: teamIds[p.team[0]],
-    lider_id: p.team[1] ? teamIds[p.team[1]] : null,
-    miembros: p.team.slice(2).map(i => teamIds[i]),
+    consultor_id: teamId(p.team[0]),
+    lider_id: p.team[1] ? teamId(p.team[1]) : null,
+    miembros: p.team.slice(2).map(i => teamId(i)),
     avance_pasos: p.avance,
   }))
   const { data: projRows, error: pErr } = await db.from('projects').insert(projInput).select()
   if (pErr) throw pErr
-  const projId = (code: string) => projRows!.find(p => p.code === code)!.id
+  const projId = (code: string) => {
+    const row = projRows.find(p => p.code === code)
+    if (!row) throw new Error(`unknown project code: ${code}`)
+    return row.id
+  }
 
   // 4) kpis + measurements
   for (const k of KPIS) {
@@ -168,7 +183,7 @@ async function main() {
   // 6) acciones
   const actInput = ACTIONS.map(a => ({
     code: a.code, project_id: projId(a.code_a3), titulo: a.titulo, descripcion: a.descripcion,
-    estado: a.estado, prioridad: a.prioridad, owner_id: teamIds[a.owner],
+    estado: a.estado, prioridad: a.prioridad, owner_id: teamId(a.owner),
     vence: venceDate(a.due), inversion: a.inversion,
   }))
   const { error: aErr } = await db.from('actions').insert(actInput)
