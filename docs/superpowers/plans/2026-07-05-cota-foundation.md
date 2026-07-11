@@ -22,7 +22,17 @@
 - ✅ **Task 2 HECHA** (2026-07-08, `8c8048d` + `735c6ad`): deps + vitest.config + scripts. Adición aprobada: **CLI `supabase` como devDependency** (no hay instalación global; usar `npx supabase`). *(El handoff del 07-05 la daba por hecha por error.)*
 - ✅ **Task 4 HECHA** (2026-07-08, `99504ff`): `supabase init` + stack local corriendo. Adaptación aprobada: **puertos remapeados 543xx → 553xx** (el stack local de loro ocupa los default); `enable_signup = false` aplicado antes del primer `start`.
 - ✅ **Task 5 HECHA** (2026-07-08, `3171691`): `0001_schema.sql` byte-idéntico al plan, aplicado y verificado (9 tablas, trigger, 5 índices). Verificaciones psql vía `docker exec supabase_db_cota` (no hay psql en el host).
-- ⬜ **Tasks 6–14 PENDIENTES**. ⚠️ Nota para T6: además de RLS+policies, `0002_rls.sql` debe añadir **GRANTs de Data API** (`grant usage on schema public` + grants a `authenticated`/`service_role` + default privileges) — la CLI actual ya no expone tablas de `public` automáticamente; sin esto el seed (T8) y las queries (T10+) fallan.
+- ✅ **Tasks 6–14 HECHAS (2026-07-08 → 2026-07-11) — PLAN COMPLETO en `bdc8bb7`.** Detalle:
+  - T6 `11b7f60` — RLS + policies **+ GRANTs de Data API** (adición aprobada: la CLI actual no expone tablas de `public` sin grants; incluye default privileges). Micro-tarea 6b `d4d0a73` — `0003_hardening.sql`: 6 índices FK faltantes, revokes de `anon` (incl. MAINTAIN de PG17), policy de profiles con `(select auth.uid())`, trigger `updated_at` en projects, higiene RPC.
+  - T7 `70b03f7` — tipos generados (regeneración verificada byte-idéntica).
+  - T9 `4048cae` (adelantada a T8) — `.env.local` (55321, ignorado) + clientes server/browser.
+  - T8 `c8212d7`+`bbd45ef` — seed transcrito 1:1 del prototipo (auditoría valor-por-valor ✅); corrigió 2 datos que este plan traía inventados: fechas de mediciones (quincenales abr–jun 2026, no mensuales desde enero) y equipos por proyecto (no uniformes). Conteos: 5/8/5/12/7/42/2/8.
+  - T10 `38477af` — capa de datos + tests (TDD; alias `@/` añadido a vitest.config, Vitest no lee tsconfig paths).
+  - T11 `426846d` — middleware de sesión. Micro-tarea 11b `2a37c0c` — **migrado `middleware.ts` → `proxy.ts`** (Next 16 deprecó la convención; ⚠️ los bloques de T11 arriba son históricos, NO recrear `middleware.ts`).
+  - T12 `036371e` — login + server action (XSS del param error verificado escapado).
+  - T13 `979920f` — `/proyectos` con e2e de navegador real: login → 8 A3 → reload persistente.
+  - T14 `bdc8bb7` — README (comandos con `npx`) + Definition of Done completa re-verificada.
+  - Review final del rango `31b85e5..bdc8bb7`: **SHIP**. Pendientes del siguiente sub-proyecto en `START-HERE.md`.
 
 ---
 
