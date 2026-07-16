@@ -7,6 +7,16 @@ const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const service = process.env.SUPABASE_SERVICE_ROLE_KEY!
 const db = createClient<Database>(url, service, { auth: { autoRefreshToken: false, persistSession: false } })
 
+// --- Configuración por variables de entorno ---
+// SEED_PASSWORD: password de los usuarios creados por el seed. El default 'cota-demo-2026'
+// es solo para el stack local de demo (ver AGENTS.md). Las corridas de PRODUCCIÓN DEBEN
+// definir SEED_PASSWORD con una clave fuerte.
+const SEED_PASSWORD = process.env.SEED_PASSWORD ?? 'cota-demo-2026'
+// SEED_ONLY: códigos A3 separados por coma (ej. "A3-014,A3-012,A3-030") para sembrar solo
+// un subconjunto de proyectos (pensado para poblar producción con casos representativos).
+// undefined → dataset completo, comportamiento idéntico al de siempre.
+const seedOnlyCodes = process.env.SEED_ONLY?.split(',').map(s => s.trim()).filter(Boolean)
+
 // "Hoy" congelado del prototipo (Indicadores Seguimiento:292, Casos de Negocio:367).
 // Ancla para convertir fechas relativas (due de acciones) en fechas absolutas.
 const HOY = '2026-06-20'
@@ -108,11 +118,32 @@ const ACTIONS = [
 ]
 
 async function main() {
+  // 0) selección SEED_ONLY — se resuelve primero, antes de tocar la base, para fallar rápido
+  // y sin dejar filas parciales. Mismo estilo throw-on-error que los lookups de más abajo.
+  // Filtra los arreglos de datos (PROJECTS/CLIENTS/KPIS/CASES/ACTIONS) definidos arriba;
+  // TEAM nunca se filtra — el equipo se siembra completo siempre (sección 1).
+  const selectedProjects = seedOnlyCodes
+    ? seedOnlyCodes.map(code => {
+        const p = PROJECTS.find(pr => pr.code === code)
+        if (!p) throw new Error(`SEED_ONLY: código de proyecto no encontrado en PROJECTS: ${code}`)
+        return p
+      })
+    : PROJECTS
+  const selectedCodesA3 = new Set(selectedProjects.map(p => p.code))
+  const selectedClientNames = new Set(selectedProjects.map(p => p.cliente))
+  const selectedClients = seedOnlyCodes ? CLIENTS.filter(c => selectedClientNames.has(c.nombre)) : CLIENTS
+  const selectedKpis = seedOnlyCodes ? KPIS.filter(k => selectedCodesA3.has(k.code_a3)) : KPIS
+  const selectedCases = seedOnlyCodes ? CASES.filter(c => selectedCodesA3.has(c.code_a3)) : CASES
+  const selectedActions = seedOnlyCodes ? ACTIONS.filter(a => selectedCodesA3.has(a.code_a3)) : ACTIONS
+  if (seedOnlyCodes) {
+    console.log(`Seed selectivo: ${selectedProjects.length} proyectos (${selectedProjects.map(p => p.code).join(', ')})`)
+  }
+
   // 1) equipo
   const teamIds: Record<string, string> = {}
   for (const t of TEAM) {
     const { data, error } = await db.auth.admin.createUser({
-      email: t.email, password: 'cota-demo-2026', email_confirm: true,
+      email: t.email, password: SEED_PASSWORD, email_confirm: true,
       user_metadata: { nombre: t.nombre, iniciales: t.iniciales },
     })
     if (error) throw error
@@ -127,7 +158,7 @@ async function main() {
   }
 
   // 2) clientes
-  const { data: clientRows, error: cErr } = await db.from('clients').insert(CLIENTS).select()
+  const { data: clientRows, error: cErr } = await db.from('clients').insert(selectedClients).select()
   if (cErr) throw cErr
   const clientId = (nombre: string) => {
     const row = clientRows.find(c => c.nombre === nombre)
@@ -136,7 +167,7 @@ async function main() {
   }
 
   // 3) proyectos
-  const projInput = PROJECTS.map(p => ({
+  const projInput = selectedProjects.map(p => ({
     code: p.code, titulo: p.titulo, estado: p.estado,
     client_id: clientId(p.cliente),
     consultor_id: teamId(p.team[0]),
@@ -153,7 +184,7 @@ async function main() {
   }
 
   // 4) kpis + measurements
-  for (const k of KPIS) {
+  for (const k of selectedKpis) {
     const { data: kpiRow, error: kErr } = await db.from('kpis').insert({
       project_id: projId(k.code_a3), nombre: k.nombre, descripcion: k.descripcion, unidad: k.unidad,
       base: k.base, meta: k.meta, mejor_baja: k.mejor_baja,
@@ -167,7 +198,7 @@ async function main() {
   }
 
   // 5) casos + gastos
-  for (const bc of CASES) {
+  for (const bc of selectedCases) {
     const { data: caseRow, error } = await db.from('business_cases').insert({
       code: bc.code, project_id: projId(bc.code_a3), titulo: bc.titulo,
       capex: bc.capex, opex_anual: bc.opex_anual, ahorro_bruto_anual: bc.ahorro_bruto_anual, tasa: bc.tasa,
@@ -181,7 +212,7 @@ async function main() {
   }
 
   // 6) acciones
-  const actInput = ACTIONS.map(a => ({
+  const actInput = selectedActions.map(a => ({
     code: a.code, project_id: projId(a.code_a3), titulo: a.titulo, descripcion: a.descripcion,
     estado: a.estado, prioridad: a.prioridad, owner_id: teamId(a.owner),
     vence: venceDate(a.due), inversion: a.inversion,
