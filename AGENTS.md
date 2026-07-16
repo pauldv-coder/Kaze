@@ -56,6 +56,13 @@ proyectos de mejora lean (A3) de la consultora Cota. El prototipo `.dc.html` en
 | Qué | Dónde |
 |---|---|
 | Estado actual + handoff | `docs/superpowers/START-HERE.md` |
+| Guía de despliegue (Vercel + Supabase alojado) | `docs/DEPLOY.md` |
 | Spec de la Fundación | `docs/superpowers/specs/2026-07-05-cota-foundation-design.md` |
 | Plan de implementación (14 tareas, bloque Progreso) | `docs/superpowers/plans/2026-07-05-cota-foundation.md` |
 | Especificación visual | `reference/prototype/` + `reference/screenshots/` |
+
+**Producción:** proyecto Supabase alojado **Cota** `kvjpxnswvlxzxdzgycbh`
+(`https://kvjpxnswvlxzxdzgycbh.supabase.co`), repo ya enlazado. Esquema + 3 casos seed
+aplicados. El frontend (Next.js) aún NO está desplegado — ver `docs/DEPLOY.md`.
+El frontend solo usa `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY`;
+NUNCA poner `SUPABASE_SERVICE_ROLE_KEY` en el host del frontend.
