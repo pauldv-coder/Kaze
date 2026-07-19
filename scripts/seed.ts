@@ -148,7 +148,10 @@ async function main() {
     })
     if (error) throw error
     teamIds[t.iniciales] = data.user!.id
-    const { error: uErr } = await db.from('profiles').update({ nombre: t.nombre, iniciales: t.iniciales }).eq('id', data.user!.id)
+    const { error: uErr } = await db.from('profiles').update({
+      nombre: t.nombre, iniciales: t.iniciales,
+      rol: t.iniciales === 'CV' ? 'admin' : 'consultor',
+    }).eq('id', data.user!.id)
     if (uErr) throw uErr
   }
   const teamId = (ini: string) => {
