@@ -33,13 +33,14 @@ grant update (nombre, iniciales) on public.profiles to authenticated;
 
 - [ ] **Step 3: Reseed** — Run: `npm run seed` → `Seed OK`.
 
-- [ ] **Step 4: Verificar en vivo** (dos comandos; el primero debe FUNCIONAR, el segundo FALLAR):
+- [ ] **Step 4: Verificar en vivo.** OJO: resolver el id de carmen PRIMERO como postgres — un subquery a `auth.users` dentro del bloque `set local role authenticated` falla con `permission denied for table users` (authenticated no lee `auth.users`) y enmascara la prueba real:
 
 ```bash
-docker exec supabase_db_cota psql -U postgres -d postgres -c "begin; set local role authenticated; select set_config('request.jwt.claims', json_build_object('sub', (select id from auth.users where email='carmen@cota.test'), 'role','authenticated')::text, true); update public.profiles set nombre='X' where id=(select id from auth.users where email='carmen@cota.test'); rollback;"
-docker exec supabase_db_cota psql -U postgres -d postgres -c "begin; set local role authenticated; select set_config('request.jwt.claims', json_build_object('sub', (select id from auth.users where email='carmen@cota.test'), 'role','authenticated')::text, true); update public.profiles set rol='admin' where id=(select id from auth.users where email='carmen@cota.test'); rollback;"
+UID=$(docker exec supabase_db_cota psql -U postgres -d postgres -t -A -c "select id from auth.users where email='carmen@cota.test';")
+docker exec supabase_db_cota psql -U postgres -d postgres -c "begin; set local role authenticated; select set_config('request.jwt.claims', '{\"sub\":\"$UID\",\"role\":\"authenticated\"}', true); update public.profiles set nombre='X' where id='$UID'; rollback;"
+docker exec supabase_db_cota psql -U postgres -d postgres -c "begin; set local role authenticated; select set_config('request.jwt.claims', '{\"sub\":\"$UID\",\"role\":\"authenticated\"}', true); update public.profiles set rol='admin' where id='$UID'; rollback;"
 ```
-Expected: 1º `UPDATE 1`; 2º `ERROR: permission denied for table profiles`.
+Expected: 1º `UPDATE 1` + `ROLLBACK`; 2º `ERROR: permission denied for table profiles`.
 
 - [ ] **Step 5: Commit**
 
