@@ -1,4 +1,4 @@
-# Cota · Mejoramiento de procesos
+# Kaze · Mejoramiento de procesos
 
 App Next.js + Supabase para gestionar proyectos de mejora lean (A3) de Cota.
 

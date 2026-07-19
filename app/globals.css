@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Tokens de Cota (Tailwind v4 · CSS-first).
+/* Tokens de Kaze (Tailwind v4 · CSS-first).
    Naranja = solo marca/interacción. Verde/ámbar/rojo = solo estado del dato. */
 @theme {
   --color-marca: #f94202;

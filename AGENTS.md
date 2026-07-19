@@ -4,7 +4,7 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-# Cota · Mejoramiento de procesos — guía del repo
+# Kaze · Mejoramiento de procesos — guía del repo
 
 App **Next.js 16 (App Router) + TypeScript + Tailwind v4 + Supabase** para gestionar
 proyectos de mejora lean (A3) de la consultora Cota. El prototipo `.dc.html` en
@@ -61,7 +61,7 @@ proyectos de mejora lean (A3) de la consultora Cota. El prototipo `.dc.html` en
 | Plan de implementación (14 tareas, bloque Progreso) | `docs/superpowers/plans/2026-07-05-cota-foundation.md` |
 | Especificación visual | `reference/prototype/` + `reference/screenshots/` |
 
-**Producción:** proyecto Supabase alojado **Cota** `kvjpxnswvlxzxdzgycbh`
+**Producción:** proyecto Supabase alojado **Cota** (producto: Kaze) `kvjpxnswvlxzxdzgycbh`
 (`https://kvjpxnswvlxzxdzgycbh.supabase.co`), repo ya enlazado. Esquema + 3 casos seed
 aplicados. El frontend (Next.js) aún NO está desplegado — ver `docs/DEPLOY.md`.
 El frontend solo usa `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY`;

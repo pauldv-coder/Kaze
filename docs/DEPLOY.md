@@ -1,6 +1,6 @@
 # Deploy a producción (Vercel)
 
-Guía para publicar el frontend de Cota en Vercel, apuntando al proyecto Supabase
+Guía para publicar el frontend de Kaze en Vercel, apuntando al proyecto Supabase
 alojado que ya está en producción.
 
 ## Prerequisito
@@ -69,12 +69,12 @@ Estos pasos son necesarios porque el `config.toml` local **no aplica** al
 proyecto alojado — hay que replicarlos a mano en el dashboard:
 
 1. **Authentication → URL Configuration**:
-   - **Site URL**: el dominio que asignó Vercel (ej. `https://cota.vercel.app`
+   - **Site URL**: el dominio que asignó Vercel (ej. `https://kaze.vercel.app`
      o el dominio custom).
    - **Redirect URLs**: agregar ese mismo dominio (necesario para los flujos
      de email — reset de password, invitaciones, etc.).
 2. **Authentication → Sign In / Providers**: desactivar **"Allow new users to
-   sign up"**. El modelo de Cota es solo-por-invitación (los usuarios los crea
+   sign up"**. El modelo de Kaze es solo-por-invitación (los usuarios los crea
    el seed / un admin), igual que en local (`enable_signup = false`).
 
 ## Verificación post-deploy

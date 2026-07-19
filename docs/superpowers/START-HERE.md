@@ -1,4 +1,4 @@
-# START HERE — Cota · Mejoramiento de procesos
+# START HERE — Kaze · Mejoramiento de procesos
 
 > Léeme primero al retomar. Última actualización: **2026-07-15**.
 > Guía permanente del repo (comandos, peculiaridades del entorno): `AGENTS.md` en la raíz
@@ -10,7 +10,7 @@
   Definition of Done completa; e2e con navegador real: login → 8 A3 desde Supabase local.
   Cada tarea pasó revisión de spec + calidad (`superpowers:subagent-driven-development`).
   Review final del rango: **SHIP**.
-- **Base de datos EN PRODUCCIÓN**: el proyecto alojado **Cota** (`kvjpxnswvlxzxdzgycbh`,
+- **Base de datos EN PRODUCCIÓN**: el proyecto alojado **Cota** (producto: Kaze) (`kvjpxnswvlxzxdzgycbh`,
   región ca-central-1) tiene las 3 migraciones aplicadas (`db push`) y un **seed selectivo de
   3 casos representativos** (A3-014 progreso · A3-012 cerrado · A3-030 nuevo) + sus 3 clientes,
   5 consultores, 4 KPIs, 24 mediciones, 1 caso de negocio, 5 gastos, 4 acciones. Verificado
@@ -22,7 +22,7 @@
 ## Prompt para retomar (copiar y pegar en la siguiente sesión)
 
 ```
-Retoma el proyecto Cota en C:\Users\pauld\dev\cota. Lee docs/superpowers/START-HERE.md y
+Retoma el proyecto Kaze en C:\Users\pauld\dev\cota. Lee docs/superpowers/START-HERE.md y
 verifica git log. La Fundación está COMPLETA y la BD de producción (proyecto alojado
 kvjpxnswvlxzxdzgycbh) ya tiene esquema + 3 casos seed.
 

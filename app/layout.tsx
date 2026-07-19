@@ -13,7 +13,7 @@ const hanken = Hanken_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Cota · Mejoramiento de procesos",
+  title: "Kaze · Mejoramiento de procesos",
   description: "Sistema de gestión de proyectos de mejora lean",
 };
 
