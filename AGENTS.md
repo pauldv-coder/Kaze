@@ -45,7 +45,7 @@ proyectos de mejora lean (A3) de la consultora Cota. El prototipo `.dc.html` en
 
 ## Convenciones
 
-- Rama `main`, remoto GitHub `pauldv-coder/Kaze-`. Commits frecuentes, estilo conventional (`feat:`/`chore:`/`docs:`); push a `main` al cerrar cada bloque de trabajo.
+- Rama `main`, remoto GitHub `pauldv-coder/Kaze`. Commits frecuentes, estilo conventional (`feat:`/`chore:`/`docs:`); push a `main` al cerrar cada bloque de trabajo (**cada push auto-despliega a Vercel**).
 - TDD en la capa de datos: tests de integración (Vitest) contra el stack local ya seedeado.
 - Decisiones ya tomadas — **no re-litigar** (lista completa en START-HERE): portar a Next.js
   (no mantener runtime `.dc.html`), RLS "equipo total ahora / por-cliente después",
@@ -63,6 +63,8 @@ proyectos de mejora lean (A3) de la consultora Cota. El prototipo `.dc.html` en
 
 **Producción:** proyecto Supabase alojado **Cota** (producto: Kaze) `kvjpxnswvlxzxdzgycbh`
 (`https://kvjpxnswvlxzxdzgycbh.supabase.co`), repo ya enlazado. Esquema + 3 casos seed
-aplicados. El frontend (Next.js) aún NO está desplegado — ver `docs/DEPLOY.md`.
+aplicados. **Frontend DESPLEGADO en Vercel** (proyecto `kaze`, scope pauldvcoders-projects):
+`https://kaze-pauldvcoders-projects.vercel.app` — CI/CD conectado a GitHub `pauldv-coder/Kaze`
+(push a `main` = deploy). Ver `docs/DEPLOY.md`.
 El frontend solo usa `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY`;
 NUNCA poner `SUPABASE_SERVICE_ROLE_KEY` en el host del frontend.

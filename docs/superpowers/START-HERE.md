@@ -1,10 +1,15 @@
 # START HERE — Kaze · Mejoramiento de procesos
 
-> Léeme primero al retomar. Última actualización: **2026-07-15**.
+> Léeme primero al retomar. Última actualización: **2026-07-18**.
 > Guía permanente del repo (comandos, peculiaridades del entorno): `AGENTS.md` en la raíz
 > (Claude Code la carga sola vía `CLAUDE.md`). Este archivo es el **estado vivo**.
 
-## 🎉 Estado: FUNDACIÓN COMPLETA · BD EN PRODUCCIÓN · DESPLIEGUE PREPARADO
+## 🎉 Estado: FUNDACIÓN COMPLETA · TODO EN PRODUCCIÓN (BD + FRONTEND)
+
+**App viva:** `https://kaze-pauldvcoders-projects.vercel.app` — verificada e2e en producción
+(login carmen@cota.test → /proyectos lista los 3 A3 vía RLS). CI/CD activo: push a `main`
+en GitHub `pauldv-coder/Kaze` = deploy automático. Vercel Deployment Protection desactivada
+para este proyecto (si no, el SSO de Vercel bloqueaba el dominio `*.vercel.app`).
 
 - **Fundación (sub-proyecto 1)** terminada y verificada en `bdc8bb7` (Tasks 1–14 + hardening).
   Definition of Done completa; e2e con navegador real: login → 8 A3 desde Supabase local.
@@ -15,40 +20,38 @@
   3 casos representativos** (A3-014 progreso · A3-012 cerrado · A3-030 nuevo) + sus 3 clientes,
   5 consultores, 4 KPIs, 24 mediciones, 1 caso de negocio, 5 gastos, 4 acciones. Verificado
   e2e contra el alojado (login + lectura vía RLS). Commit del seed selectivo: `598ef45`.
-- **Frontend listo para desplegar** (`7358ed0`): build de producción verde, `/` → `redirect('/proyectos')`,
-  `engines.node>=20`, `.env.production.example`, y guía **`docs/DEPLOY.md`**. Falta el deploy
-  en sí (necesita tu login de Vercel).
+- **Frontend DESPLEGADO en Vercel** (2026-07-18): proyecto `kaze` (scope `pauldvcoders-projects`,
+  id `prj_ueWZL9OxmcAQirdIWcYDnv5wKHk9`), env vars públicas seteadas (Production+Preview),
+  GitHub conectado para CI/CD, deployment protection OFF. Guía: **`docs/DEPLOY.md`**.
 
 ## Prompt para retomar (copiar y pegar en la siguiente sesión)
 
 ```
 Retoma el proyecto Kaze en C:\Users\pauld\dev\cota. Lee docs/superpowers/START-HERE.md y
-verifica git log. La Fundación está COMPLETA y la BD de producción (proyecto alojado
-kvjpxnswvlxzxdzgycbh) ya tiene esquema + 3 casos seed.
+verifica git log (+ git status y que origin apunte a github.com/pauldv-coder/Kaze). Estado:
+Fundación COMPLETA, BD en producción (kvjpxnswvlxzxdzgycbh, 3 casos seed) y frontend
+DESPLEGADO en https://kaze-pauldvcoders-projects.vercel.app con CI/CD (push a main =
+deploy automático).
 
-DOS frentes posibles, dime cuál (o ambos):
+Sigue el SUB-PROYECTO 2: pantalla real de Lista de Proyectos según
+reference/prototype/"Cota - Lista de Proyectos.dc.html" (+ screenshots en
+reference/screenshots/). Antes de diseñar, brainstorming + plan con superpowers (spec
+nuevo, como se hizo con la Fundación). Ejecuta con subagent-driven-development, tarea por
+tarea con commits frecuentes, y arranca por la higiene pendiente:
+- layout del route group (app) con la navegación del prototipo,
+- redirigir usuarios ya autenticados fuera de /login,
+- test de capa de datos como usuario authenticated (no service_role) para cubrir RLS/grants.
 
-(A) DESPLEGAR EL FRONTEND a Vercel siguiendo docs/DEPLOY.md. Yo ya hice `vercel login`
-    (o dime que lo haga). Setea las env vars públicas (URL + anon key del dashboard),
-    despliega, y post-deploy configura en el dashboard de Supabase el Site URL/Redirect URLs
-    al dominio de Vercel y desactiva el signup público. Verifica: dominio → /login →
-    carmen@cota.test → /proyectos lista los 3 A3.
-
-(B) SEGUIR EL SUB-PROYECTO 2: pantalla real de Lista de Proyectos según
-    reference/prototype/"Cota - Lista de Proyectos.dc.html" (+ screenshots). Antes de diseñar,
-    brainstorming + plan con superpowers (spec nuevo). Arranca por la higiene pendiente:
-    layout del route group (app) con la navegación del prototipo, redirigir usuarios ya
-    autenticados fuera de /login, y un test de capa de datos como usuario authenticated
-    (no service_role) para cubrir RLS/grants.
-
-Docker corriendo; stack local con npx supabase start (puertos 553xx).
+Desarrollo contra el stack LOCAL (Docker corriendo; npx supabase start, puertos 553xx);
+producción solo se toca con push a main (frontend) o npx supabase db push (migraciones).
 ```
 
 ## Coordenadas
 
 | Qué | Dónde |
 |---|---|
-| Repo (el bueno) | `C:\Users\pauld\dev\cota` — rama `main` · remoto `github.com/pauldv-coder/Kaze-` |
+| Repo (el bueno) | `C:\Users\pauld\dev\cota` — rama `main` · remoto `github.com/pauldv-coder/Kaze` |
+| **App en producción** | `https://kaze-pauldvcoders-projects.vercel.app` (Vercel `kaze`, CI/CD desde GitHub) |
 | Guía permanente del repo | `AGENTS.md` (raíz; incluida por `CLAUDE.md`) |
 | Guía de despliegue | `docs/DEPLOY.md` |
 | Spec Fundación (histórico) | `docs/superpowers/specs/2026-07-05-cota-foundation-design.md` |
@@ -117,8 +120,9 @@ Vista de Cliente.
 
 ## Pendientes conocidos
 
-- **Desplegar el frontend a Vercel** siguiendo `docs/DEPLOY.md` (necesita login de Vercel).
-- **(Usuario, dashboard)** desactivar signup público del alojado + setear Site URL a Vercel.
+- **(Usuario, dashboard Supabase)** desactivar signup público del alojado (sigue en
+  `disable_signup:false`) + setear Site URL/Redirect URLs a
+  `https://kaze-pauldvcoders-projects.vercel.app`.
 - **(Usuario)** rotar la contraseña de producción sembrada.
 - **Sub-proyecto 2 (pantalla Lista de Proyectos)** — higiene de arranque:
   1. Layout del route group `(app)` con la navegación del prototipo.
