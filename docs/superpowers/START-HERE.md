@@ -48,7 +48,7 @@ Docker corriendo; stack local con npx supabase start (puertos 553xx).
 
 | Qué | Dónde |
 |---|---|
-| Repo (el bueno) | `C:\Users\pauld\dev\cota` — rama `master`, sin remoto |
+| Repo (el bueno) | `C:\Users\pauld\dev\cota` — rama `main` · remoto `github.com/pauldv-coder/Kaze-` |
 | Guía permanente del repo | `AGENTS.md` (raíz; incluida por `CLAUDE.md`) |
 | Guía de despliegue | `docs/DEPLOY.md` |
 | Spec Fundación (histórico) | `docs/superpowers/specs/2026-07-05-cota-foundation-design.md` |

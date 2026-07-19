@@ -45,7 +45,7 @@ proyectos de mejora lean (A3) de la consultora Cota. El prototipo `.dc.html` en
 
 ## Convenciones
 
-- Rama `master`, sin remoto (no push). Commits frecuentes, estilo conventional (`feat:`/`chore:`/`docs:`).
+- Rama `main`, remoto GitHub `pauldv-coder/Kaze-`. Commits frecuentes, estilo conventional (`feat:`/`chore:`/`docs:`); push a `main` al cerrar cada bloque de trabajo.
 - TDD en la capa de datos: tests de integración (Vitest) contra el stack local ya seedeado.
 - Decisiones ya tomadas — **no re-litigar** (lista completa en START-HERE): portar a Next.js
   (no mantener runtime `.dc.html`), RLS "equipo total ahora / por-cliente después",
