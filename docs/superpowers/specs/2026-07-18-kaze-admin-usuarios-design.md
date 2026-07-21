@@ -121,6 +121,13 @@ No hay prototipo `.dc.html` para admin — no inventar diseño elaborado; consis
 - Envío automático de emails (v1.1 tras SMTP), reset de contraseña por email.
 - Gestión de clientes-empresa, equipos por proyecto, SSO/HUB, auditoría de accesos.
 - Eliminar usuarios desde la UI (solo desactivar; borrar queda para el futuro).
+- **Reenviar invitación / regenerar link de un invitado no confirmado (v1.1).** Limitación
+  aceptada en review de T5: el pre-check de duplicados hace imposible re-invitar si el link
+  caducó; workaround = borrar el usuario vía Admin API y re-invitar. Futuro: `resendInviteCore`
+  explícito (exigiendo `email_confirmed_at == null` y `last_sign_in_at == null`).
+- **Nota de review (no bloqueante):** los guards anti-lockout de `setRoleCore`/`deactivateUserCore`
+  tienen una ventana TOCTOU teórica con 2+ admins concurrentes (recuperable vía service_role);
+  cerrar con UPDATE atómico condicional si el equipo llega a tener varios admins activos.
 
 ## 6. Testing (integración, stack local seedeado)
 
