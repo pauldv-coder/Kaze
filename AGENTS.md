@@ -38,6 +38,7 @@ proyectos de mejora lean (A3) de la consultora Cota. El prototipo `.dc.html` en
   el `WARN: no files matched pattern: supabase/seed.sql` de `db reset` es normal.
 - **Signup público desactivado** (`enable_signup = false`); los usuarios los crea el seed.
   Login local de demo: `carmen@cota.test` / `cota-demo-2026`.
+- **Admin local:** `carmen@cota.test` (rol `admin` en el seed) — da acceso a `/admin`.
 - **Tailwind v4:** tokens en `app/globals.css` vía `@theme`. **NO existe `tailwind.config.ts`** — no lo crees.
 - **Windows:** escribe archivos como UTF-8 sin BOM (herramienta Write, no redirección de PowerShell).
   El contenedor `supabase_vector_cota` crash-loopea — limitación conocida de Docker en Windows,
@@ -66,5 +67,10 @@ proyectos de mejora lean (A3) de la consultora Cota. El prototipo `.dc.html` en
 aplicados. **Frontend DESPLEGADO en Vercel** (proyecto `kaze`, scope pauldvcoders-projects):
 `https://kaze-pauldvcoders-projects.vercel.app` — CI/CD conectado a GitHub `pauldv-coder/Kaze`
 (push a `main` = deploy). Ver `docs/DEPLOY.md`.
-El frontend solo usa `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY`;
-NUNCA poner `SUPABASE_SERVICE_ROLE_KEY` en el host del frontend.
+**Módulo de administración de usuarios EN PRODUCCIÓN**: rutas `/admin` (solo rol admin),
+`/auth/confirm` (canje de invitación) y `/cuenta/contrasena` (establecer/cambiar contraseña).
+El frontend usa `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY` en el cliente;
+`SUPABASE_SERVICE_ROLE_KEY` SÍ vive en Vercel, pero solo como variable de **SERVIDOR** (sin
+`NEXT_PUBLIC_`) — la consumen exclusivamente las server actions de `/admin` vía
+`lib/supabase/admin.ts` (`server-only`). NUNCA como variable pública ni importada desde
+código de cliente.

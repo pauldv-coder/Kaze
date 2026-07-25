@@ -20,13 +20,20 @@ En el proyecto de Vercel: **Settings → Environment Variables**. Agregar ambas 
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://kvjpxnswvlxzxdzgycbh.supabase.co` |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | el `anon`/`public` key del dashboard: **Project Settings → API** |
 
-> ⚠️ **NUNCA** setear `SUPABASE_SERVICE_ROLE_KEY` en Vercel. Esa key solo la usa
-> el script de seed local (`scripts/seed.ts`) y los tests — tiene permisos de
-> administrador y no debe existir en el host del frontend.
+> ⚠️ `SUPABASE_SERVICE_ROLE_KEY` sí vive en Vercel, pero **solo como variable de
+> SERVIDOR** (sin el prefijo `NEXT_PUBLIC_`), en Production y Preview. La usan
+> exclusivamente las server actions del módulo admin (`/admin`) vía
+> `lib/supabase/admin.ts` (`server-only`) para crear/invitar usuarios y cambiar
+> roles. **Nunca** debe quedar como variable pública ni importarse desde código
+> de cliente.
 
-El build y el runtime de la app **solo** leen esas dos variables `NEXT_PUBLIC_*`
-(ver `lib/supabase/server.ts`, `client.ts` y `lib/supabase/middleware.ts`). No hay
-ninguna otra variable de entorno requerida.
+El cliente del navegador solo lee las dos variables `NEXT_PUBLIC_*`
+(ver `lib/supabase/server.ts`, `client.ts` y `lib/supabase/middleware.ts`). La
+service key es la única variable de servidor adicional requerida por el módulo admin.
+
+> **Invitar usuarios en producción:** entrar a `/admin` con una cuenta con rol
+> `admin`, generar el enlace de invitación y compartirlo por el canal que uses
+> (v1 es enlace copiable, sin envío de email por SMTP).
 
 ## Camino A — recomendado: CI/CD por push (GitHub → Vercel)
 

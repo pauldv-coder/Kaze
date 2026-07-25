@@ -1,15 +1,21 @@
 # START HERE — Kaze · Mejoramiento de procesos
 
-> Léeme primero al retomar. Última actualización: **2026-07-18**.
+> Léeme primero al retomar. Última actualización: **2026-07-25**.
 > Guía permanente del repo (comandos, peculiaridades del entorno): `AGENTS.md` en la raíz
 > (Claude Code la carga sola vía `CLAUDE.md`). Este archivo es el **estado vivo**.
 
-## 🎉 Estado: FUNDACIÓN COMPLETA · TODO EN PRODUCCIÓN (BD + FRONTEND)
+## 🎉 Estado: FUNDACIÓN COMPLETA · MÓDULO ADMIN COMPLETO · TODO EN PRODUCCIÓN (BD + FRONTEND)
+
+**Módulo de administración de usuarios COMPLETO y EN PRODUCCIÓN**: rutas `/admin` (solo
+rol admin, invitaciones por enlace copiable v1 sin SMTP, roles `admin`/`consultor`),
+`/auth/confirm` (canje de invitación) y `/cuenta/contrasena` (establecer/cambiar
+contraseña). Ver spec y plan en `docs/superpowers/specs/2026-07-18-kaze-admin-usuarios-design.md`
+y `docs/superpowers/plans/2026-07-18-kaze-admin-usuarios.md`.
 
 **App viva:** `https://kaze-pauldvcoders-projects.vercel.app` — verificada e2e en producción
-(login carmen@cota.test → /proyectos lista los 3 A3 vía RLS). CI/CD activo: push a `main`
-en GitHub `pauldv-coder/Kaze` = deploy automático. Vercel Deployment Protection desactivada
-para este proyecto (si no, el SSO de Vercel bloqueaba el dominio `*.vercel.app`).
+(login `info@ventosolutions.ca` → /proyectos lista los 3 A3 vía RLS). CI/CD activo: push a
+`main` en GitHub `pauldv-coder/Kaze` = deploy automático. Vercel Deployment Protection
+desactivada para este proyecto (si no, el SSO de Vercel bloqueaba el dominio `*.vercel.app`).
 
 - **Fundación (sub-proyecto 1)** terminada y verificada en `bdc8bb7` (Tasks 1–14 + hardening).
   Definition of Done completa; e2e con navegador real: login → 8 A3 desde Supabase local.
@@ -23,13 +29,20 @@ para este proyecto (si no, el SSO de Vercel bloqueaba el dominio `*.vercel.app`)
 - **Frontend DESPLEGADO en Vercel** (2026-07-18): proyecto `kaze` (scope `pauldvcoders-projects`,
   id `prj_ueWZL9OxmcAQirdIWcYDnv5wKHk9`), env vars públicas seteadas (Production+Preview),
   GitHub conectado para CI/CD, deployment protection OFF. Guía: **`docs/DEPLOY.md`**.
+- **Producción actualizada (2026-07-24/25)**: admin real `info@ventosolutions.ca` creado;
+  los 5 usuarios demo `@cota.test` fueron **eliminados** de producción (el login demo
+  `carmen@cota.test` ya no existe ahí — sigue vivo solo en local para tests). Los 3 A3 seed
+  siguen intactos (sus FKs de consultor/owner quedaron `null` por diseño). `SUPABASE_SERVICE_ROLE_KEY`
+  ya está en Vercel como env de servidor para las server actions de `/admin`.
 
 ## Prompt para retomar (copiar y pegar en la siguiente sesión)
 
 ```
 Retoma el proyecto Kaze en C:\Users\pauld\dev\cota. Lee docs/superpowers/START-HERE.md y
 verifica git log (+ git status y que origin apunte a github.com/pauldv-coder/Kaze). Estado:
-Fundación COMPLETA, BD en producción (kvjpxnswvlxzxdzgycbh, 3 casos seed) y frontend
+Fundación COMPLETA y módulo de administración de usuarios COMPLETO (rutas /admin,
+/auth/confirm, /cuenta/contrasena), ambos en producción. BD en producción
+(kvjpxnswvlxzxdzgycbh, 3 casos seed + admin real info@ventosolutions.ca) y frontend
 DESPLEGADO en https://kaze-pauldvcoders-projects.vercel.app con CI/CD (push a main =
 deploy automático).
 
@@ -60,8 +73,8 @@ producción solo se toca con push a main (frontend) o npx supabase db push (migr
 | Memoria del proyecto | auto-memory `project_cota.md` |
 | **Supabase PRODUCCIÓN** | proyecto `kvjpxnswvlxzxdzgycbh` · `https://kvjpxnswvlxzxdzgycbh.supabase.co` · dashboard supabase.com |
 | Supabase local | API `http://127.0.0.1:55321` · Studio `55323` · keys: `npx supabase status` |
-| Login local (demo) | `carmen@cota.test` / `cota-demo-2026` |
-| Login producción | `carmen@cota.test` / la contraseña sembrada con `SEED_PASSWORD` (compartida en chat — **rótala**) |
+| Login local (demo, admin) | `carmen@cota.test` / `cota-demo-2026` |
+| Login producción (admin real) | `info@ventosolutions.ca` / contraseña temporal (compartida en chat — **cámbiala en `/cuenta/contrasena`**) |
 
 ## Qué es esto
 
@@ -78,10 +91,10 @@ Vista de Cliente.
 - Sembrar selectivo: `SEED_ONLY="A3-014,A3-012,A3-030" SEED_PASSWORD="<fuerte>" npx tsx scripts/seed.ts`
   con `NEXT_PUBLIC_SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` apuntando al alojado
   (service_role se saca con `npx supabase projects api-keys --project-ref kvjpxnswvlxzxdzgycbh`).
-- ⚠️ **Pendiente en el dashboard (paso del usuario)**: el alojado tiene `disable_signup:false`
-  (el `config.toml` local NO aplica al alojado). Como es solo-por-invitación, desactivar
-  "Allow new users to sign up" en Authentication. Y al desplegar el frontend, poner el dominio
-  de Vercel como Site URL / Redirect URL.
+- ⚠️ **Pendiente en el dashboard (paso del usuario, si sigue pendiente)**: verificar que el
+  alojado tenga desactivado "Allow new users to sign up" en Authentication (el `config.toml`
+  local NO aplica al alojado; es solo-por-invitación desde `/admin`) y que Site URL /
+  Redirect URLs apunten al dominio de Vercel.
 
 ## Qué quedó construido (verificable con `git log --oneline 31b85e5..HEAD`)
 
@@ -108,8 +121,11 @@ Vista de Cliente.
    Next 16 lo deprecó y ya está migrado. Un agente que "repare" esto rompería el build.
 2. **GRANTs obligatorios**: la CLI actual no expone tablas de `public` a la Data API sin
    grants explícitos; ya están en `0002` + default privileges para migraciones futuras.
-3. **Frontend solo usa 2 env PÚBLICAS** (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`).
-   **NUNCA** poner `SUPABASE_SERVICE_ROLE_KEY` en el host del frontend (solo la usa el seed).
+3. **Cliente de navegador solo usa 2 env PÚBLICAS** (`NEXT_PUBLIC_SUPABASE_URL`,
+   `NEXT_PUBLIC_SUPABASE_ANON_KEY`). `SUPABASE_SERVICE_ROLE_KEY` SÍ vive en Vercel, pero
+   solo como env de **SERVIDOR** (sin `NEXT_PUBLIC_`), consumida exclusivamente por las
+   server actions de `/admin` vía `lib/supabase/admin.ts` (`server-only`). **NUNCA** como
+   variable pública ni importada desde código de cliente.
 4. **Puertos 553xx** para convivir con el stack de loro (543xx). No tocar `*_loro`.
 5. **psql** no está en el host → `docker exec supabase_db_cota psql -U postgres -d postgres -c "..."`.
 6. **seed.sql no existe** (seed = TS); el WARN de `db reset` es normal.
@@ -120,11 +136,19 @@ Vista de Cliente.
 
 ## Pendientes conocidos
 
-- **(Usuario, dashboard Supabase)** desactivar signup público del alojado (sigue en
-  `disable_signup:false`) + setear Site URL/Redirect URLs a
-  `https://kaze-pauldvcoders-projects.vercel.app`.
-- **(Usuario)** rotar la contraseña de producción sembrada.
-- **Sub-proyecto 2 (pantalla Lista de Proyectos)** — higiene de arranque:
+- **(Usuario)** cambiar la contraseña temporal del admin `info@ventosolutions.ca` en
+  `/cuenta/contrasena`.
+- **(Usuario, dashboard Supabase)** desactivar signup público del alojado (si sigue en
+  `disable_signup:false`) + confirmar Site URL/Redirect URLs apuntando a
+  `https://kaze-pauldvcoders-projects.vercel.app` (si aún falta).
+- **(Usuario)** configurar SMTP de Hostinger para invitaciones automáticas por email (v1.1) —
+  hoy el flujo v1 es enlace copiable generado en `/admin`, sin envío automático.
+- **Limitación conocida v1** (aceptada en review, ver spec del módulo admin): no se puede
+  reenviar/regenerar el link de un invitado no confirmado — el pre-check de duplicados lo
+  bloquea; workaround = borrar el usuario vía Admin API y re-invitar. Se resuelve en v1.1
+  con `resendInviteCore`.
+- **Sub-proyecto 2 (pantalla Lista de Proyectos)** — siguiente frente de desarrollo, higiene
+  de arranque:
   1. Layout del route group `(app)` con la navegación del prototipo.
   2. `/login` debería redirigir a usuarios ya autenticados.
   3. Tests de datos corren como service_role (saltan RLS) → añadir helper que firme como
