@@ -88,11 +88,15 @@ proyecto alojado — hay que replicarlos a mano en el dashboard:
 
 1. Abrir el dominio de Vercel → debe redirigir a `/login` (usuario no
    autenticado, vía `proxy.ts`).
-2. Entrar con `carmen@cota.test` → debe redirigir a `/proyectos` y listar los
-   3 A3 sembrados: **A3-014, A3-012, A3-030**.
+2. Entrar con el admin real `info@ventosolutions.ca` → debe redirigir a
+   `/proyectos` y listar los 3 A3 sembrados: **A3-014, A3-012, A3-030**.
+   (`/admin` debe renderizar solo para este usuario; un consultor es redirigido.)
 
-## Nota sobre la contraseña
+## Nota sobre usuarios y contraseñas
 
-El login de producción usa la contraseña que se sembró con la variable
-`SEED_PASSWORD` al correr el seed contra el proyecto alojado — **no** es la
-contraseña de demo local (`cota-demo-2026`). Rótala después del primer login.
+Los usuarios demo `@cota.test` **fueron eliminados** de producción por
+`scripts/create-admin.ts`; el único usuario de producción es el admin real
+`info@ventosolutions.ca` (los demás entran por invitación desde `/admin`).
+La contraseña temporal del admin se genera al correr ese script — cámbiala en
+`/cuenta/contrasena` después del primer login. (El login de demo
+`carmen@cota.test` / `cota-demo-2026` solo existe en el stack LOCAL, no en producción.)
