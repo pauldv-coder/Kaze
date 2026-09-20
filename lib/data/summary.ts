@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/lib/database.types'
 import { esVencida } from '@/lib/data/metrics'
+import { selectAllRows } from '@/lib/data/query'
 
 type DB = SupabaseClient<Database>
 
@@ -18,12 +19,9 @@ export type ProjectsSummary = {
 export type SidebarCliente = { id: string; nombre: string; nProyectos: number }
 
 export async function getProjectsSummary(db: DB, hoy: Date = new Date()): Promise<ProjectsSummary> {
-  const { data: projects, error } = await db.from('projects').select('estado')
-  if (error) throw error
-  const { data: actions, error: aErr } = await db.from('actions').select('vence, estado')
-  if (aErr) throw aErr
-  const { data: cases, error: cErr } = await db.from('business_cases').select('ahorro_bruto_anual, capex')
-  if (cErr) throw cErr
+  const projects = await selectAllRows('projects', db.from('projects').select('estado', { count: 'exact' }))
+  const actions = await selectAllRows('actions', db.from('actions').select('vence, estado', { count: 'exact' }))
+  const cases = await selectAllRows('business_cases', db.from('business_cases').select('ahorro_bruto_anual, capex', { count: 'exact' }))
 
   const count = (e: string) => projects.filter(p => p.estado === e).length
   return {
@@ -39,10 +37,9 @@ export async function getProjectsSummary(db: DB, hoy: Date = new Date()): Promis
 }
 
 export async function getSidebarClientes(db: DB): Promise<SidebarCliente[]> {
-  const { data: projects, error } = await db.from('projects').select('client_id')
-  if (error) throw error
-  const { data: clients, error: cErr } = await db.from('clients').select('id, nombre').order('nombre')
-  if (cErr) throw cErr
+  const projects = await selectAllRows('projects', db.from('projects').select('client_id', { count: 'exact' }))
+  // `nombre` no es único: sin el desempate por `id`, dos clientes homónimos se alternan entre recargas.
+  const clients = await selectAllRows('clients', db.from('clients').select('id, nombre', { count: 'exact' }).order('nombre').order('id'))
   const countBy = new Map<string, number>()
   for (const p of projects) if (p.client_id) countBy.set(p.client_id, (countBy.get(p.client_id) ?? 0) + 1)
   return clients

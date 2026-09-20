@@ -1,5 +1,17 @@
 import { describe, it, expect } from 'vitest'
-import { deltaFavorable, esVencida, relativeDate } from '@/lib/data/metrics'
+import { deltaFavorable, deltaSerie, esVencida, relativeDate } from '@/lib/data/metrics'
+
+describe('deltaSerie', () => {
+  it('delta = último - primero', () => {
+    expect(deltaSerie([11, 9, 8.2])).toBeCloseTo(-2.8)
+    expect(deltaSerie([84, 91.4])).toBeCloseTo(7.4)
+  })
+  it('serie plana o corta → 0', () => {
+    expect(deltaSerie([5, 5])).toBe(0)
+    expect(deltaSerie([5])).toBe(0)
+    expect(deltaSerie([])).toBe(0)
+  })
+})
 
 describe('deltaFavorable', () => {
   it('mejor_baja: bajar es favorable', () => {
@@ -29,6 +41,23 @@ describe('esVencida', () => {
     expect(esVencida('2026-06-25', 'todo', hoy)).toBe(false)
     expect(esVencida(null, 'todo', hoy)).toBe(false)
   })
+  it('NO vencida si vence hoy (el plazo es todo el día)', () => {
+    expect(esVencida('2026-06-20', 'doing', hoy)).toBe(false)
+    expect(esVencida('2026-06-20', 'doing', new Date('2026-06-20T00:00:01Z'))).toBe(false)
+  })
+  // 02:00Z = 21:00 del día 19 en Bogotá: el día hábil sigue siendo el 19.
+  describe('la madrugada UTC todavía es el día anterior en Bogotá', () => {
+    const madrugada = new Date('2026-06-20T02:00:00Z')
+    it('lo que vence mañana (20) no está vencido', () => {
+      expect(esVencida('2026-06-20', 'doing', madrugada)).toBe(false)
+    })
+    it('lo que vence hoy (19) no está vencido', () => {
+      expect(esVencida('2026-06-19', 'doing', madrugada)).toBe(false)
+    })
+    it('lo que venció ayer (18) sí está vencido', () => {
+      expect(esVencida('2026-06-18', 'doing', madrugada)).toBe(true)
+    })
+  })
 })
 
 describe('relativeDate', () => {
@@ -42,5 +71,13 @@ describe('relativeDate', () => {
   })
   it('más de una semana → fecha corta', () => {
     expect(relativeDate('2026-05-20T09:00:00Z', hoy)).toMatch(/may/)
+  })
+  it('cuenta días de calendario, no bloques de 24 h', () => {
+    // 03:00Z = 22:00 de ayer en Bogotá: fue ayer, aunque hayan pasado 9 horas.
+    expect(relativeDate('2026-06-20T03:00:00Z', hoy)).toBe('ayer')
+  })
+  it('la fecha corta se rinde en la zona del negocio, no en la del servidor', () => {
+    // 05:30Z = 00:30 del 20 en Bogotá (y 23:30 del 19 en zonas más al oeste).
+    expect(relativeDate('2026-05-20T05:30:00Z', hoy)).toBe('20 may')
   })
 })

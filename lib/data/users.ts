@@ -16,7 +16,9 @@ export type UserRow = {
 
 const ROLES_INTERNOS: RolInterno[] = ['admin', 'consultor']
 
-function iniciales(nombre: string) {
+// Exportada: la lista de proyectos la reusa para no dejar sin iniciales a un perfil recién creado
+// (el trigger handle_new_user las deja en '').
+export function iniciales(nombre: string) {
   return nombre.trim().split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase()
 }
 

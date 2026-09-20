@@ -41,6 +41,26 @@ describe('getProjectsList', () => {
     expect(r.accionesVencidas).toBe(1)
   })
 
+  // `iniciales = ''` es el DEFAULT que escribe el trigger handle_new_user (0001_schema.sql:28),
+  // así que un miembro sin iniciales no es un caso raro: es el estado de cualquier usuario recién
+  // invitado. Nunca debe desaparecer del equipo.
+  it('un perfil sin iniciales no borra a la persona del equipo', async () => {
+    const { data: dl, error } = await db
+      .from('profiles').select('id, nombre, iniciales').eq('nombre', 'Diego López').single()
+    if (error) throw error
+    try {
+      await db.from('profiles').update({ iniciales: '' }).eq('id', dl.id)
+      const sinIniciales = (await getProjectsList(db, HOY)).find(x => x.code === 'A3-014')!
+      expect(sinIniciales.equipo).toEqual(['CV', 'DL'])  // derivadas del nombre
+
+      await db.from('profiles').update({ nombre: '' }).eq('id', dl.id)
+      const sinNombre = (await getProjectsList(db, HOY)).find(x => x.code === 'A3-014')!
+      expect(sinNombre.equipo).toEqual(['CV', '?'])      // sin dato usable, pero sigue en el equipo
+    } finally {
+      await db.from('profiles').update({ nombre: dl.nombre, iniciales: dl.iniciales }).eq('id', dl.id)
+    }
+  })
+
   it('A3-009 y A3-030 no tienen KPI en el seed → kpiPrincipal null', async () => {
     const rows = await getProjectsList(db, HOY)
     expect(rows.find(x => x.code === 'A3-009')!.kpiPrincipal).toBeNull()
