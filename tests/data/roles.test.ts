@@ -6,8 +6,8 @@ import type { Database } from '@/lib/database.types'
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
 // Cliente ANON autenticado como carmen: valida lo que puede hacer un usuario real vía Data API.
-const authDb = createClient<Database>(url, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, { auth: { persistSession: false } })
-const admin = createClient<Database>(url, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } })
+const authDb = createClient<Database>(url, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, { db: { schema: 'kaze' }, auth: { persistSession: false } })
+const admin = createClient<Database>(url, process.env.SUPABASE_SERVICE_ROLE_KEY!, { db: { schema: 'kaze' }, auth: { persistSession: false } })
 
 let uid: string
 

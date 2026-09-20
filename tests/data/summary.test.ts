@@ -8,7 +8,7 @@ import { getProjectsSummary, getSidebarClientes } from '@/lib/data/summary'
 const db = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  { auth: { persistSession: false } }
+  { db: { schema: 'kaze' }, auth: { persistSession: false } }
 )
 const HOY = new Date('2026-06-20T12:00:00Z')
 

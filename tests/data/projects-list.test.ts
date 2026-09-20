@@ -8,7 +8,7 @@ import { getProjectsList } from '@/lib/data/projects'
 const db = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  { auth: { persistSession: false } }
+  { db: { schema: 'kaze' }, auth: { persistSession: false } }
 )
 // "hoy" congelado del seed (scripts/seed.ts:22) → expectativas de vencidas estables.
 const HOY = new Date('2026-06-20T12:00:00Z')

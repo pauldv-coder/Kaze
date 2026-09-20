@@ -8,7 +8,7 @@ import { getUsers, inviteUserCore, setRoleCore, deactivateUserCore, reactivateUs
 const admin = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  { auth: { persistSession: false } }
+  { db: { schema: 'kaze' }, auth: { persistSession: false } }
 )
 
 const EMAIL = 'invitado.test@kaze.test'
