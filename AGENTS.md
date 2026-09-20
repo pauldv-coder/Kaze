@@ -32,8 +32,33 @@ proyectos de mejora lean (A3) de la consultora Cota. El prototipo `.dc.html` en
   **NO tocar los contenedores `*_loro`.** Las keys locales las imprime `npx supabase status`.
 - **No hay `psql` en el host.** Para SQL directo:
   `docker exec supabase_db_cota psql -U postgres -d postgres -c "..."`.
-- **Data API nueva:** las tablas de `public` NO se exponen a la API sin `GRANT`s explícitos;
-  van en las migraciones (ver `supabase/migrations/0002_rls.sql`).
+- **Las tablas viven en el esquema `kaze`, NO en `public`.** Los clientes de `lib/supabase/*.ts`
+  lo fijan con `db: { schema: 'kaze' }`, así que las queries de `lib/data/*.ts` se escriben igual
+  (`db.from('projects')`). En SQL directo hay que cualificar: `select * from kaze.projects`.
+  En el proyecto compartido `public` es del CMS: **no crear nada ahí**.
+  Ojo: los scripts de `scripts/` y los tests construyen su **propio** cliente y necesitan la
+  opción por separado — no la heredan de `lib/supabase/`.
+- **Migraciones: nombres timestamped, al nivel superior de `supabase/migrations/`.** El CLI **no
+  recursa en subdirectorios**: un archivo en `migrations/kaze/` nunca se aplica, ni con `db reset`
+  ni con `db push`, y sin aviso. `[db.migrations].schema_paths` NO apunta a las migraciones (es la
+  entrada del esquema declarativo de `db diff`). Las del esquema viejo están en
+  `supabase/migrations-historicas/`, fuera del alcance del CLI a propósito.
+- **Nada de triggers sobre `auth.users`.** El CMS tiene el suyo (`on_auth_user_created`) en el
+  proyecto compartido y comparte nombre con el que Kaze tenía: recrearlo se lo roba y lo deja sin
+  creación de perfiles. Corolario: **nada crea perfiles solo**. Los crea `/admin` al invitar, el
+  seed, o `scripts/create-admin.ts`. Si un usuario entra y no ve **nada**, sospecha de esto antes
+  que del RLS.
+- **`kaze.es_miembro()` decide quién ve algo.** Sin fila en `kaze.profiles` no se lee ni se escribe
+  nada, aunque el JWT sea válido: `auth.users` se comparte con el CMS y el HUB, así que estar
+  autenticado ya no implica pertenecer a Kaze. Lo protege `tests/data/rls-no-miembro.test.ts`, que
+  además está probado a la inversa (abrir la policy lo pone en rojo).
+- **Los helpers `Tables<>`, `TablesInsert<>`, `Enums<>` de `lib/database.types.ts` NO sirven** en su
+  forma simple: se generan con `--schema kaze`, el tipo no tiene clave `public` y el `DefaultSchema`
+  interno resuelve a `never`. Si hacen falta, explicitar: `Tables<{ schema: 'kaze' }, 'projects'>`.
+- **`lib/supabase/middleware.ts` no lleva `db: { schema }` a propósito**: solo llama a
+  `auth.getUser()` y nunca a `.from()`. No es un olvido.
+- **Data API nueva:** las tablas NO se exponen a la API sin `GRANT`s explícitos, y el esquema debe
+  estar en `[api].schemas` de `config.toml` (y en *Exposed schemas* del proyecto alojado).
 - **Techo de 1000 filas por query.** `max_rows = 1000` (`supabase/config.toml`, y el alojado trae el
   mismo default): PostgREST **trunca en silencio** y devuelve 200, sin error. Un `select` sin filtrar
   sobre una tabla que crece (`measurements`, `actions`) empieza a mentir sin avisar — y como se ordena
