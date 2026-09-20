@@ -37,6 +37,8 @@ describe('un authenticated que NO es miembro de Kaze', () => {
 
   it('tampoco puede escribir', async () => {
     const { error } = await db.from('clients').insert({ nombre: 'Intruso SA' })
-    expect(error).not.toBeNull()
+    // 42501 = rechazo de RLS. Sin fijar el código, esta aserción pasaría también
+    // por un error trivial (columna mal escrita, NOT NULL) y parecería idéntica.
+    expect(error?.code).toBe('42501')
   })
 })
