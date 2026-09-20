@@ -64,27 +64,36 @@ export async function getUsers(db: DB): Promise<UserRow[]> {
 
 export async function inviteUserCore(db: DB, input: { email: string; nombre: string; rol: RolInterno }) {
   if (!ROLES_INTERNOS.includes(input.rol)) throw new Error(`rol inválido en v1: ${input.rol} (solo admin/consultor)`)
-  // GoTrue solo rechaza generateLink(invite) si el usuario ya está confirmado;
-  // para no confirmados regenera el link en silencio. Chequeo explícito de duplicados.
+
+  // auth.users se comparte con el CMS y el HUB: que el correo ya exista NO es un
+  // error, solo significa que hay que darle membresía de Kaze sin crear cuenta.
   const { data: existing, error: lErr } = await db.auth.admin.listUsers({ page: 1, perPage: 1000 })
   if (lErr) throw lErr
-  if (existing.users.some(u => u.email?.toLowerCase() === input.email.toLowerCase())) {
-    throw new Error(`ya existe un usuario con el correo ${input.email}`)
+  const yaExiste = existing.users.find(u => u.email?.toLowerCase() === input.email.toLowerCase())
+
+  if (yaExiste) {
+    const { data: perfil, error: pErr } = await db.from('profiles').select('id').eq('id', yaExiste.id).maybeSingle()
+    if (pErr) throw pErr
+    if (perfil) throw new Error(`${input.email} ya es miembro de Kaze`)
+    const { error: iErr } = await db.from('profiles').insert({
+      id: yaExiste.id, nombre: input.nombre, iniciales: iniciales(input.nombre), rol: input.rol,
+    })
+    if (iErr) throw iErr
+    return { userId: yaExiste.id, tokenHash: null }
   }
+
   const { data, error } = await db.auth.admin.generateLink({
     type: 'invite',
     email: input.email,
     options: { data: { nombre: input.nombre, iniciales: iniciales(input.nombre) } },
   })
-  if (error) {
-    if (/already|registered|exists/i.test(error.message)) throw new Error(`ya existe un usuario con el correo ${input.email}`)
-    throw error
-  }
+  if (error) throw error
   const userId = data.user!.id
-  if (input.rol !== 'consultor') {
-    const { error: rErr } = await db.from('profiles').update({ rol: input.rol }).eq('id', userId)
-    if (rErr) throw rErr
-  }
+  // Ya no hay trigger: el perfil lo crea la invitación.
+  const { error: iErr } = await db.from('profiles').insert({
+    id: userId, nombre: input.nombre, iniciales: iniciales(input.nombre), rol: input.rol,
+  })
+  if (iErr) throw iErr
   return { userId, tokenHash: data.properties!.hashed_token }
 }
 

@@ -21,6 +21,11 @@ export function InviteForm() {
         </button>
       </form>
       {state.error && <p className="text-estado-mal text-xs">{state.error}</p>}
+      {state.ok && state.yaTeniaCuenta && (
+        <p className="text-xs">
+          Acceso concedido a <b>{state.email}</b>. Ya tenía cuenta en el ecosistema Vento: ya puede entrar con su contraseña actual.
+        </p>
+      )}
       {state.ok && state.link && (
         <div className="text-xs space-y-1">
           <p>Invitación creada para <b>{state.email}</b>. Cópiale este enlace (caduca según la config del proyecto):</p>
