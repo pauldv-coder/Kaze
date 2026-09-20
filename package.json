@@ -13,7 +13,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "db:reset": "supabase db reset",
-    "db:types": "supabase gen types typescript --local > lib/database.types.ts",
+    "db:types": "supabase gen types typescript --local --schema kaze > lib/database.types.ts",
     "seed": "tsx scripts/seed.ts"
   },
   "dependencies": {

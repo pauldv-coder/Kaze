@@ -63,3 +63,7 @@ alter default privileges in schema kaze grant execute on functions to authentica
 -- Nadie cambia su propio rol vía Data API (venía de 0004_admin_roles).
 revoke update on kaze.profiles from authenticated;
 grant update (nombre, iniciales) on kaze.profiles to authenticated;
+
+-- touch_updated_at nació en la migración anterior, antes del `alter default
+-- privileges` de arriba, así que conserva el EXECUTE a PUBLIC por defecto.
+revoke execute on function kaze.touch_updated_at() from public;
