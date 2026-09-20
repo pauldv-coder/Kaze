@@ -34,6 +34,17 @@ proyectos de mejora lean (A3) de la consultora Cota. El prototipo `.dc.html` en
   `docker exec supabase_db_cota psql -U postgres -d postgres -c "..."`.
 - **Data API nueva:** las tablas de `public` NO se exponen a la API sin `GRANT`s explícitos;
   van en las migraciones (ver `supabase/migrations/0002_rls.sql`).
+- **Techo de 1000 filas por query.** `max_rows = 1000` (`supabase/config.toml`, y el alojado trae el
+  mismo default): PostgREST **trunca en silencio** y devuelve 200, sin error. Un `select` sin filtrar
+  sobre una tabla que crece (`measurements`, `actions`) empieza a mentir sin avisar — y como se ordena
+  ascendente, lo que se pierde es lo MÁS RECIENTE. Toda query sin `.limit()` debe llevar guardia de
+  truncamiento (`count: 'exact'` + comparar contra `data.length`).
+- **Zona horaria del negocio: `America/Bogota`.** Las fechas de vencimiento (`actions.vence`) son
+  columnas `date`, no instantes: compararlas contra un `Date` en UTC marca como vencida una acción
+  que vence hoy. Usar el helper de `lib/data/metrics.ts`, no `new Date(...)` a mano.
+- **`.order()` siempre con desempate.** Un `insert` de varias filas les da el mismo `created_at`, y
+  Postgres devuelve los empates en orden indefinido: sin un `.order('id')` de respaldo, cosas como
+  "cuál es el KPI principal" cambian entre recargas sin que cambien los datos.
 - **El seed es TypeScript** (`scripts/seed.ts`, Admin API). NO existe `supabase/seed.sql`;
   el `WARN: no files matched pattern: supabase/seed.sql` de `db reset` es normal.
 - **Signup público desactivado** (`enable_signup = false`); los usuarios los crea el seed.
@@ -43,6 +54,13 @@ proyectos de mejora lean (A3) de la consultora Cota. El prototipo `.dc.html` en
 - **Windows:** escribe archivos como UTF-8 sin BOM (herramienta Write, no redirección de PowerShell).
   El contenedor `supabase_vector_cota` crash-loopea — limitación conocida de Docker en Windows,
   inofensiva (analytics sigue sano; loro tiene el mismo patrón).
+- **Si `supabase start` falla con `bind: An attempt was made to access a socket in a way forbidden
+  by its access permissions`:** Windows reservó dinámicamente un rango que se traga los 553xx.
+  Verificar con `netsh interface ipv4 show excludedportrange protocol=tcp`. Arreglo permanente,
+  en PowerShell **como administrador** (una sola vez; sobrevive reinicios):
+  `net stop winnat` → `netsh int ipv4 add excludedportrange protocol=tcp startport=55320 numberofports=10 store=persistent` → `net start winnat`.
+  Debe quedar listado como `55320 55329 *` (exclusión *administrada*). Síntoma previo típico: Docker
+  Desktop reinicia los contenedores pero `docker port supabase_kong_cota` sale vacío.
 
 ## Convenciones
 

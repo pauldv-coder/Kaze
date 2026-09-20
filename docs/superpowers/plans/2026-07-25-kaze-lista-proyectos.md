@@ -582,7 +582,7 @@ function miles(n: number) {
 export function SummaryStrip({ s }: { s: ProjectsSummary }) {
   const cells = [
     { val: String(s.total), sub: 'Proyectos totales', color: 'text-tinta' },
-    { val: String(s.activos), sub: 'KPIs mejorando', color: 'text-estado-bien' },
+    { val: String(s.activos), sub: 'Activos', color: 'text-estado-bien' },
     { val: String(s.enRiesgo), sub: 'Requiere atención', color: 'text-estado-mal' },
     { val: String(s.accionesVencidas), sub: 'Acciones vencidas', color: 'text-tinta' },
     { val: String(s.cerrados), sub: 'Cerrados', color: 'text-apagado' },
@@ -646,15 +646,17 @@ export function ProjectsTable({ rows }: { rows: ProjectListRow[] }) {
                           {p.kpiPrincipal.valor.toLocaleString('es')}
                         </span>
                         <span className="text-[11px] font-semibold text-apagado">{p.kpiPrincipal.unidad}</span>
-                        <span className={`text-[11px] font-bold ${p.kpiPrincipal.deltaBueno ? 'text-estado-bien' : 'text-estado-mal'}`}>
-                          {p.kpiPrincipal.delta < 0 ? '▼' : '▲'} {Math.abs(p.kpiPrincipal.delta).toLocaleString('es', { maximumFractionDigits: 1 })}
+                        <span className={`text-[11px] font-bold ${p.kpiPrincipal.delta === 0 ? 'text-apagado' : p.kpiPrincipal.deltaBueno ? 'text-estado-bien' : 'text-estado-mal'}`}>
+                          {p.kpiPrincipal.delta === 0
+                            ? '—'
+                            : `${p.kpiPrincipal.delta < 0 ? '▼' : '▲'} ${Math.abs(p.kpiPrincipal.delta).toLocaleString('es', { maximumFractionDigits: 1 })}`}
                         </span>
                       </div>
                       <div className="mt-0.5 truncate text-[10.5px] text-apagado">{p.kpiPrincipal.nombre}</div>
                     </div>
                   </>
                 ) : (
-                  <span className="text-xs text-apagado">Sin medición aún</span>
+                  <span className="text-xs text-apagado">Sin tendencia aún</span>
                 )}
               </div>
               <TeamAvatars iniciales={p.equipo} />
@@ -935,6 +937,7 @@ git commit -m "feat(auth): /login redirige a /proyectos si ya hay sesión"
 
 **Files:**
 - Modify: `app/(app)/proyectos/page.tsx` (reescritura completa)
+- Create: `app/(app)/error.tsx`
 
 - [ ] **Step 1: Reescribir `app/(app)/proyectos/page.tsx`** — EXACTAMENTE:
 
@@ -968,12 +971,37 @@ export default async function ProyectosPage() {
 
 (Usa el `hoy` real por defecto — en producción con datos vivos es lo correcto; los tests inyectan la fecha congelada.)
 
+- [ ] **Step 1b: Crear `app/(app)/error.tsx`** — EXACTAMENTE. La capa de datos hace `throw error` en cada query; sin este boundary cualquier fallo de Postgrest muestra la pantalla de error cruda de Next dentro del shell:
+
+```tsx
+'use client'
+
+export default function AppError({ reset }: { error: Error; reset: () => void }) {
+  return (
+    <div className="grid min-h-screen place-items-center px-7">
+      <div className="max-w-md text-center">
+        <h2 className="font-display text-lg font-bold">No pudimos cargar esta pantalla</h2>
+        <p className="mt-1.5 text-[12.5px] text-apagado">
+          Hubo un problema al leer los datos. Reintenta; si persiste, avisa al equipo.
+        </p>
+        <button
+          onClick={reset}
+          className="mt-4 rounded-md border border-borde px-3 py-2 text-sm font-semibold hover:bg-panel"
+        >
+          Reintentar
+        </button>
+      </div>
+    </div>
+  )
+}
+```
+
 - [ ] **Step 2: Verificar** — `npx tsc --noEmit` limpio; `npm run build` verde con rutas `ƒ /proyectos`, `/admin`, `/cuenta/contrasena` (todas con el shell). `npm test` completo verde.
 
 - [ ] **Step 3: Commit** (NO push):
 
 ```bash
-git add "app/(app)/proyectos/page.tsx"
+git add "app/(app)/proyectos/page.tsx" "app/(app)/error.tsx"
 git commit -m "feat: /proyectos con app shell, summary strip y tabla rica"
 ```
 + trailer.
@@ -985,7 +1013,7 @@ git commit -m "feat: /proyectos con app shell, summary strip y tabla rica"
 Sin archivos nuevos (verificación; commit solo si hay fixes de bugs reales). Precondición: `npx supabase db reset && npm run seed`, `npm run dev` en background. Navegador: **Claude Preview MCP** (`mcp__Claude_Browser__*`; el MCP de Playwright NO funciona en este entorno). Cargar con ToolSearch si hace falta: `select:mcp__Claude_Browser__preview_start,mcp__Claude_Browser__navigate,mcp__Claude_Browser__get_page_text,mcp__Claude_Browser__javascript_tool,mcp__Claude_Browser__computer`. Pasar siempre el tabId.
 
 - [ ] **Step 1:** Login `carmen@cota.test` / `cota-demo-2026` (submit del form vía JS: setear value con native setter + `input` event + `form.requestSubmit(button)`, patrón usado en e2e previos si los clicks del pane no componen). Esperar y navegar a `/proyectos`.
-- [ ] **Step 2:** `get_page_text` de `/proyectos` → contiene el sidebar ("Kaze", "Proyectos", "Espacio de trabajo", "Clientes" con nombres), el summary strip y la tabla con las 8 filas. Verificar los números **estables** del strip: total **8**, activos **5**, en riesgo **1**, cerrados **2**, ahorro **$54k/año** (con "$26k inv · 2 casos"). ⚠️ NO fijar el número de "Acciones vencidas": la página usa `hoy` real y los datos demo están fechados en el pasado (~junio 2026), así que en vivo ese contador sale alto (casi todas las acciones no-`done` cuentan como vencidas) — solo confirmar que la celda existe y muestra un entero. Tabla: títulos, códigos A3-007…A3-030, chips "En progreso"/"En riesgo"/"Cerrado"/"Por iniciar", y "Sin medición aún" en A3-009/A3-007/A3-030.
+- [ ] **Step 2:** `get_page_text` de `/proyectos` → contiene el sidebar ("Kaze", "Proyectos", "Espacio de trabajo", "Clientes" con nombres), el summary strip y la tabla con las 8 filas. Verificar los números **estables** del strip: total **8**, activos **5**, en riesgo **1**, cerrados **2**, ahorro **$54k/año** (con "$26k inv · 2 casos"). ⚠️ NO fijar el número de "Acciones vencidas": la página usa `hoy` real y los datos demo están fechados en el pasado (~junio 2026), así que en vivo ese contador sale alto (casi todas las acciones no-`done` cuentan como vencidas) — solo confirmar que la celda existe y muestra un entero. Tabla: títulos, códigos A3-007…A3-030, chips "En progreso"/"En riesgo"/"Cerrado"/"Por iniciar", y "Sin tendencia aún" en A3-009/A3-007/A3-030.
 - [ ] **Step 2b:** Screenshot de `/proyectos` como evidencia.
 - [ ] **Step 3:** Ítems de nav deshabilitados no navegan: leer el DOM y confirmar que "Acciones"/"Indicadores"/etc. no son `<a>` (son `<span>` con `text-white/35`).
 - [ ] **Step 4:** Menú de cuenta: abrirlo (click en el botón del pie) → contiene "Cuenta", "Administración" (carmen es admin) y "Cerrar sesión". Navegar a `/cuenta/contrasena` → muestra el shell (sidebar visible) + el form. Navegar a `/admin` → shell + tabla de usuarios (carmen es admin).
