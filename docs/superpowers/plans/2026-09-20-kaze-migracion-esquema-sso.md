@@ -21,15 +21,15 @@
 ### Task 1: Migración de esquema `kaze` (sin trigger)
 
 **Files:**
-- Create: `supabase/migrations/kaze/0001_schema.sql`
+- Create: `supabase/migrations/20260920000001_kaze_schema.sql`
 - Modify: `supabase/config.toml`
 
-Las migraciones viejas de `supabase/migrations/*.sql` quedan como históricas: el proyecto destino nunca las tuvo. El juego nuevo vive en un subdirectorio propio.
+Las migraciones viejas de `supabase/migrations/*.sql` quedan como históricas: el proyecto destino nunca las tuvo. Se mueven con `git mv` a `supabase/migrations-historicas/`, y el juego nuevo vive en `supabase/migrations/` al nivel superior con nombres timestamped (convención real del CLI).
 
-- [ ] **Step 1: Crear `supabase/migrations/kaze/0001_schema.sql`** — EXACTAMENTE:
+- [ ] **Step 1: Crear `supabase/migrations/20260920000001_kaze_schema.sql`** — EXACTAMENTE:
 
 ```sql
--- 0001_schema.sql — esquema kaze (mudanza desde public del proyecto kvjpxnswvlxzxdzgycbh)
+-- 20260920000001_kaze_schema.sql — esquema kaze (mudanza desde public del proyecto kvjpxnswvlxzxdzgycbh)
 -- OJO: este archivo NO crea ningún trigger sobre auth.users. Ver 4.4 del spec:
 -- el CMS ya tiene un trigger `on_auth_user_created` en ese proyecto y es suyo.
 create extension if not exists pgcrypto;
@@ -165,14 +165,25 @@ create trigger trg_projects_updated
 
 Nota sobre `avance_pasos`: el esquema viejo no tenía CHECK y la revisión de la tajada 1 señaló que un valor fuera de rango renderiza "9/7". Se aprovecha la migración para cerrarlo.
 
-- [ ] **Step 2: Apuntar el CLI al juego nuevo** — en `supabase/config.toml`, dentro de la sección `[db.migrations]` (créala si no existe), fijar:
+- [ ] **Step 2: Apuntar el CLI al juego nuevo** — ⚠️ **Corregido durante la ejecución.** La idea original
+  (`[db.migrations].schema_paths = ["./migrations/kaze/*.sql"]`) **no funciona y es peligrosa**: se probó
+  empíricamente con el CLI 2.109.0 y `db reset` ignoró el archivo nuevo y aplicó las **4 migraciones
+  viejas de `public`**, recreando el trigger `on_auth_user_created` — exactamente la mina que este
+  plan existe para evitar. Dos motivos: `schema_paths` es la entrada del **esquema declarativo para
+  `db diff`**, no un puntero al directorio de migraciones; y el CLI **no recursa** en subdirectorios de
+  `supabase/migrations/`, así que `migrations/kaze/*.sql` nunca se aplicaría, ni con `db reset` ni con
+  `db push` en la T9.
 
-```toml
-[db.migrations]
-schema_paths = ["./migrations/kaze/*.sql"]
-```
+  Lo que se hizo, y que las tareas siguientes deben respetar:
+  - Las migraciones nuevas viven en `supabase/migrations/` **al nivel superior**, con nombre
+    **timestamped** (`20260920000001_kaze_schema.sql`), que es la convención real del CLI.
+  - Las 4 viejas se movieron con `git mv` a `supabase/migrations-historicas/`.
+  - `schema_paths` queda en `[]` con un comentario: dejarlo apuntando a un glob inexistente sería
+    activamente dañino, porque la T9 corre `db diff --linked --schema kaze`, que **sí** lo consume.
 
-Si tu versión del CLI no soporta `schema_paths`, deja `supabase/migrations/` con SOLO los archivos nuevos y mueve los viejos a `supabase/migrations-historicas/`. Verifica cuál aplica con `npx supabase db reset --help` y **reporta cuál usaste**.
+  El nombre timestamped además evita un riesgo real en la T9: si el proyecto compartido ya tuviera una
+  versión `0001` en `supabase_migrations.schema_migrations`, `db push` habría saltado la migración **en
+  silencio**.
 
 - [ ] **Step 3: Verificar que aplica** — Run: `cd /c/Users/pauld/dev/cota && npx supabase db reset`. Esperado: termina sin error. Luego:
 
@@ -188,7 +199,7 @@ Esperado: **cero filas**.
 - [ ] **Step 4: Commit** (NO push):
 
 ```bash
-git add supabase/migrations/kaze/0001_schema.sql supabase/config.toml
+git add supabase/migrations/20260920000001_kaze_schema.sql supabase/migrations-historicas supabase/config.toml
 git commit -m "feat(db): esquema kaze (9 tablas, sin trigger sobre auth.users)"
 ```
 Trailer tras línea vacía: `Co-Authored-By: Claude <modelo> <noreply@anthropic.com>` con el modelo real.
@@ -198,12 +209,12 @@ Trailer tras línea vacía: `Co-Authored-By: Claude <modelo> <noreply@anthropic.
 ### Task 2: RLS por membresía + grants
 
 **Files:**
-- Create: `supabase/migrations/kaze/0002_rls.sql`
+- Create: `supabase/migrations/20260920000002_kaze_rls.sql`
 
-- [ ] **Step 1: Crear `supabase/migrations/kaze/0002_rls.sql`** — EXACTAMENTE:
+- [ ] **Step 1: Crear `supabase/migrations/20260920000002_kaze_rls.sql`** — EXACTAMENTE:
 
 ```sql
--- 0002_rls.sql — membresía, RLS y grants de la Data API para kaze.
+-- 20260920000002_kaze_rls.sql — membresía, RLS y grants de la Data API para kaze.
 -- Cambio central respecto al esquema viejo: las policies pasan de `using (true)`
 -- a `using (kaze.es_miembro())`. auth.users se comparte con el CMS, así que
 -- "estar autenticado" ya NO implica pertenecer a Kaze.
@@ -285,7 +296,7 @@ Esperado: solo `nombre` e `iniciales`. **Si aparece `rol`, el revoke no aplicó:
 - [ ] **Step 3: Commit** (NO push):
 
 ```bash
-git add supabase/migrations/kaze/0002_rls.sql
+git add supabase/migrations/20260920000002_kaze_rls.sql
 git commit -m "feat(db): RLS de kaze gateado por membresía + grants de Data API"
 ```
 + trailer.

@@ -1,4 +1,4 @@
--- 0001_schema.sql — esquema kaze (mudanza desde public del proyecto kvjpxnswvlxzxdzgycbh)
+-- 20260920000001_kaze_schema.sql — esquema kaze (mudanza desde public del proyecto kvjpxnswvlxzxdzgycbh)
 -- OJO: este archivo NO crea ningún trigger sobre auth.users. Ver 4.4 del spec:
 -- el CMS ya tiene un trigger `on_auth_user_created` en ese proyecto y es suyo.
 create extension if not exists pgcrypto;
