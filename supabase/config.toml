@@ -61,6 +61,13 @@ max_client_conn = 100
 enabled = true
 # Specifies an ordered list of schema files that describe your database.
 # Supports glob patterns relative to supabase directory: "./schemas/*.sql"
+# Se deja VACÍO a propósito: `schema_paths` alimenta los esquemas declarativos de
+# `db diff`, no reubica el directorio de migraciones (el CLI 2.109.0 lo ignora en
+# `db reset` / `db push`, que solo leen `supabase/migrations/*.sql`, sin recursión).
+# El juego vigente (esquema `kaze`) vive en `supabase/migrations/`. Las migraciones
+# históricas del esquema `public` están en `supabase/migrations-historicas/` y NO se
+# aplican: el proyecto compartido nunca las tuvo y su trigger `on_auth_user_created`
+# le robaría el suyo al CMS.
 schema_paths = []
 
 [db.seed]
