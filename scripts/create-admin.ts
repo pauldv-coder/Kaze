@@ -14,6 +14,7 @@ const DEMO_DOMAIN = '@cota.test'
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const isProd = !url.includes('127.0.0.1') && !url.includes('localhost')
 const db = createClient<Database>(url, process.env.SUPABASE_SERVICE_ROLE_KEY!, {
+  db: { schema: 'kaze' },
   auth: { autoRefreshToken: false, persistSession: false },
 })
 
@@ -33,7 +34,11 @@ async function main() {
       user_metadata: { nombre: 'Vento Solutions', iniciales: 'VS' },
     })
     if (error) throw error
-    const { error: rErr } = await db.from('profiles').update({ rol: 'admin' }).eq('id', data.user!.id)
+    // Ya no hay trigger que cree el profile: lo crea este script. upsert y no insert
+    // porque en el proyecto compartido el perfil puede existir ya de una corrida previa.
+    const { error: rErr } = await db.from('profiles').upsert({
+      id: data.user!.id, nombre: 'Vento Solutions', iniciales: 'VS', rol: 'admin',
+    })
     if (rErr) throw rErr
     console.log(`Admin creado: ${ADMIN_EMAIL}`)
     console.log(`CONTRASEÑA TEMPORAL (cámbiala en /cuenta/contrasena): ${password}`)

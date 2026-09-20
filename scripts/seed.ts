@@ -5,7 +5,7 @@ import type { Database } from '../lib/database.types'
 
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const service = process.env.SUPABASE_SERVICE_ROLE_KEY!
-const db = createClient<Database>(url, service, { auth: { autoRefreshToken: false, persistSession: false } })
+const db = createClient<Database>(url, service, { db: { schema: 'kaze' }, auth: { autoRefreshToken: false, persistSession: false } })
 
 // --- Configuración por variables de entorno ---
 // SEED_PASSWORD: password de los usuarios creados por el seed. El default 'cota-demo-2026'
@@ -26,7 +26,7 @@ const venceDate = (due: number) => {
   return d.toISOString().slice(0, 10)
 }
 
-// --- Consultores (auth users → trigger crea profiles) ---
+// --- Consultores (auth users + profiles creados explícitamente por el seed) ---
 // Nombres según CONSULTORES en reference/prototype/Cota - Lista de Proyectos.dc.html:371.
 const TEAM = [
   { iniciales: 'CV', nombre: 'Carmen Vidal',   email: 'carmen@cota.test' },
@@ -148,16 +148,29 @@ async function main() {
     })
     if (error) throw error
     teamIds[t.iniciales] = data.user!.id
-    const { error: uErr } = await db.from('profiles').update({
+    // Ya no hay trigger que cree el profile: lo crea el seed.
+    const { error: uErr } = await db.from('profiles').insert({
+      id: data.user!.id,
       nombre: t.nombre, iniciales: t.iniciales,
       rol: t.iniciales === 'CV' ? 'admin' : 'consultor',
-    }).eq('id', data.user!.id)
+    })
     if (uErr) throw uErr
   }
   const teamId = (ini: string) => {
     const id = teamIds[ini]
     if (!id) throw new Error(`unknown team initials: ${ini}`)
     return id
+  }
+
+  // Usuario deliberadamente SIN perfil de Kaze: representa a alguien con cuenta
+  // en el proyecto compartido (p. ej. del CMS) que no es miembro de Kaze.
+  // Lo consume tests/data/rls-no-miembro.test.ts. No borrar.
+  {
+    const { error } = await db.auth.admin.createUser({
+      email: 'ajeno@cota.test', password: SEED_PASSWORD, email_confirm: true,
+      user_metadata: { nombre: 'Ajeno Sin Acceso' },
+    })
+    if (error && !/already|registered|exists/i.test(error.message)) throw error
   }
 
   // 2) clientes
