@@ -25,8 +25,10 @@ async function main() {
 
   // 1) admin
   const existing = list.users.find(u => u.email === ADMIN_EMAIL)
+  let adminId: string
   if (existing) {
-    console.log(`Admin ya existe (${ADMIN_EMAIL}) — no se toca.`)
+    console.log(`Admin ya existe en auth.users (${ADMIN_EMAIL}) — no se toca la cuenta.`)
+    adminId = existing.id
   } else {
     const password = `Kaze-${randomBytes(6).toString('hex')}!`
     const { data, error } = await db.auth.admin.createUser({
@@ -34,15 +36,20 @@ async function main() {
       user_metadata: { nombre: 'Vento Solutions', iniciales: 'VS' },
     })
     if (error) throw error
-    // Ya no hay trigger que cree el profile: lo crea este script. upsert y no insert
-    // porque en el proyecto compartido el perfil puede existir ya de una corrida previa.
-    const { error: rErr } = await db.from('profiles').upsert({
-      id: data.user!.id, nombre: 'Vento Solutions', iniciales: 'VS', rol: 'admin',
-    })
-    if (rErr) throw rErr
+    adminId = data.user!.id
     console.log(`Admin creado: ${ADMIN_EMAIL}`)
     console.log(`CONTRASEÑA TEMPORAL (cámbiala en /cuenta/contrasena): ${password}`)
   }
+
+  // La membresía se crea SIEMPRE, exista ya la cuenta o no. En el proyecto compartido
+  // info@ventosolutions.ca ya existe en auth.users (está en hub.staff), así que si esto
+  // viviera dentro del `else` el admin entraría sin perfil y no vería absolutamente nada:
+  // ya no hay trigger que lo cree. upsert para que re-ejecutar el script sea inofensivo.
+  const { error: rErr } = await db.from('profiles').upsert({
+    id: adminId, nombre: 'Vento Solutions', iniciales: 'VS', rol: 'admin',
+  })
+  if (rErr) throw rErr
+  console.log(`Membresía de Kaze asegurada para ${ADMIN_EMAIL} (rol admin).`)
 
   // 2) demos
   const demos = list.users.filter(u => u.email?.endsWith(DEMO_DOMAIN))
