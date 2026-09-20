@@ -1,5 +1,6 @@
 import type { SupabaseClient, User } from '@supabase/supabase-js'
 import type { Database } from '@/lib/database.types'
+import { selectAllRows } from '@/lib/data/query'
 
 type DB = SupabaseClient<Database>
 export type RolInterno = 'admin' | 'consultor'
@@ -43,8 +44,7 @@ async function rolOf(db: DB, userId: string) {
 export async function getUsers(db: DB): Promise<UserRow[]> {
   const { data: authData, error: aErr } = await db.auth.admin.listUsers({ page: 1, perPage: 1000 })
   if (aErr) throw aErr
-  const { data: profiles, error: pErr } = await db.from('profiles').select('id, nombre, iniciales, rol')
-  if (pErr) throw pErr
+  const profiles = await selectAllRows('profiles', db.from('profiles').select('id, nombre, iniciales, rol', { count: 'exact' }))
   const byId = new Map(profiles.map(p => [p.id, p]))
   return authData.users
     .map(u => {

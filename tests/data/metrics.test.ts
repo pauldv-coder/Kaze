@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { deltaFavorable, deltaSerie, esVencida, relativeDate } from '@/lib/data/metrics'
+import { deltaFavorable, deltaSerie, esVencida, esVencidaEn, relativeDate } from '@/lib/data/metrics'
 
 describe('deltaSerie', () => {
   it('delta = último - primero', () => {
@@ -57,6 +57,18 @@ describe('esVencida', () => {
     it('lo que venció ayer (18) sí está vencido', () => {
       expect(esVencida('2026-06-18', 'doing', madrugada)).toBe(true)
     })
+  })
+})
+
+// Variante para bucles: recibe el día del negocio ya calculado, porque resolverlo en cada acción
+// cuesta ~12× más que la comparación misma.
+describe('esVencidaEn', () => {
+  it('compara contra el día de calendario que recibe', () => {
+    expect(esVencidaEn('2026-06-18', 'doing', '2026-06-20')).toBe(true)
+    expect(esVencidaEn('2026-06-20', 'doing', '2026-06-20')).toBe(false)
+    expect(esVencidaEn('2026-06-25', 'todo', '2026-06-20')).toBe(false)
+    expect(esVencidaEn('2026-05-01', 'done', '2026-06-20')).toBe(false)
+    expect(esVencidaEn(null, 'todo', '2026-06-20')).toBe(false)
   })
 })
 

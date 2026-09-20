@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '@/lib/database.types'
-import { deltaFavorable, deltaSerie, esVencida, relativeDate } from '@/lib/data/metrics'
+import { deltaFavorable, deltaSerie, diaDelNegocio, esVencidaEn, relativeDate } from '@/lib/data/metrics'
 import { selectAllRows } from '@/lib/data/query'
 import { iniciales as inicialesDeNombre } from '@/lib/data/users'
 
@@ -77,6 +77,16 @@ export async function getProjectsList(db: DB, hoy: Date = new Date()): Promise<P
   }
 
   const actions = await selectAllRows('actions', db.from('actions').select('project_id, vence, estado', { count: 'exact' }))
+  // Agrupadas por proyecto: filtrar el array entero dentro del map era O(proyectos × acciones).
+  const actionsByProject = new Map<string, typeof actions>()
+  for (const a of actions) {
+    if (!a.project_id) continue
+    const arr = actionsByProject.get(a.project_id) ?? []
+    arr.push(a)
+    actionsByProject.set(a.project_id, arr)
+  }
+  // El día del negocio se resuelve UNA vez: cada `diaDelNegocio` cuesta ~12× la comparación.
+  const hoyDia = diaDelNegocio(hoy)
 
   return projects.map(p => {
     const equipo = [p.consultor_id, p.lider_id, ...(p.miembros ?? [])]
@@ -110,7 +120,7 @@ export async function getProjectsList(db: DB, hoy: Date = new Date()): Promise<P
       avancePasos: p.avance_pasos,
       equipo,
       kpiPrincipal,
-      accionesVencidas: actions.filter(a => a.project_id === p.id && esVencida(a.vence, a.estado, hoy)).length,
+      accionesVencidas: (actionsByProject.get(p.id) ?? []).filter(a => esVencidaEn(a.vence, a.estado, hoyDia)).length,
       updated: relativeDate(p.updated_at, hoy),
     }
   })

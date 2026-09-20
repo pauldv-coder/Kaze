@@ -61,6 +61,15 @@ describe('getProjectsList', () => {
     }
   })
 
+  // Las acciones se agrupan por proyecto antes del map: un proyecto sin acciones no debe caer en
+  // un undefined ni heredar el conteo de otro.
+  it('un proyecto sin acciones cuenta 0 vencidas', async () => {
+    const rows = await getProjectsList(db, HOY)
+    expect(rows.find(x => x.code === 'A3-007')!.accionesVencidas).toBe(0)
+    expect(rows.find(x => x.code === 'A3-030')!.accionesVencidas).toBe(0)
+    expect(rows.reduce((s, r) => s + r.accionesVencidas, 0)).toBe(2)
+  })
+
   it('A3-009 y A3-030 no tienen KPI en el seed → kpiPrincipal null', async () => {
     const rows = await getProjectsList(db, HOY)
     expect(rows.find(x => x.code === 'A3-009')!.kpiPrincipal).toBeNull()

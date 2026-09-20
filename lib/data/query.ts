@@ -15,6 +15,10 @@ type RespuestaConConteo<T> = {
  * quedan a medias y los cálculos mienten en silencio. Pedir `{ count: 'exact' }` y comparar el
  * total contra lo recibido convierte esa mentira en una excepción.
  *
+ * El `{ count: 'exact' }` es OBLIGATORIO y se exige en tiempo de ejecución: el tipo no lo puede
+ * atrapar (la respuesta exitosa declara `count: number | null` pase lo que pase), y una guardia
+ * que se calla cuando no hay conteo deja pasar justo el fallo que vino a impedir.
+ *
  * @example
  * const kpis = await selectAllRows('kpis', db.from('kpis').select('id', { count: 'exact' }))
  */
@@ -22,7 +26,14 @@ export async function selectAllRows<T>(tabla: string, query: PromiseLike<Respues
   const { data, error, count } = await query
   if (error) throw error
   if (!data) throw new Error(`${tabla}: la consulta no devolvió filas ni error`)
-  if (count !== null && data.length < count) {
+  // Una petición con `Prefer: count=exact` siempre trae total numérico; vacío da 0, no null.
+  if (count === null) {
+    throw new Error(
+      `${tabla}: selectAllRows exige { count: 'exact' } en el select — sin el total no hay forma ` +
+        'de saber si PostgREST truncó la respuesta.'
+    )
+  }
+  if (data.length < count) {
     throw new Error(
       `${tabla}: PostgREST truncó la consulta — llegaron ${data.length} filas de ${count}. ` +
         'Se alcanzó el techo de max_rows: hay que filtrar o paginar la consulta.'

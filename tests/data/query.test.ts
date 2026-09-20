@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest'
-import { PostgrestError } from '@supabase/supabase-js'
+import { config } from 'dotenv'
+config({ path: '.env.local' })
+import { createClient, PostgrestError } from '@supabase/supabase-js'
+import type { Database } from '@/lib/database.types'
 import { selectAllRows } from '@/lib/data/query'
 
 // Imita la respuesta de PostgREST: `data` ya truncada a max_rows, `count` con el total real.
@@ -22,7 +25,32 @@ describe('selectAllRows', () => {
     await expect(selectAllRows('projects', respuesta(null, null, error))).rejects.toThrow(/boom/)
   })
 
-  it('sin count no inventa truncamiento', async () => {
-    await expect(selectAllRows('clients', respuesta([1], null))).resolves.toEqual([1])
+  // Sin conteo la guardia no puede garantizar nada, y quedarse callada es exactamente el fallo
+  // silencioso que existe para evitar. El tipo no lo puede atrapar (count es `number | null`
+  // incluso en la respuesta exitosa), así que falla cerrado en tiempo de ejecución.
+  it('exige { count: exact }: sin conteo, falla cerrado', async () => {
+    const p = selectAllRows('clients', respuesta([1], null))
+    await expect(p).rejects.toThrow(/clients/)
+    await expect(p).rejects.toThrow(/count: 'exact'/)
+  })
+
+  it('un resultado vacío legítimo trae count 0, no null', async () => {
+    await expect(selectAllRows('actions', respuesta([], 0))).resolves.toEqual([])
+  })
+})
+
+describe('selectAllRows contra PostgREST de verdad', () => {
+  const db = createClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { persistSession: false } }
+  )
+
+  // PostgREST implementa max_rows como un LIMIT, así que .range() produce la misma respuesta que
+  // un truncamiento real (206, count con el total, menos filas de las que dice el total).
+  it('detecta el truncamiento en una respuesta real', async () => {
+    const p = selectAllRows('actions', db.from('actions').select('id', { count: 'exact' }).range(0, 1))
+    await expect(p).rejects.toThrow(/actions: PostgREST truncó/)
+    await expect(p).rejects.toThrow(/2 filas de 12/)
   })
 })

@@ -38,17 +38,31 @@ export function deltaFavorable(serie: number[], mejorBaja: boolean): boolean {
   return mejorBaja ? delta < 0 : delta > 0
 }
 
+// OJO con qué recibe cada helper: `esVencida` toma un DÍA de calendario ('YYYY-MM-DD', como la
+// columna `date` de actions.vence) y `relativeDate` toma un INSTANTE ISO (como updated_at, un
+// timestamptz). Pasarle a relativeDate una columna `date` la interpreta como medianoche UTC, que
+// en Bogotá es el día anterior: el resultado sale corrido un día.
+
+/** Versión de `esVencida` para bucles: recibe el día del negocio ya resuelto. */
+export function esVencidaEn(vence: string | null, estado: string | null, hoyDia: string): boolean {
+  if (!vence || estado === 'done') return false
+  return vence < hoyDia
+}
+
 // `vence` es una columna `date` ('YYYY-MM-DD'), no un instante: se compara contra el día de
 // calendario del negocio. Comparar contra un Date en UTC daba por vencido lo que vence hoy.
+// Resolver el día cuesta ~12× más que la comparación: en un bucle, usar `esVencidaEn`.
 export function esVencida(vence: string | null, estado: string | null, hoy: Date): boolean {
-  if (!vence || estado === 'done') return false
-  return vence < diaDelNegocio(hoy)
+  return esVencidaEn(vence, estado, diaDelNegocio(hoy))
 }
+
+// A nivel de módulo para no reconstruirlo en cada fila (y para que la zona no se olvide nunca).
+const cortaFmt = new Intl.DateTimeFormat('es', { day: 'numeric', month: 'short', timeZone: TZ })
 
 export function relativeDate(iso: string, hoy: Date): string {
   const dias = diasEntre(diaDelNegocio(new Date(iso)), diaDelNegocio(hoy))
   if (dias <= 0) return 'Hoy'
   if (dias === 1) return 'ayer'
   if (dias < 7) return `hace ${dias} d`
-  return new Date(iso).toLocaleDateString('es', { day: 'numeric', month: 'short', timeZone: TZ })
+  return cortaFmt.format(new Date(iso))
 }
