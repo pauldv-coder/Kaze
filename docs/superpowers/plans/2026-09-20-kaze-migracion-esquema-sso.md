@@ -716,6 +716,13 @@ Esperado: seed OK, 51/51 verdes, tsc sin salida, build verde.
   al invitar desde `/admin`, nunca automáticamente.
 - **`kaze.es_miembro()`** decide quién ve algo. Sin fila en `kaze.profiles` no se lee nada,
   aunque el JWT sea válido. El test `tests/data/rls-no-miembro.test.ts` lo protege.
+- **Los helpers `Tables<>`, `TablesInsert<>`, `Enums<>` de `lib/database.types.ts` NO sirven
+  en su forma simple.** Se generan con `--schema kaze`, así que el tipo no tiene clave `public`
+  y el `DefaultSchema` interno resuelve a `never`. Hoy nadie los usa; si algún día hacen falta,
+  la forma correcta es explicitar el esquema: `Tables<{ schema: 'kaze' }, 'projects'>`.
+- **`lib/supabase/middleware.ts` no lleva `db: { schema }` a propósito**: solo llama a
+  `auth.getUser()` y nunca a `.from()`, y los endpoints de auth son independientes del esquema.
+  No es un olvido.
 ```
 
 - [ ] **Step 3: Commit** (NO push):
