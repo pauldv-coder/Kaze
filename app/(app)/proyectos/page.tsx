@@ -1,22 +1,25 @@
 import { createClient } from '@/lib/supabase/server'
-import { getProjects } from '@/lib/data/projects'
+import { getProjectsList } from '@/lib/data/projects'
+import { getProjectsSummary } from '@/lib/data/summary'
+import { SummaryStrip } from './_components/summary-strip'
+import { ProjectsTable } from './_components/projects-table'
 
 export default async function ProyectosPage() {
   const supabase = await createClient()
-  const projects = await getProjects(supabase)
+  const [rows, summary] = await Promise.all([getProjectsList(supabase), getProjectsSummary(supabase)])
 
   return (
-    <main className="p-10">
-      <h1 className="font-display text-2xl font-bold mb-6">Proyectos A3</h1>
-      <ul className="space-y-2">
-        {projects.map((p) => (
-          <li key={p.id} className="bg-white border border-borde rounded-lg px-4 py-3 flex gap-3">
-            <span className="font-mono text-sm text-marca">{p.code}</span>
-            <span className="text-sm">{p.titulo}</span>
-            <span className="text-xs text-apagado ml-auto">{p.client?.nombre}</span>
-          </li>
-        ))}
-      </ul>
-    </main>
+    <div className="flex h-screen flex-col">
+      <header className="shrink-0 border-b border-borde bg-white px-7 pt-5">
+        <div className="mb-4">
+          <h1 className="font-display text-[22px] font-bold tracking-tight">Proyectos</h1>
+          <p className="mt-0.5 text-[12.5px] text-apagado">Cartera de mejoras lean en curso</p>
+        </div>
+      </header>
+      <div className="flex-1 overflow-auto px-7 py-5">
+        <SummaryStrip s={summary} />
+        <ProjectsTable rows={rows} />
+      </div>
+    </div>
   )
 }
