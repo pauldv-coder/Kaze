@@ -1,8 +1,14 @@
 import { login } from './actions'
+import { redirect } from 'next/navigation'
+import { createClient } from '@/lib/supabase/server'
 
 export default async function LoginPage({
   searchParams,
 }: { searchParams: Promise<{ error?: string }> }) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (user) redirect('/proyectos')
+
   const { error } = await searchParams
   return (
     <main className="min-h-screen grid place-items-center bg-panel">
