@@ -19,7 +19,9 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         rol={profile?.rol ?? 'consultor'}
         clientes={clientes}
       />
-      <main className="min-w-0 flex-1">{children}</main>
+      {/* min-h-0 deja que un hijo con overflow-auto scrollee dentro de <main> en vez de
+          desbordarlo: sin esto, la altura mínima automática del ítem flex lo impide. */}
+      <main className="min-h-0 min-w-0 flex-1">{children}</main>
     </div>
   )
 }

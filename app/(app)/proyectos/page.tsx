@@ -9,7 +9,9 @@ export default async function ProyectosPage() {
   const [rows, summary] = await Promise.all([getProjectsList(supabase), getProjectsSummary(supabase)])
 
   return (
-    <div className="flex h-screen flex-col">
+    // h-full, NO h-screen: en móvil la sidebar se colapsa a un header superior que ya consume
+    // parte del viewport, así que pedir 100vh aquí desbordaba <main> y dejaba dos scrolls.
+    <div className="flex h-full flex-col">
       <header className="shrink-0 border-b border-borde bg-white px-7 pt-5">
         <div className="mb-4">
           <h1 className="font-display text-[22px] font-bold tracking-tight">Proyectos</h1>
