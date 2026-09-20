@@ -803,6 +803,14 @@ git commit -m "feat(shell): signOut + account-menu + sidebar-nav (islas cliente)
 
 **Files:**
 - Create: `app/(app)/_components/sidebar.tsx`, `app/(app)/layout.tsx`
+- Modify: `app/(app)/_components/account-menu.tsx` (dirección del desplegable según viewport)
+
+> **Corrección al plan original (spec §5).** La sidebar se escribía con `w-[222px] shrink-0` fija,
+> así que en móvil quedaba un bloque oscuro de 222px con el nav completo debajo — el spec pide que
+> se colapse a un header superior con logo + menú de cuenta. Arreglado abajo. Consecuencia que el
+> plan no había previsto: `AccountMenu` abre con `bottom-full` (hacia arriba), correcto al pie de
+> una sidebar pero fuera de pantalla en un header superior; por eso T8 también le ajusta la
+> dirección del desplegable. Es la única modificación permitida a ese archivo.
 
 - [ ] **Step 1: `app/(app)/_components/sidebar.tsx`** — EXACTAMENTE (server):
 
@@ -815,33 +823,51 @@ export function Sidebar({ nombre, iniciales, rol, clientes }: {
   nombre: string; iniciales: string; rol: string; clientes: SidebarCliente[]
 }) {
   return (
-    <aside className="flex w-[222px] shrink-0 flex-col bg-tinta py-4 text-white/90">
-      <div className="flex items-center gap-2.5 border-b border-white/10 px-5 pb-5">
+    // md+ = barra lateral fija de 222px. Por debajo se colapsa a un header superior con
+    // solo el logo y el menú de cuenta (spec §5): el nav y la lista de clientes se ocultan.
+    <aside className="flex shrink-0 bg-tinta text-white/90 max-md:w-full max-md:items-center max-md:justify-between max-md:px-4 max-md:py-2.5 md:w-[222px] md:flex-col md:py-4">
+      <div className="flex items-center gap-2.5 md:border-b md:border-white/10 md:px-5 md:pb-5">
         <span className="flex h-[26px] w-[26px] items-center justify-center rounded-md bg-white/5">
           <span className="h-[11px] w-[11px] rounded-full border-[2.5px] border-marca" />
         </span>
         <span className="font-display text-base font-bold tracking-tight text-white">Kaze</span>
       </div>
 
-      <div className="px-5 pb-2 pt-4 text-[10px] uppercase tracking-widest text-white/40">Espacio de trabajo</div>
-      <SidebarNav />
+      <div className="max-md:hidden">
+        <div className="px-5 pb-2 pt-4 text-[10px] uppercase tracking-widest text-white/40">Espacio de trabajo</div>
+        <SidebarNav />
 
-      <div className="px-5 pb-2 pt-6 text-[10px] uppercase tracking-widest text-white/40">Clientes</div>
-      <nav className="flex flex-col gap-px px-2">
-        {clientes.map(c => (
-          <span key={c.id} className="flex items-center justify-between rounded-md px-3 py-1.5 text-[12.5px] text-white/65">
-            <span className="truncate">{c.nombre}</span>
-            <span className="tabular-nums text-[11px] text-white/40">{c.nProyectos}</span>
-          </span>
-        ))}
-      </nav>
+        <div className="px-5 pb-2 pt-6 text-[10px] uppercase tracking-widest text-white/40">Clientes</div>
+        <nav className="flex flex-col gap-px px-2">
+          {clientes.map(c => (
+            <span key={c.id} className="flex items-center justify-between rounded-md px-3 py-1.5 text-[12.5px] text-white/65">
+              <span className="truncate">{c.nombre}</span>
+              <span className="tabular-nums text-[11px] text-white/40">{c.nProyectos}</span>
+            </span>
+          ))}
+        </nav>
+      </div>
 
-      <div className="mt-auto border-t border-white/10 px-3 pt-3">
+      <div className="md:mt-auto md:border-t md:border-white/10 md:px-3 md:pt-3">
         <AccountMenu nombre={nombre} iniciales={iniciales} rol={rol} />
       </div>
     </aside>
   )
 }
+```
+
+- [ ] **Step 1b: `app/(app)/_components/account-menu.tsx`** — DOS líneas, nada más. El desplegable
+  debe abrir hacia abajo cuando la sidebar es un header superior, y hacia arriba cuando es lateral.
+
+  Panel — reemplazar `className="absolute bottom-full left-0 z-50 mb-2 w-56 ..."` por:
+```
+absolute z-50 w-56 rounded-lg border border-borde bg-white p-1 text-tinta shadow-lg max-md:right-0 max-md:top-full max-md:mt-2 md:bottom-full md:left-0 md:mb-2
+```
+
+  Botón disparador — el `w-full` solo aplica en la sidebar lateral; en el header se estiraría.
+  Reemplazar `className="flex w-full items-center gap-2.5 ..."` por:
+```
+flex items-center gap-2.5 rounded-md p-1 text-left hover:bg-white/5 md:w-full
 ```
 
 - [ ] **Step 2: `app/(app)/layout.tsx`** — EXACTAMENTE (server; envuelve todas las páginas de `(app)`):
@@ -881,7 +907,7 @@ Nota: el shell aplica a `/proyectos`, `/admin` y `/cuenta/contrasena` (todas baj
 - [ ] **Step 4: Commit** (NO push):
 
 ```bash
-git add "app/(app)/_components/sidebar.tsx" "app/(app)/layout.tsx"
+git add "app/(app)/_components/sidebar.tsx" "app/(app)/layout.tsx" "app/(app)/_components/account-menu.tsx"
 git commit -m "feat(shell): sidebar + layout del grupo (app)"
 ```
 + trailer.
