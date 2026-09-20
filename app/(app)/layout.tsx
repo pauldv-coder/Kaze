@@ -12,16 +12,21 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const clientes = await getSidebarClientes(supabase)
 
   return (
-    <div className="flex min-h-screen bg-panel max-md:flex-col">
+    // h-dvh (altura DEFINIDA, no min-h-screen): el shell mide exactamente el viewport y el
+    // scroll vive dentro. Con min-h-screen el contenedor crecía con el contenido, así que el
+    // h-full de la página heredaba esa altura crecida y el header dejaba de quedar fijo.
+    // dvh y no vh por la barra de URL móvil.
+    <div className="flex h-dvh overflow-hidden bg-panel max-md:flex-col">
       <Sidebar
         nombre={profile?.nombre ?? user.email ?? ''}
         iniciales={profile?.iniciales ?? ''}
         rol={profile?.rol ?? 'consultor'}
         clientes={clientes}
       />
-      {/* min-h-0 deja que un hijo con overflow-auto scrollee dentro de <main> en vez de
-          desbordarlo: sin esto, la altura mínima automática del ítem flex lo impide. */}
-      <main className="min-h-0 min-w-0 flex-1">{children}</main>
+      {/* min-h-0 deja que un hijo con overflow-auto scrollee dentro en vez de desbordar:
+          sin esto, la altura mínima automática del ítem flex lo impide. overflow-auto cubre
+          las páginas que NO se autolimitan (admin, contraseña), que scrollean aquí. */}
+      <main className="min-h-0 min-w-0 flex-1 overflow-auto">{children}</main>
     </div>
   )
 }
