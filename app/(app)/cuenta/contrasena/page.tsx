@@ -5,7 +5,9 @@ export default async function ContrasenaPage({
 }: { searchParams: Promise<{ error?: string; bienvenida?: string }> }) {
   const { error, bienvenida } = await searchParams
   return (
-    <main className="min-h-screen grid place-items-center bg-panel">
+    // min-h-full, NO min-h-screen: dentro del <main> del shell (h-dvh) pedir 100vh
+    // provocaba un scroll innecesario.
+    <main className="min-h-full grid place-items-center bg-panel">
       <form action={updatePassword} className="w-80 bg-white border border-borde rounded-lg p-8 space-y-4">
         <h1 className="font-display text-xl font-bold">
           {bienvenida ? 'Bienvenido a Kaze' : 'Cambiar contraseña'}

@@ -6,13 +6,21 @@ import { TeamAvatars } from './team-avatars'
 
 const COLS = 'grid-cols-[minmax(200px,2.4fr)_120px_minmax(120px,150px)_minmax(170px,1.4fr)_84px_92px]'
 
+// Ancho mínimo REAL de la rejilla, no uno redondeado a ojo: si min-w se queda corto las
+// filas dibujan fuera de su propia tarjeta blanca (la última columna quedaba sobre el
+// fondo gris de la página). Mínimos de pista 200+120+120+170+84+92 = 786, más 5 gap-4
+// (5x16 = 80), más px-4 a cada lado (2x16 = 32) y el borde de 1px de la fila (2) = 900.
+// Se sube el min-w en vez de apretar gap/padding: con gap-3 + px-3 aún harían falta 872,
+// así que no cabe en 860 sin romper el ritmo visual del prototipo.
+const MIN_W = 'min-w-[900px]'
+
 export function ProjectsTable({ rows }: { rows: ProjectListRow[] }) {
   if (rows.length === 0) {
     return <div className="py-16 text-center text-sm text-apagado">Ningún proyecto todavía.</div>
   }
   return (
     <div className="overflow-x-auto">
-      <div className="min-w-[860px]">
+      <div className={MIN_W}>
         <div className={`grid ${COLS} items-center gap-4 px-4 pb-3`}>
           {['Proyecto', 'Estado', 'A3 · completitud', 'Indicador principal', 'Equipo', 'Actualizado'].map(h => (
             <div key={h} className="text-[10.5px] font-semibold uppercase tracking-wider text-apagado">{h}</div>

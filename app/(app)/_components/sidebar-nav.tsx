@@ -14,13 +14,13 @@ const ITEMS = [
 export function SidebarNav() {
   const path = usePathname()
   return (
-    <nav className="flex flex-col gap-px px-2">
+    <nav className="flex shrink-0 flex-col gap-px px-2">
       {ITEMS.map(it => {
         const active = it.href && path.startsWith(it.href)
         if (!it.href) {
           return (
             <span key={it.label} title="Próximamente"
-              className="flex cursor-default items-center gap-2.5 rounded-md px-3 py-2 text-[13px] text-white/35">
+              className="flex cursor-default items-center gap-2.5 rounded-md px-3 py-2 text-[13px] text-white/55">
               <span className="h-3.5 w-1 rounded-sm bg-transparent" />{it.label}
             </span>
           )

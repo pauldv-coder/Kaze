@@ -27,7 +27,7 @@ export function AccountMenu({ nombre, iniciales, rol }: { nombre: string; inicia
         <span className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-white/10 font-display text-[11px] font-bold text-marca">{iniciales}</span>
         <span className="min-w-0">
           <span className="block truncate text-xs font-semibold text-white">{nombre}</span>
-          <span className="block text-[10.5px] capitalize text-white/45">{rol}</span>
+          <span className="block text-[10.5px] capitalize text-white/60">{rol}</span>
         </span>
       </button>
     </div>
