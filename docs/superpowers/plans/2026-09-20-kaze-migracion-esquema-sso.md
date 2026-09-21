@@ -741,6 +741,26 @@ git commit -m "docs: esquema kaze, sin triggers en auth.users y regla de membres
 
 ⚠️ Primera tarea que toca algo fuera de local. Kaze en Vercel **sigue apuntando al proyecto viejo**, así que nadie se ve afectado todavía.
 
+> **Ejecutada el 2026-09-21 — lo que cambió respecto a lo escrito:**
+> - **El orden de los pasos 1 y 4 estaba al revés.** El desplegable de *Exposed schemas* (hoy en
+>   Integrations → Data API, no en Settings → API) solo lista esquemas que **existen**; `kaze` no
+>   aparece hasta que se aplica la migración. Se aplicó primero y se expuso después — que además es
+>   más seguro: entre medias las tablas existen pero son inalcanzables desde la API.
+> - **En vez del `db diff`** se usaron `migration list` (el remoto no tenía historial: el CMS y el HUB
+>   se aplicaron a mano), `db push --dry-run` y un escaneo de patrones peligrosos. Todo limpio.
+> - **Sorpresa: no había NINGÚN trigger sobre `auth.users`** en el proyecto compartido tras el push.
+>   El `on_auth_user_created` del `schema.sql` del CMS no existe en el proyecto vivo. No lo quitamos
+>   nosotros (el escaneo previo descartó cualquier `drop trigger` en nuestras migraciones), pero no se
+>   tomó foto de antes del push — debió hacerse. Para Kaze no importa (no depende de ese trigger);
+>   para el CMS puede significar que sus usuarios nuevos no reciben perfil.
+> - **`anon` verificado bloqueado** (`permission denied for schema kaze`) pese a que el proyecto tiene
+>   activado "Automatically expose new tables".
+> - **El paso 6 se hizo con un script** que lee las claves del `.env.local` del HUB en tiempo de
+>   ejecución (nunca pasaron por el chat) y aborta si el destino no es `nrysdnavawyhaqgruunl`. El HUB
+>   nombra la clave `SUPABASE_SECRET_KEY`; los scripts de Kaze leen `SUPABASE_SERVICE_ROLE_KEY`.
+> - **Resultado verificado:** 9 tablas, 34 policies, 3 proyectos, 3 clientes, 1 perfil (admin),
+>   0 usuarios `@cota.test`, 0 miembros colgados.
+
 - [ ] **Step 1 [USUARIO]: Exponer el esquema** — el agente PARA aquí y pide al usuario: en el dashboard de Supabase del proyecto `nrysdnavawyhaqgruunl` → Settings → API → **Exposed schemas**: añadir `kaze` a la lista (junto a `public` y `hub`). Confirmar antes de seguir.
 
 - [ ] **Step 2: Enlazar el repo al proyecto compartido** — Run:
