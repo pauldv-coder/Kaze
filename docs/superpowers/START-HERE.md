@@ -4,47 +4,76 @@
 > Guía permanente del repo (comandos, peculiaridades del entorno): `AGENTS.md` en la raíz
 > (Claude Code la carga sola vía `CLAUDE.md`). Este archivo es el **estado vivo**.
 
-## 🚨 Estado a 2026-09-22: MIGRACIÓN A MEDIAS — HAY UNA ACCIÓN PENDIENTE CON PRISA
+## ✅ Estado a 2026-09-22: PRODUCCIÓN ARREGLADA — T10 cerrada salvo un paso de dashboard
 
-### Qué está pasando ahora mismo en producción
+Producción corre el código nuevo (`50bd33b`) contra el proyecto compartido y lee el esquema `kaze`.
+Verificado de punta a punta:
 
-**Producción corre el código VIEJO contra el proyecto NUEVO.** En Vercel se cambiaron las variables
-de entorno para apuntar al proyecto compartido `nrysdnavawyhaqgruunl`, y se aceptó un "Redeploy"
-desde el dashboard. Ese redeploy construyó `68773d5` (cierre de la tajada 1, **anterior** a toda la
-migración), que consulta `public` sin esquema. Pero en el proyecto compartido `public` **es del CMS**:
-la app está leyendo `public.projects` y `public.profiles` del CMS, que tienen otras columnas.
+| Comprobación | Resultado |
+|---|---|
+| Deploy de producción | `50bd33b` · `● Ready` (build 26 s) |
+| `https://kaze.ventosolutions.ca/proyectos` sin sesión | `307 -> /login` |
+| `https://kaze.ventosolutions.ca/login` | `200`, TLS válido |
+| Escaneo del bundle (HTML + 9 chunks JS) | **cero** `sb_secret_` |
+| Los 3 A3 en `/proyectos` | confirmado por el usuario con `info@ventosolutions.ca` |
 
-- En la práctica solo produce errores (las columnas no coinciden, no muestra datos del CMS), y la
-  app ya estaba caída antes. No empeora la disponibilidad.
-- **El riesgo real está en `/admin`**: el código viejo de invitar/cambiar roles podría crear usuarios
-  en el pool de auth compartido o intentar escribir en el `profiles` del CMS. **No usar `/admin`
-  hasta hacer el push.**
+**`/admin` vuelve a ser seguro de usar**: las server actions escriben en `kaze.profiles`, no en el
+`public` del CMS. El dominio definitivo es **`kaze.ventosolutions.ca`** (Hostinger sí aceptó el
+nombre corto; no hizo falta el alterno `kazevento`). DNS: `CNAME` en la zona de Hostinger apuntando
+al destino que da Vercel — **sin** carpeta ni subdominio de hosting, que Hostinger aquí es solo DNS.
 
-### Lo primero que hay que hacer al retomar (en este orden)
+### Lo único que falta de la T10
 
-1. **Confirmar con el usuario que corrigió las variables en Vercel** (proyecto `kaze`, Production):
-   - `NEXT_PUBLIC_SUPABASE_URL` = `https://nrysdnavawyhaqgruunl.supabase.co`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` = la clave que empieza por **`sb_publishable_`**
-   - `SUPABASE_SERVICE_ROLE_KEY` = la clave que empieza por **`sb_secret_`** — **sin** prefijo
-     `NEXT_PUBLIC_`. En el HUB se llama `SUPABASE_SECRET_KEY`; aquí mantiene el nombre de Kaze.
+**[USUARIO] Redirect URLs** — Supabase → `nrysdnavawyhaqgruunl` → Authentication → URL Configuration:
+añadir `https://kaze.ventosolutions.ca/**` a *Redirect URLs* (**añadir, no sustituir**; el Site URL
+sigue apuntando al HUB). El login con contraseña no lo necesita; **las invitaciones de `/admin` sí**.
 
-   Verificación segura sin exponer valores (solo prefijos; borrar el archivo al terminar):
-   ```bash
-   cd /c/Users/pauld/dev/cota && npx vercel env pull /tmp/kaze-env.tmp --environment=production --yes >/dev/null 2>&1 && for v in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY; do printf "%-32s " "$v"; grep "^$v=" /tmp/kaze-env.tmp | cut -d= -f2- | tr -d '"' | cut -c1-15; done; rm -f /tmp/kaze-env.tmp
-   ```
-   Esperado: la URL de `nrysdnavawyhaqgruunl`, `sb_publishable_` y `sb_secret_`. **Si
-   `sb_secret_` aparece en una variable `NEXT_PUBLIC_`, PARAR** y pedir al usuario que lo corrija.
-2. **`git push origin main`** — sube los **16 commits** de la migración (de `27558bf` a `f80f730`, más
-   el de este handoff). Es lo que arregla producción: el deploy pasa a leer `kaze` en vez del
-   `public` del CMS. **No pedir al usuario que redespliegue desde Vercel**: el redeploy reutiliza el
-   último commit de `main`, que es el viejo hasta que se haga este push.
-3. Esperar a que `npx vercel ls` muestre el deploy nuevo `● Ready`.
-4. Verificar: `curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" https://kaze-pauldvcoders-projects.vercel.app/proyectos`
-   debe dar `307 -> .../login`. Luego **el usuario** entra con `info@ventosolutions.ca` y confirma
-   que ve los 3 A3 (A3-012, A3-014, A3-030). **El agente no introduce contraseñas.**
-5. Repetir el escaneo del bundle (abajo, "Incidente de la clave secreta") contra el deploy nuevo.
+### Cómo quedaron las variables de Vercel — y la trampa del *tipo*
 
-Con eso queda cerrada la **T10** y producción vuelve a funcionar.
+Estado final (proyecto `kaze`, Production + Preview):
+
+| Variable | Tipo | Valor |
+|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | **Config** | `https://nrysdnavawyhaqgruunl.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | **Config** | `sb_publishable_…` |
+| `SUPABASE_SERVICE_ROLE_KEY` | **Secret** | `sb_secret_…` (solo servidor) |
+
+Lo que costó media sesión descubrir: **las tres se habían creado como tipo `Secret`**, y una variable
+`Secret` en Vercel es de **solo escritura** — `vercel env pull` devuelve `[SENSITIVE]` en vez del
+valor, así que *nadie* (ni el usuario ni el agente) puede verificar qué contiene. Además Vercel ahora
+**bloquea** guardar una variable `NEXT_PUBLIC_` de tipo `Secret`, porque Next.js la inyecta en el
+bundle del navegador: sale el aviso *"Remove the public framework prefix… or change the variable to
+Config"*. **No hay que borrar y recrear**: el propio aviso trae un botón **"Change to Config"** que
+lo arregla en un clic (el valor de la `ANON_KEY` sí hay que volver a pegarlo, porque siendo `Secret`
+Vercel ya no puede mostrarlo).
+
+Corolario para el futuro: **`NEXT_PUBLIC_*` → `Config`; todo lo demás → `Secret`.** Y el comando de
+verificación de abajo solo sirve contra variables `Config`; una `Secret` siempre saldrá
+`[SENSITIVE]`, y eso es lo correcto.
+
+Verificación segura sin exponer valores (solo prefijos; borra el archivo al terminar):
+```bash
+cd /c/Users/pauld/dev/cota && npx vercel env pull /tmp/kaze-env.tmp --environment=production --yes >/dev/null 2>&1 && for v in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY; do printf "%-32s " "$v"; grep "^$v=" /tmp/kaze-env.tmp | cut -d= -f2- | tr -d '"' | cut -c1-15; done; rm -f /tmp/kaze-env.tmp
+```
+
+### Recuperar el acceso del admin sin depender del correo
+
+`info@ventosolutions.ca` es **la misma cuenta en Kaze, el HUB y el CMS** (comparten `auth.users`):
+una sola contraseña para las tres, y cambiarla en una la cambia en todas.
+
+Si se pierde, no hace falta SMTP ni tocar el Site URL. `app/auth/confirm/route.ts` acepta **cualquier**
+`EmailOtpType`, así que se genera un token de `recovery` con la clave de servicio y se arma el enlace
+a mano — **esto esquiva por completo la lista de Redirect URLs**:
+
+```js
+// node con NODE_PATH=/c/Users/pauld/dev/cota/node_modules; la clave sale del .env.local del HUB
+const { data } = await db.auth.admin.generateLink({ type: 'recovery', email: 'info@ventosolutions.ca' })
+// -> https://kaze.ventosolutions.ca/auth/confirm?token_hash=<data.properties.hashed_token>&type=recovery
+```
+
+El enlace canjea el token en el servidor y deja al usuario en `/cuenta/contrasena`, donde **él**
+escribe la contraseña. Es de un solo uso y caduca (1 h por defecto). **El agente no introduce
+contraseñas**; solo genera el enlace.
 
 ### El incidente de la clave secreta (resuelto, sin exposición)
 
@@ -86,16 +115,17 @@ propio pausado. Motivo: el plan Free permite 2 proyectos activos y están ocupad
 | T7 invitación crea perfil, admite cuentas del CMS | ✅ `6787988` |
 | T8 cierre de la fase local | ✅ `42a0cd2` — **51/51 tests**, tsc, build |
 | T9 aplicar en el proyecto compartido | ✅ `f80f730` — ver abajo |
-| **T10 Vercel + dominio → producción arreglada** | 🟡 **en curso: faltan corregir variables + push** |
-| T11 flip de cookies apex en los 3 repos (SSO) | ⬜ |
+| **T10 Vercel + dominio → producción arreglada** | ✅ **hito cumplido** — falta solo el Step 3 (Redirect URLs, [USUARIO]) |
+| T11 flip de cookies apex en los 3 repos (SSO) | 🟡 **siguiente** |
 | T12 verificar SSO | ⬜ |
 | T13 tile en `hub.modules` | ⬜ |
 | T14 docs + revisión final | ⬜ |
 
-**Ajuste propuesto para la T10:** verificar primero en la URL de Vercel ya existente
-(`kaze-pauldvcoders-projects.vercel.app`) y hacer el dominio `kaze.ventosolutions.ca` después, para
-que el hito no espere a la propagación del DNS de Hostinger. El login con contraseña no depende de
-las Redirect URLs de Supabase; las invitaciones de `/admin` sí, así que añadirlas antes de usarlas.
+**Cómo se ejecutó la T10:** se verificó primero contra la URL de Vercel
+(`kaze-pauldvcoders-projects.vercel.app`) para no esperar al DNS, y el dominio se resolvió en
+paralelo. Funcionó: el DNS de Hostinger ya había propagado cuando se comprobó. El login con
+contraseña no depende de las Redirect URLs de Supabase; las invitaciones de `/admin` sí, así que hay
+que añadirlas **antes** de usar `/admin` (es el único paso que queda de la T10).
 
 ### Qué quedó en el proyecto compartido (T9, verificado)
 
@@ -141,22 +171,19 @@ A3-030), **3 clientes**, **1 perfil** (`info@ventosolutions.ca`, rol `admin`), *
 Retoma el proyecto Kaze en C:\Users\pauld\dev\cota. Lee docs/superpowers/START-HERE.md
 y AGENTS.md, y verifica git log + git status (rama main, origin github.com/pauldv-coder/Kaze).
 
-ESTADO URGENTE: estamos a mitad de la migración de Kaze al proyecto Supabase compartido
-nrysdnavawyhaqgruunl (esquema `kaze`). T1-T9 están hechas y verificadas; la base de
-producción ya tiene el esquema, el RLS y los 3 A3. Pero producción en Vercel corre el
-código VIEJO (68773d5) contra el proyecto NUEVO, así que lee el `public` del CMS. Hay 16
-commits sin pushear que lo arreglan. No uses /admin hasta el push.
+ESTADO: la migración al proyecto compartido nrysdnavawyhaqgruunl (esquema `kaze`) está
+hecha hasta la T10 inclusive. Producción VIVE y verificada en kaze.ventosolutions.ca con
+los 3 A3; /admin ya es seguro de usar. Lo único que falta de la T10 es el Step 3
+([USUARIO]): añadir https://kaze.ventosolutions.ca/** a las Redirect URLs de Supabase —
+pregúntame si ya lo hice antes de tocar las invitaciones de /admin.
 
-Lo primero: pregúntame si ya corregí las variables de Vercel (ANON_KEY = sb_publishable_,
-SERVICE_ROLE_KEY = sb_secret_ sin prefijo NEXT_PUBLIC_) y verifícalo con el comando de
-START-HERE, que solo muestra prefijos. Si están bien, haz git push (push = deploy),
-espera el deploy Ready, comprueba el 307 a /login y pídeme que entre a confirmar los 3 A3.
+Sigue el plan docs/superpowers/plans/2026-09-20-kaze-migracion-esquema-sso.md desde la
+T11 con superpowers:subagent-driven-development: T11-T12 son el SSO (cookie de apex
+.ventosolutions.ca en los 3 repos: HUB, CMS, Kaze), T13 el tile del lanzador, T14 docs.
+Los pasos de dashboard están marcados [USUARIO]. Ojo con la T11: corta las sesiones vivas
+de las tres apps una vez, y los tres pushes se coordinan conmigo.
+
 No introduzcas contraseñas ni pegues claves en servicios externos: eso lo hago yo.
-
-Después sigue el plan docs/superpowers/plans/2026-09-20-kaze-migracion-esquema-sso.md
-desde el cierre de T10 (dominio kaze.ventosolutions.ca) con
-superpowers:subagent-driven-development: T11-T12 son el SSO en los 3 repos (HUB, CMS,
-Kaze), T13 el tile del lanzador, T14 docs. Los pasos de dashboard están marcados [USUARIO].
 
 Antes de trabajar en local: Docker Desktop estaba detenido; arráncalo y haz
 `npx supabase start` (puertos 553xx; no tocar *_loro). A los subagentes, TODO en primer
@@ -168,15 +195,15 @@ plano (nunca run_in_background). En bash usa rutas /c/Users/..., no C:\Users\...
 | Qué | Dónde |
 |---|---|
 | Repo | `C:\Users\pauld\dev\cota` — rama `main` · remoto `github.com/pauldv-coder/Kaze` |
-| App en producción | `https://kaze-pauldvcoders-projects.vercel.app` (Vercel `kaze`, scope `pauldvcoders-projects`) |
-| Dominio destino | `kaze.ventosolutions.ca` (alterno si Hostinger lo rechaza: `kazevento.ventosolutions.ca`) |
+| **App en producción** | **`https://kaze.ventosolutions.ca`** — alias de Vercel `kaze` (scope `pauldvcoders-projects`); sigue sirviendo también en `kaze-pauldvcoders-projects.vercel.app` |
+| DNS del dominio | zona de Hostinger (NS `ns1/ns2.dns-parking.com`), `CNAME` al destino que da Vercel. **Nunca** con la herramienta "Subdominios" del hPanel: eso crea carpeta + `A` al hosting |
+| Login producción (admin real) | `info@ventosolutions.ca` — **misma cuenta y contraseña que el HUB y el CMS** |
 | **Supabase de producción** | **`nrysdnavawyhaqgruunl`** (compartido con CMS y HUB), esquema `kaze` |
 | Repo enlazado a | `nrysdnavawyhaqgruunl` (`supabase/.temp/project-ref`) |
 | Proyecto viejo | `kvjpxnswvlxzxdzgycbh` — **pausado**, sin datos únicos, pendiente de borrado deliberado |
 | Claves del proyecto compartido | `C:\Users\pauld\dev\vento-hub\.env.local` (`NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SECRET_KEY`) |
 | Supabase local | API `http://127.0.0.1:55321` · Studio `55323` · keys: `npx supabase status` |
 | Login local (demo, admin) | `carmen@cota.test` / `cota-demo-2026` |
-| Login producción (admin real) | `info@ventosolutions.ca` |
 | Vento HUB | `C:\Users\pauld\dev\vento-hub` · `hubvento.ventosolutions.ca` · esquema `hub` |
 | Vento CMS | `C:\Users\pauld\OneDrive\Documentos\Full Stack\vento-cms` · esquema `public` |
 
@@ -205,7 +232,8 @@ Lo específico de esta fase:
 
 ## Pendientes conocidos
 
-- **(Urgente)** corregir variables de Vercel + push — ver arriba.
+- **(Usuario, bloquea `/admin`)** añadir `https://kaze.ventosolutions.ca/**` a las Redirect URLs del
+  proyecto compartido — T10 Step 3, ver arriba.
 - **(Usuario)** revisar en el repo del CMS por qué no existe su trigger `on_auth_user_created` en el
   proyecto vivo, y si sus usuarios nuevos están recibiendo perfil.
 - **(Usuario)** decidir sobre "Automatically expose new tables" en el proyecto compartido.

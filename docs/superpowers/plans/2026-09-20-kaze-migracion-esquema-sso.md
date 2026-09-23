@@ -834,23 +834,23 @@ Esperado: 3 proyectos, al menos 1 perfil (el admin real), y los clientes de esos
 
 🎯 **Hito.** Al cerrar esta tarea, producción vuelve a funcionar.
 
-- [ ] **Step 1 [USUARIO]: Cambiar las env vars en Vercel** — proyecto `kaze`, scope `pauldvcoders-projects`, para Production y Preview:
+- [x] **Step 1 [USUARIO]: Cambiar las env vars en Vercel** — proyecto `kaze`, scope `pauldvcoders-projects`, para Production y Preview:
   - `NEXT_PUBLIC_SUPABASE_URL` → `https://nrysdnavawyhaqgruunl.supabase.co`
   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` → la anon key del proyecto compartido
   - `SUPABASE_SERVICE_ROLE_KEY` → la service key del proyecto compartido (**solo servidor, sin `NEXT_PUBLIC_`**)
 
-- [ ] **Step 2 [USUARIO]: Dominio** — añadir `kaze.ventosolutions.ca` al proyecto de Vercel y crear el registro DNS en Hostinger que Vercel indique. **Si Hostinger rechaza el nombre corto** (ya pasó con `hub`), usar `kazevento.ventosolutions.ca` y avisar al agente del nombre definitivo, que se usará en T11 y T13.
+- [x] **Step 2 [USUARIO]: Dominio** — añadir `kaze.ventosolutions.ca` al proyecto de Vercel y crear el registro DNS en Hostinger que Vercel indique. **Si Hostinger rechaza el nombre corto** (ya pasó con `hub`), usar `kazevento.ventosolutions.ca` y avisar al agente del nombre definitivo, que se usará en T11 y T13.
 
 - [ ] **Step 3 [USUARIO]: Auth del proyecto compartido** — en Supabase → Authentication → URL Configuration: añadir el dominio nuevo a **Redirect URLs**. No cambiar el Site URL si ya apunta al HUB; añadir, no sustituir.
 
-- [ ] **Step 4: Desplegar** — Run:
+- [x] **Step 4: Desplegar** — Run:
 
 ```bash
 cd /c/Users/pauld/dev/cota && git push origin main
 ```
 Esto dispara el deploy. Confirmar con `npx vercel ls` que el último deployment queda `● Ready`.
 
-- [ ] **Step 5: Verificar producción** — sin sesión:
+- [x] **Step 5: Verificar producción** — sin sesión:
 
 ```bash
 curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" https://kaze.ventosolutions.ca/proyectos
