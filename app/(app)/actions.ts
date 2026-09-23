@@ -5,9 +5,14 @@ import { redirect } from 'next/navigation'
 export async function signOut() {
   const supabase = await createClient()
 
-  // scope 'local': cierra SOLO esta sesión/este navegador. El default de supabase-js es
-  // 'global', que revoca las sesiones del usuario en TODOS sus dispositivos — no es lo que
-  // significa "Cerrar sesión" en el menú de cuenta.
+  // scope 'local': NO revoca las sesiones del usuario en sus otros dispositivos. El default
+  // de supabase-js es 'global', que sí lo hace — y eso no es lo que significa "Cerrar sesión"
+  // en el menú de cuenta.
+  // OJO: 'local' ya no quiere decir "solo Kaze". Desde el SSO por cookie apex
+  // (lib/supabase/cookie-options.ts) la sesión vive en una cookie de .ventosolutions.ca
+  // compartida con el HUB y el CMS, así que borrarla cierra las TRES apps en ESTE navegador.
+  // Es el comportamiento deseado (un "Cerrar sesión" que te deja dentro del HUB sería peor),
+  // y NO se arregla cambiando a 'global': eso además tumbaría sus otros dispositivos.
   const { error } = await supabase.auth.signOut({ scope: 'local' })
 
   // Si falla, la cookie de sesión sigue viva: /login vería sesión y rebotaría a /proyectos,
