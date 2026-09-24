@@ -1,8 +1,39 @@
 # START HERE — Kaze · Mejoramiento de procesos
 
-> Léeme primero al retomar. Última actualización: **2026-09-22**.
+> Léeme primero al retomar. Última actualización: **2026-09-24**.
 > Guía permanente del repo (comandos, peculiaridades del entorno): `AGENTS.md` en la raíz
 > (Claude Code la carga sola vía `CLAUDE.md`). Este archivo es el **estado vivo**.
+
+## Plan en ejecución: Captura de procesos (BPMN)
+
+**Spec:** `docs/superpowers/specs/2026-09-24-kaze-captura-procesos-design.md` (aprobado).
+**Plan:** `docs/superpowers/plans/2026-09-24-kaze-captura-procesos.md`.
+**Metodología:** `superpowers:subagent-driven-development` — subagentes **siempre en primer plano**
+(nunca `run_in_background`).
+
+**Decisiones del usuario (2026-09-24, §0 del plan):**
+- Este módulo va **antes** que las T11–T14 del plan de SSO.
+- §1.3 confirmado tal cual: sin SMTP, sin IA, documento `jsonb`, Word/.zip/SVG en el navegador.
+- En `/aprobar` el código hace falta **también para leer**: tras un código válido, el servidor pone
+  una cookie `httpOnly` firmada (HMAC) por solicitud y persona.
+- Se agrega `@playwright/test`: los escenarios de `ESCENARIOS.md` se automatizan en `e2e/`.
+
+**Estado de las fases (§3 del plan):**
+
+| Fase | Tareas | Estado |
+|---|---|---|
+| F0 Preparación | 0.1–0.3 | ✅ `f334328` + `7770156` + esta tarea |
+| F1 Lógica pura | 1.1–1.11 | ⬜ |
+| F2 Datos y seguridad | 2.1–2.7 | ⬜ |
+| F3 Lista | 3.1–3.2 | ⬜ |
+| F4 Editor | 4.1–4.13 | ⬜ |
+| F5 Diagrama | 5.1–5.3 | ⬜ |
+| F6 Documento y Storage | 6.1–6.3 | ⬜ |
+| F7 Aprobación | 7.1–7.8 | ⬜ |
+| F8 Cierre y despliegue | 8.1–8.4 | ⬜ |
+
+`npm run e2e` (Playwright) necesita el stack local levantado y seedeado (`npx supabase status`), y
+`.env.local` con `KAZE_URL` y `KAZE_APROBAR_SECRETO`.
 
 ## ✅ Estado a 2026-09-22: PRODUCCIÓN ARREGLADA — T10 cerrada salvo un paso de dashboard
 
@@ -94,7 +125,11 @@ Escaneo reutilizable (solo reporta si aparece; nunca imprime el valor):
 U="https://<deployment>.vercel.app"; T=$(mktemp -d); curl -s "$U/login" -o "$T/p.html"; grep -oE '/_next/static/[^"'"'"' ]+\.js' "$T/p.html" | sort -u | while read -r c; do curl -s "$U$c" | grep -q "sb_secret_" && echo "!! sb_secret_ en $c"; done; grep -q sb_secret_ "$T/p.html" && echo "!! en el HTML"; echo "escaneo terminado"; rm -rf "$T"
 ```
 
-## Plan en ejecución: migración a esquema `kaze` + SSO
+## Plan de migración a esquema `kaze` + SSO — en pausa en la T11
+
+**En pausa en la T11**: `73cd257` (cookie de apex) está en `main` **sin push**; no hacer push sin
+coordinar con el usuario, corta las sesiones de las 3 apps (HUB, CMS, Kaze). Se retoma después del
+plan de Captura de procesos (arriba).
 
 **Plan:** `docs/superpowers/plans/2026-09-20-kaze-migracion-esquema-sso.md` (14 tareas, 5 fases).
 **Spec:** `docs/superpowers/specs/2026-09-20-kaze-migracion-esquema-sso-design.md` (aprobado).
@@ -116,7 +151,7 @@ propio pausado. Motivo: el plan Free permite 2 proyectos activos y están ocupad
 | T8 cierre de la fase local | ✅ `42a0cd2` — **51/51 tests**, tsc, build |
 | T9 aplicar en el proyecto compartido | ✅ `f80f730` — ver abajo |
 | **T10 Vercel + dominio → producción arreglada** | ✅ **hito cumplido** — falta solo el Step 3 (Redirect URLs, [USUARIO]) |
-| T11 flip de cookies apex en los 3 repos (SSO) | 🟡 **siguiente** |
+| T11 flip de cookies apex en los 3 repos (SSO) | ⏸ **en pausa** — `73cd257` en `main` sin push |
 | T12 verificar SSO | ⬜ |
 | T13 tile en `hub.modules` | ⬜ |
 | T14 docs + revisión final | ⬜ |
@@ -160,10 +195,10 @@ A3-030), **3 clientes**, **1 perfil** (`info@ventosolutions.ca`, rol `admin`), *
 
 ## Siguiente después de la migración
 
-**Diagramador BPMN estilo Bizagi** — spec aprobado
-`docs/superpowers/specs/2026-07-26-kaze-diagramador-bpmn-design.md` (bpmn-js, BPMN 2.0, rutas
-`/diagramas` y `/diagramas/[id]`). **Falta el plan.** Su migración debe nacer ya en el esquema
-`kaze`, con nombre timestamped al nivel superior de `supabase/migrations/`.
+El diagramador BPMN ya no es lo siguiente: el spec `docs/superpowers/specs/2026-07-26-kaze-diagramador-bpmn-design.md`
+queda **reemplazado** por `docs/superpowers/specs/2026-09-24-kaze-captura-procesos-design.md` — el
+módulo de Captura de procesos (ficha + procedimiento Word + diagrama BPMN, ver sección de arriba) es
+el que se está ejecutando ahora. El SSO (T11–T14 del plan de migración) queda para después de Captura.
 
 ## Prompt para retomar (copiar y pegar en la siguiente sesión)
 
@@ -171,23 +206,23 @@ A3-030), **3 clientes**, **1 perfil** (`info@ventosolutions.ca`, rol `admin`), *
 Retoma el proyecto Kaze en C:\Users\pauld\dev\cota. Lee docs/superpowers/START-HERE.md
 y AGENTS.md, y verifica git log + git status (rama main, origin github.com/pauldv-coder/Kaze).
 
-ESTADO: la migración al proyecto compartido nrysdnavawyhaqgruunl (esquema `kaze`) está
-hecha hasta la T10 inclusive. Producción VIVE y verificada en kaze.ventosolutions.ca con
-los 3 A3; /admin ya es seguro de usar. Lo único que falta de la T10 es el Step 3
-([USUARIO]): añadir https://kaze.ventosolutions.ca/** a las Redirect URLs de Supabase —
-pregúntame si ya lo hice antes de tocar las invitaciones de /admin.
+ESTADO: el plan en ejecución es Captura de procesos (BPMN):
+docs/superpowers/plans/2026-09-24-kaze-captura-procesos.md, spec
+docs/superpowers/specs/2026-09-24-kaze-captura-procesos-design.md. F0 está cerrada
+(commits f334328, 7770156 y el de START-HERE). Sigue el plan desde la primera tarea ⬜
+(inicio de F1) con superpowers:subagent-driven-development — subagentes SIEMPRE en
+primer plano (nunca run_in_background).
 
-Sigue el plan docs/superpowers/plans/2026-09-20-kaze-migracion-esquema-sso.md desde la
-T11 con superpowers:subagent-driven-development: T11-T12 son el SSO (cookie de apex
-.ventosolutions.ca en los 3 repos: HUB, CMS, Kaze), T13 el tile del lanzador, T14 docs.
-Los pasos de dashboard están marcados [USUARIO]. Ojo con la T11: corta las sesiones vivas
-de las tres apps una vez, y los tres pushes se coordinan conmigo.
+El plan de migración a esquema `kaze` + SSO (docs/superpowers/plans/2026-09-20-kaze-migracion-esquema-sso.md)
+queda EN PAUSA en la T11: el commit 73cd257 (cookie de apex) está en main sin push; no
+lo empujes sin coordinar conmigo, corta las sesiones vivas de las tres apps (HUB, CMS,
+Kaze). El SSO (T11-T14) se retoma después de Captura de procesos.
 
-No introduzcas contraseñas ni pegues claves en servicios externos: eso lo hago yo.
+No introduzcas contraseñas ni pegues claves en servicios externos: eso lo hago yo. Push
+a main y `supabase db push` solo coordinados conmigo (push = deploy).
 
-Antes de trabajar en local: Docker Desktop estaba detenido; arráncalo y haz
-`npx supabase start` (puertos 553xx; no tocar *_loro). A los subagentes, TODO en primer
-plano (nunca run_in_background). En bash usa rutas /c/Users/..., no C:\Users\...
+Antes de trabajar en local: arranca Docker Desktop y haz `npx supabase start` (puertos
+553xx; no tocar *_loro). En bash usa rutas /c/Users/..., no C:\Users\...
 ```
 
 ## Coordenadas
@@ -237,8 +272,9 @@ Lo específico de esta fase:
 - **(Usuario)** revisar en el repo del CMS por qué no existe su trigger `on_auth_user_created` en el
   proyecto vivo, y si sus usuarios nuevos están recibiendo perfil.
 - **(Usuario)** decidir sobre "Automatically expose new tables" en el proyecto compartido.
-- **(Usuario, opcional)** añadir `"reference/**"` a `globalIgnores` de `eslint.config.mjs` para que
-  `npm run lint` pase — un hook local bloquea que el agente edite ese archivo.
+- **(Usuario, opcional)** hoy `npm run lint` da **111 errores y 92 warnings, todos en `reference/`**;
+  falta que el usuario agregue `"reference/**"` a `globalIgnores` de `eslint.config.mjs` — un hook
+  local bloquea que el agente edite ese archivo.
 - **`lib/supabase/client.ts` es código muerto.** Borrarlo cierra la puerta a que una clave secreta en
   la variable pública llegue algún día al navegador.
 - **Re-invitar a un invitado que nunca aceptó** toma la rama "ya existe": le da membresía pero no le
