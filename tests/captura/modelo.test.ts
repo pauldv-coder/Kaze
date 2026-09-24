@@ -80,6 +80,14 @@ describe('documentoDesdePrototipo', () => {
   })
 })
 
+describe('normalizarProceso', () => {
+  it('no agrega remitente: quien envía es el usuario de la sesión (§4.3)', () => {
+    const doc = M.nuevoDocumento('Radicación de facturas')
+    const resultado = M.normalizarProceso(M.clonar(doc))
+    expect('remitente' in resultado).toBe(false)
+  })
+})
+
 describe('vista ↔ guardado', () => {
   it('conInfoDeVersiones y sinInfoDeVersiones son inversas', () => {
     const d = documentoDesdePrototipo(semillaPrototipo(), {})

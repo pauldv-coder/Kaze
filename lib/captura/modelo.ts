@@ -13,8 +13,8 @@
    · `nuevoModelo` devuelve un `Version`; `nuevoProceso(datos)` → `nuevoDocumento(nombre)`.
    · `crearTobe` no fija numero/estado/aprobacion/historial (los quita si venían).
    · `estadoAprobacion` pasa a `aprobacion.ts`; `bloqueada` recibe el estado.
-   · `normalizarProceso` ya no migra la aprobación vieja ni calcula `num`; asegura `verif`
-     y `numSiguiente`.
+   · `normalizarProceso` ya no migra la aprobación vieja, no calcula `num` ni agrega
+     `remitente`; asegura `verif` y `numSiguiente`.
    · Nuevos: `nuevoVerif`, `nuevoContacto`, `conInfoDeVersiones`, `sinInfoDeVersiones`.
    · `relativo` y `fechaCorta` calculan el día en `America/Bogota`. */
 
@@ -182,7 +182,7 @@ interface ActividadLaxa { ejecucion?: string; formatos?: unknown; eventos?: unkn
 interface VersionLaxa { diagrama?: unknown; actividades?: Record<string, ActividadLaxa> }
 interface ProcesoLaxo {
   versiones?: Partial<Record<VersionId, VersionLaxa | null>>
-  referencias?: unknown; proveedores?: unknown; inicio?: unknown; codigoDoc?: unknown; remitente?: unknown
+  referencias?: unknown; proveedores?: unknown; inicio?: unknown; codigoDoc?: unknown
   participantes?: unknown; numSiguiente?: unknown
 }
 
@@ -194,7 +194,7 @@ export function normalizarProceso<T>(entrada: T): T {
   if (!Array.isArray(p.proveedores)) p.proveedores = []
   if (!p.inicio || typeof p.inicio !== 'object') p.inicio = { tipo: 'ninguno', detalle: null }
   if (p.codigoDoc === undefined) p.codigoDoc = null
-  if (p.remitente === undefined) p.remitente = null
+  // El prototipo ponía aquí `remitente = null`; ya no es del documento (§4.3): quien envía es el usuario de la sesión.
   // Contactos: correo, papel en la RACI y un código de verificación fijo (va en su código de aprobación).
   // El número (`num`) ya viene fijo; `numSiguiente` es el que tomará el próximo contacto y solo crece.
   if (!Array.isArray(p.participantes)) p.participantes = []
