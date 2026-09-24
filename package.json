@@ -12,6 +12,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
+    "e2e": "playwright test",
     "db:reset": "supabase db reset",
     "db:types": "supabase gen types typescript --local --schema kaze > lib/database.types.ts",
     "seed": "tsx scripts/seed.ts"
