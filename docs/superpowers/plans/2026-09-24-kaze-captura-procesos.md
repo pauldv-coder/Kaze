@@ -195,7 +195,7 @@ Y cambiar el `@theme {` existente por `@theme static {` (los colores base `--col
 - [ ] **Step 5: Verificar en el CSS compilado**
 
 ```bash
-cd /c/Users/pauld/dev/cota && npm run build && grep -o "\-\-color-lateral-tenue[^;]*" .next/static/css/*.css | head -1 && grep -o "\-\-color-blanco[^;]*" .next/static/css/*.css | head -1
+cd /c/Users/pauld/dev/cota && npm run build && grep -oh -- "--color-lateral-tenue[^;]*" .next/static/chunks/*.css | head -1 && grep -oh -- "--color-blanco[^;]*" .next/static/chunks/*.css | head -1
 ```
 Expected: las dos líneas aparecen. Si falta alguna, `@theme static` no se aplicó: revisar sintaxis.
 
