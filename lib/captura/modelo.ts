@@ -170,7 +170,7 @@ export function formatosDelModelo(m: Version): FormatoDelModelo[] {
   })
   return out
 }
-export const normalizarTexto = (t: unknown): string => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' ').trim()
+export const normalizarTexto = (t: unknown): string => String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim()
 
 /* ---------- inicio del proceso y referencias ---------- */
 export const TIPOS_INICIO: [ProcesoDoc['inicio']['tipo'], string][] = [['ninguno', 'Alguien lo inicia'], ['mensaje', 'Llega una solicitud o mensaje'], ['tiempo', 'Programado (fecha o periodo)'], ['condicion', 'Se cumple una condición']]
@@ -471,7 +471,7 @@ export const bloqueada = (estado: EstadoVersion): boolean => estado === 'revisio
 
 /* ---------- revisión (avisos) ---------- */
 
-const norm = (s: unknown): string => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim()
+const norm = (s: unknown): string => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim()
 
 /** Un aviso de la revisión: a qué pestaña (y sub-paso, ficha o fase) lleva, y qué dice. */
 export interface Aviso {
@@ -575,7 +575,7 @@ function diaMesAnio(d: Date): { dia: number; mes: number; anio: number } {
 export function relativo(iso: string | null | undefined, ahora = new Date()): string {
   if (!iso) return ''
   const d = instante(iso)
-  if (isNaN(d.getTime())) return ''   // formatToParts lanza con una fecha inválida
+  if (isNaN(d.getTime())) return ''   // formatToParts lanza RangeError con una fecha inválida: misma guardia que fechaCorta
   const s = Math.round((ahora.getTime() - d.getTime()) / 1000)
   if (s < 10) return 'ahora'
   if (s < 60) return 'hace ' + s + ' s'

@@ -11,7 +11,7 @@
  *  si una palabra en mayúscula es un sustantivo común (rol o herramienta) o un nombre propio. */
 export type Modo = 'comun' | 'rol' | 'herramienta'
 
-const quitarTildes = (s: string | null | undefined): string => String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+const quitarTildes = (s: string | null | undefined): string => String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 const bajo = (s: string | null | undefined): string => String(s || '').toLowerCase()
 
 /* ---------- verbos ---------- */
