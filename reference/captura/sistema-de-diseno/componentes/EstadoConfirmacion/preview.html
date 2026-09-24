@@ -1,0 +1,12 @@
+<!-- @dsCard group="Estado" height=96 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>EstadoConfirmacion — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { display: 'flex', flexDirection: 'column', gap: 12 } }, h('div', { className: 'kz-row' }, h(K.EstadoConfirmacion, { estado: 'confirmado', fuente: 'Entrevista 12 sep' }), h(K.EstadoConfirmacion, { estado: 'sugerencia' }), h(K.EstadoConfirmacion, { estado: 'pregunta' }), h(K.EstadoConfirmacion, { estado: 'revisar' })), h('div', { className: 'kz-row' }, h(K.EstadoConfirmacion, { estado: 'confirmado', compacto: true }), h(K.EstadoConfirmacion, { estado: 'sugerencia', compacto: true }), h(K.EstadoConfirmacion, { estado: 'pregunta', compacto: true }), h(K.EstadoConfirmacion, { estado: 'revisar', compacto: true }))));
+</script>
+</body>
+</html>

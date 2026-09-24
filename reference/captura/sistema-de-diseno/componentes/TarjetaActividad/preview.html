@@ -1,0 +1,12 @@
+<!-- @dsCard group="Captura" height=200 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>TarjetaActividad — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(3, 240px)', gap: 16 } }, h(K.TarjetaActividad, { id: 'ACT-01', nombre: 'Descargar extracto', responsable: 'Auxiliar contable', entregable: 'Extracto del mes' }), h(K.TarjetaActividad, { id: 'ACT-03', nombre: 'Revisar partidas sin cruce', responsable: 'Analista contable', estado: 'sugerencia' }), h(K.TarjetaActividad, { id: 'ACT-04', nombre: 'Investigar diferencia', responsable: null, entregable: 'Partida conciliatoria', estado: 'pregunta', arrastrando: true })));
+</script>
+</body>
+</html>

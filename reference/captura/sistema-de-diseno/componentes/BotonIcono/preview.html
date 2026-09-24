@@ -1,0 +1,19 @@
+<!-- @dsCard group="Base" height=96 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>BotonIcono — vista previa</title>
+<style>.kz-demo-tip.kz-ibtn::after { opacity: 1; }</style></head>
+<body>
+<div id="root" class="kz-demo kz-demo--white" style="align-items: flex-start; padding-bottom: 44px"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  var nada = function () {};
+  ReactDOM.createRoot(document.getElementById('root')).render(h(React.Fragment, null,
+    h(K.BotonIcono, { icono: 'historial', etiqueta: 'Historial', onClick: nada }),
+    h(K.BotonIcono, { icono: 'deshacer', etiqueta: 'Deshacer', atajo: 'Ctrl+Z', onClick: nada, className: 'kz-demo-tip' }),
+    h(K.BotonIcono, { icono: 'copiar', etiqueta: 'Copiar', onClick: nada }),
+    h(K.BotonIcono, { icono: 'descargar', etiqueta: 'Descargar', onClick: nada }),
+    h(K.BotonIcono, { icono: 'deshacer', etiqueta: 'Deshacer', disabled: true })));
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!-- @dsCard group="Aprobación" height=600 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>PanelAprobacion — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  var cod = function (c) { return h('code', { style: { fontFamily: 'ui-monospace, Menlo, Consolas, monospace', fontSize: 11.5, background: 'var(--color-panel)', padding: '1px 5px', borderRadius: 'var(--radius-sm)' } }, c); };
+  var det = function (correo, c, extra) { return h(React.Fragment, null, correo + ' · código ', cod(c), extra ? ' · ' + extra : ''); };
+  var acc = h(React.Fragment, null, h(K.Boton, { tamano: 'sm' }, 'Enviar correo'), h('button', { type: 'button', className: 'kz-link' }, 'Registrar a mano'));
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { width: 560, maxWidth: '100%' } }, h(K.PanelAprobacion, {
+    version: 'As-Is v1', resumen: 'enviada el 23 sept por Paul Díaz · 9 actividades · 2 decisiones', estado: 'revision',
+    etapas: [
+      { titulo: 'Visto bueno de las áreas', estado: 'activa', aprobadores: [
+        { nombre: 'Marta Ríos', iniciales: 'MR', rol: 'Analista contable · Contabilidad · 23 sept', decision: 'vobo', detalle: det('marta.rios@ejemplo.co', 'CBM-01-P3GM') },
+        { nombre: 'Carlos Méndez', iniciales: 'CM', rol: 'Jefe de tesorería · Tesorería', decision: 'pendiente', detalle: det('carlos.mendez@ejemplo.co', 'CBM-04-YDBE'), acciones: acc }] },
+      { titulo: 'Aprobación final', estado: 'espera', nota: 'Se abre cuando lleguen todos los vistos buenos.', aprobadores: [
+        { nombre: 'Rosa Álvarez', iniciales: 'RÁ', rol: 'Jefe de contabilidad · Contabilidad', decision: 'pendiente' },
+        { nombre: 'Laura Gómez', iniciales: 'LG', rol: 'Gerente financiera · Gerencia financiera', decision: 'pendiente' }] }],
+    pie: h('span', { style: { fontSize: 12.5 } }, 'Al aprobarse, avisa a los informados (Diego López) y adjunta el documento Word.')
+  })));
+</script>
+</body>
+</html>

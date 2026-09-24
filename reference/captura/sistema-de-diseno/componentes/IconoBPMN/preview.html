@@ -1,0 +1,32 @@
+<!-- @dsCard group="BPMN" height=360 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>IconoBPMN — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo kz-demo--white"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  var grupos = [
+    ['Quién la ejecuta y formatos', [['persona', 'Persona'], ['sistema', 'Sistema'], ['automatizacion', 'IA o automatización'], ['hoja', 'Formatos']]],
+    ['Eventos', [['tiempo', 'Tiempo'], ['mensaje', 'Mensaje'], ['aviso', 'Aviso'], ['condicion', 'Condición'], ['error', 'Error'], ['hito', 'Hito']]],
+    ['Decisión y ciclo', [['decision', 'Decisión'], ['repite', 'Se repite'], ['porCada', 'Por cada'], ['porCadaSecuencial', 'Uno tras otro']]],
+    ['Acciones', [['deshacer', 'Deshacer'], ['historial', 'Historial'], ['abajo', 'Abrir lista'], ['copiar', 'Copiar'], ['descargar', 'Descargar']]],
+  ];
+  var rotulo = { fontSize: 11, fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--color-apagado)', margin: '0 0 10px' };
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { display: 'flex', flexDirection: 'column', gap: 18 } },
+    grupos.map(function (g) {
+      return h('section', { key: g[0] }, h('p', { style: rotulo }, g[0]),
+        h('div', { style: { display: 'flex', flexWrap: 'wrap', gap: '12px 22px' } }, g[1].map(function (i) {
+          return h('span', { key: i[0], style: { display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 13 } }, h(K.IconoBPMN, { nombre: i[0], tamano: 20 }), i[1]);
+        })));
+    }),
+    h('section', null, h('p', { style: rotulo }, 'En contexto'),
+      h('div', { style: { display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' } },
+        h('div', { className: 'segmento', role: 'group', 'aria-label': '¿Quién la ejecuta?', style: { display: 'inline-flex', border: '1px solid var(--color-borde)', borderRadius: 'var(--radius-md)', overflow: 'hidden' } },
+          [['persona', 'Persona', true], ['sistema', 'Sistema', false], ['automatizacion', 'IA o automatización', false]].map(function (o, n) {
+            return h('button', { key: o[0], type: 'button', 'aria-pressed': o[2], style: { font: 'inherit', fontSize: 12.5, fontWeight: 600, padding: '6px 12px', border: 0, borderLeft: n ? '1px solid var(--color-borde)' : 0, background: o[2] ? 'var(--color-tinta)' : 'var(--color-blanco)', color: o[2] ? 'var(--color-blanco)' : 'var(--color-tinta)', display: 'inline-flex', alignItems: 'center', gap: 6 } }, h(K.IconoBPMN, { nombre: o[0], tamano: 15 }), o[1]);
+          })),
+        h('span', { style: { display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12.5, color: 'var(--color-apagado)' } }, h(K.IconoBPMN, { nombre: 'hoja', tamano: 14 }), 'FT-CON-01 · Formato de conciliación · Anexo 2')))));
+</script>
+</body>
+</html>

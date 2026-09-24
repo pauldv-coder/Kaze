@@ -1,0 +1,16 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+global.window = { React: require('react') };
+require('<SANDBOX>/ds/build/bundle.js');
+const { generarBPMN } = await import('./src/bpmn.js');
+const { revisarDiagrama } = await import('./src/validar.js');
+const M = await import('./src/model.js');
+const { proceso } = await import('./seed.mjs');
+const ver = (nom, p, m) => { const g = generarBPMN(p, m); const r = revisarDiagrama(p, m, g); console.log('==', nom, '| errores:', r.errores.length, '| avisos:', r.avisos.length); r.errores.forEach(e => console.log('  E', e.texto, JSON.stringify(e.ir), e.ids.join(','))); r.avisos.forEach(e => console.log('  A', e.texto)); return r; };
+ver('semilla', proceso, proceso.versiones.asis);
+const p2 = JSON.parse(JSON.stringify(proceso)); const m2 = p2.versiones.asis;
+m2.decisiones[0].salidas.pop(); m2.decisiones[0].pregunta = '';
+m2.decisiones.push(M.nuevaDecision({ origen: 'a_registrar', pregunta: '¿Otra?' }));
+m2.actividades.a_investigar.eventos.push(Object.assign(M.nuevoEvento('limite'), { n: 2 }));
+m2.decisiones[1].salidas = [{ condicion: 'Aprobada', destino: 'a_enviar', porDefecto: true }, { condicion: '', destino: 'a_revisar', porDefecto: false }];
+ver('rota', p2, m2);

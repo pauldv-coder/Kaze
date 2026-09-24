@@ -1,0 +1,12 @@
+<!-- @dsCard group="Base" height=72 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>Boton — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h(React.Fragment, null, h(K.Boton, { variante: 'primario' }, 'Generar diagrama'), h(K.Boton, null, 'Pegar lista'), h(K.Boton, { variante: 'acento' }, 'Exportar documento'), h(K.Boton, { variante: 'destructivo' }, 'Descartar'), h(K.Boton, { tamano: 'sm' }, 'Copiar')));
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!-- @dsCard group="Captura" height=520 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>ColumnaFase — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { display: 'flex', gap: 16, alignItems: 'flex-start' } }, h(K.ColumnaFase, { numero: 1, nombre: 'Preparación', objetivo: 'Tener el extracto y el libro auxiliar del mes listos para cruzar.', entrada: 'Cierre del mes en el banco', entregables: ['Extracto del mes'], salida: 'Extracto cargado en el sistema', actividades: [{ id: 'ACT-01', nombre: 'Descargar extracto', responsable: 'Auxiliar contable', entregable: 'Extracto del mes' }] }), h(K.ColumnaFase, { numero: 2, nombre: 'Cuadre', objetivo: 'Explicar cada diferencia entre banco y libros.', entrada: 'Extracto cargado', entregables: ['Reporte de partidas', 'Partida conciliatoria'], salida: null, actividades: [{ id: 'ACT-02', nombre: 'Ejecutar cuadre automático', responsable: 'Sistema contable', entregable: 'Reporte de partidas' }, { id: 'ACT-03', nombre: 'Revisar partidas sin cruce', responsable: 'Analista contable', estado: 'sugerencia' }] }), h(K.ColumnaFase, { sinFase: true, nombre: 'Sin fase', actividades: [{ id: 'ACT-05', nombre: 'Archivar conciliación', responsable: null }] })));
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!-- @dsCard group="Estructura" height=150 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>CabeceraPagina — vista previa</title></head>
+<body>
+<div id="root" class=""></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  var nada = function () {};
+  ReactDOM.createRoot(document.getElementById('root')).render(h(K.CabeceraPagina, {
+    migas: h(React.Fragment, null, h('span', null, 'Captura de procesos'), h('span', null, '/'), h('b', { style: { color: 'var(--color-tinta)' } }, 'Conciliación bancaria mensual')),
+    estado: h(K.EstadoProceso, { estado: 'revision', destacado: true }),
+    titulo: 'Conciliación bancaria mensual',
+    subtitulo: 'Cuadrar cada mes los extractos bancarios con la contabilidad',
+    acciones: h(React.Fragment, null,
+      h(K.IndicadorGuardado, { estado: 'guardado', hace: 'hace 5 s' }),
+      h(K.BotonIcono, { icono: 'deshacer', etiqueta: 'Deshacer', atajo: 'Ctrl+Z', onClick: nada }),
+      h(K.BotonIcono, { icono: 'historial', etiqueta: 'Historial', onClick: nada }),
+      h(K.SelectorVersion, { versiones: [{ id: 'asis', tipo: 'asis', version: 3, estado: 'revision' }], actual: 'asis', onCambiar: nada, onCrear: nada }),
+      h(K.Boton, { variante: 'acento' }, 'Exportar documento'))
+  }));
+</script>
+</body>
+</html>

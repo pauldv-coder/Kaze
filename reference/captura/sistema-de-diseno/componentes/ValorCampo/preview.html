@@ -1,0 +1,12 @@
+<!-- @dsCard group="Estado" height=88 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>ValorCampo — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo kz-demo--white"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('dl', { className: 'kz-dl', style: { width: 420 } }, h('dt', null, 'Tiempo de proceso'), h('dd', null, h(K.ValorCampo, { valor: 1.5, unidad: 'h' })), h('dt', null, 'Tiempo de espera'), h('dd', null, h(K.ValorCampo, { valor: 0, unidad: 'h' })), h('dt', null, 'Frecuencia'), h('dd', null, h(K.ValorCampo, { valor: 'desconocido' })), h('dt', null, 'Sistema usado'), h('dd', null, h(K.ValorCampo, { valor: 'na' })), h('dt', null, 'Documentos'), h('dd', null, h(K.ValorCampo, { valor: null }))));
+</script>
+</body>
+</html>

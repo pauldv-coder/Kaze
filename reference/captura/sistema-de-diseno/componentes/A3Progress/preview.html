@@ -1,0 +1,12 @@
+<!-- @dsCard group="Datos" height=64 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>A3Progress — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo kz-demo--white"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { className: 'kz-row', style: { gap: 32 } }, h(K.A3Progress, { done: 4 }), h(K.A3Progress, { done: 7 }), h(K.A3Progress, { done: 2, total: 6 })));
+</script>
+</body>
+</html>

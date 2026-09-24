@@ -1,0 +1,50 @@
+const { chromium } = require('playwright-core');
+const fs = require('fs'), path = require('path');
+const DS = '<SANDBOX>/ds/out/project/components/lib/';
+const FAKE = `window.claude = { use: async n => n === 'downloads' ? { save: async r => { window.__d = (window.__d || []).concat([r.filename]); return { status: 'saved' }; } } : null };`;
+(async () => {
+  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+  const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
+  await ctx.route('https://cdnjs.cloudflare.com/**', r => r.fulfill({ contentType: 'text/javascript', body: fs.readFileSync(DS + (r.request().url().includes('react-dom') ? 'react-dom.production.min.js' : 'react.production.min.js'), 'utf8') }));
+  await ctx.route('https://cdn.jsdelivr.net/**', r => { const u = r.request().url(); const f = u.includes('docx') ? require('child_process').execSync('npm root -g').toString().trim() + '/docx/dist/index.iife.js' : path.join(__dirname, 'package/dist/' + (u.includes('modeler') ? 'bpmn-modeler.production.min.js' : 'bpmn-navigated-viewer.production.min.js')); r.fulfill({ contentType: 'text/javascript', body: fs.readFileSync(f, 'utf8') }); });
+  await ctx.route(u => u.hostname.startsWith('fonts.'), r => r.fulfill({ contentType: 'text/css', body: '' }));
+  await ctx.addInitScript(FAKE);
+  const p = await ctx.newPage();
+  const errs = []; p.on('pageerror', e => errs.push(e.message)); p.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') errs.push(m.text()); });
+  const ok = (c, msg) => console.log((c ? 'OK   ' : 'FALLA') + ' ' + msg);
+  await p.goto('file://' + path.join(__dirname, 'out/test.html')); await p.waitForSelector('.tabla-procesos tbody tr');
+  await p.click('.enlace-fila'); await p.waitForSelector('.tabs');
+  console.log('pestañas:', await p.$$eval('button[role=tab]', t => t.map(x => x.textContent).join(' | ')));
+  await p.click('button[role=tab]:has-text("Actividades")');
+  await p.click('.paso:has-text("Caracterizar")');
+  await p.locator('.lf__i').filter({ hasText: 'Investigar diferencias' }).click(); await p.waitForTimeout(150);
+  await p.screenshot({ path: 'out/b1-ficha-investigar.png', fullPage: true });
+  console.log('eventos:', await p.$$eval('.ev__txt', e => e.map(x => x.textContent)));
+  console.log('ciclo:', await p.$eval('.ciclo .campo__ayuda', e => e.textContent).catch(() => '-'));
+  // Agregar un límite de tiempo
+  await p.click('button:has-text("+ Límite de tiempo")'); await p.waitForTimeout(100);
+  await p.fill('.ev--abierto input[id$="-n"]', '3'); await p.press('.ev--abierto input[id$="-n"]', 'Tab');
+  await p.selectOption('.ev--abierto select[id$="-dst"]', { label: 'ACT-05 · Registrar partidas conciliatorias' }); await p.waitForTimeout(100);
+  console.log('eventos tras límite:', await p.$$eval('.ev__txt', e => e.map(x => x.textContent)));
+  // Formatos: adjuntar archivo
+  await p.locator('.lf__i').filter({ hasText: 'Revisar y aprobar' }).click(); await p.waitForTimeout(150);
+  await p.click('button:has-text("+ Adjuntar formato")');
+  fs.writeFileSync('<SANDBOX>/proto/out/Lista de chequeo.xlsx', 'contenido de prueba');
+  await p.setInputFiles('.fmt-form input[type=file]', path.join(__dirname, 'out/Lista de chequeo.xlsx')); await p.waitForTimeout(300);
+  await p.fill('.fmt-form input[id$="-fmc"]', 'FT-CON-03');
+  await p.click('.fmt-form button:has-text("Guardar formato")'); await p.waitForTimeout(200);
+  console.log('formatos:', await p.$$eval('.fmt__nom', e => e.map(x => x.textContent)), await p.$$eval('.fmt__meta', e => e.map(x => x.textContent)));
+  await p.locator('.fmt').filter({ hasText: 'FT-CON-03' }).locator('button:has-text("Descargar")').click(); await p.waitForTimeout(300);
+  console.log('descargas:', await p.evaluate(() => window.__d));
+  console.log('decisión en ficha:', await p.$$eval('.dec-ficha .kz-dec__q', e => e.map(x => x.textContent)));
+  await p.screenshot({ path: 'out/b2-ficha-revisar.png', fullPage: true });
+  // Persistencia del archivo tras recargar
+  await p.waitForTimeout(900); await p.reload(); await p.waitForSelector('.tabla-procesos tbody tr'); await p.click('.enlace-fila');
+  await p.click('button[role=tab]:has-text("Actividades")'); await p.click('.paso:has-text("Caracterizar")');
+  await p.locator('.lf__i').filter({ hasText: 'Revisar y aprobar' }).click(); await p.waitForTimeout(200);
+  await p.evaluate(() => { window.__d = []; });
+  await p.locator('.fmt').filter({ hasText: 'FT-CON-03' }).locator('button:has-text("Descargar")').click(); await p.waitForTimeout(300);
+  ok((await p.evaluate(() => window.__d)).length === 1, 'el adjunto sigue tras recargar: ' + JSON.stringify(await p.evaluate(() => window.__d)));
+  console.log('ERRORES:', errs.length ? errs : 'ninguno');
+  await b.close();
+})().catch(e => { console.error('FALLO', e.stack); process.exit(1); });

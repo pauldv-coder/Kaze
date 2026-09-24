@@ -1,0 +1,12 @@
+<!-- @dsCard group="Datos" height=64 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>Sparkline — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo kz-demo--white"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h(React.Fragment, null, h(K.Sparkline, { serie: [11, 10.4, 10.1, 9.6, 9.1, 8.9, 8.2] }), h('span', { className: 'kpi-fila', style: { fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 16 } }, '8,2 ', h('span', { style: { fontSize: 11, color: 'var(--color-apagado)' } }, 'días ')), h('span', { style: { fontSize: 11, fontWeight: 700, color: 'var(--color-estado-bien)' } }, '▼ 0,9')));
+</script>
+</body>
+</html>

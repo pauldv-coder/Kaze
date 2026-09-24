@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:kaze="https://kaze.cota/bpmn/ext" id="Definiciones" targetNamespace="https://kaze.cota/bpmn" exporter="Kaze · Captura de procesos" exporterVersion="0.2">
+  <bpmn:category id="Categoria_fases" name="Fases">
+    <bpmn:categoryValue id="ValorFase_f_rcs3ipjoeg" value="Fase 1"/>
+    <bpmn:categoryValue id="ValorFase_f_uxye9awoeg" value="Fase 2"/>
+    <bpmn:categoryValue id="ValorFase_f_u7rx2m5oei" value="Fase 3"/>
+    <bpmn:categoryValue id="ValorFase_f_st3ww6yoei" value="Fase 4"/>
+    <bpmn:categoryValue id="ValorFase_f_0tmpurloei" value="Fase 5"/>
+  </bpmn:category>
+  <bpmn:collaboration id="Colaboracion">
+    <bpmn:participant id="Participante" name="Proceso grande de prueba" processRef="Proceso"/>
+  </bpmn:collaboration>
+  <bpmn:process id="Proceso" name="Proceso grande de prueba" isExecutable="false">
+    <bpmn:documentation>Probar el documento con muchas actividades.</bpmn:documentation>
+    <bpmn:laneSet id="Carriles">
+      <bpmn:lane id="Carril_analista" name="Analista">
+        <bpmn:flowNodeRef>Inicio</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_hcxyxe0oeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_801cz6loeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_ah8ix62oeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Dec_d_dv1eqoloej</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_4sodscxoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_lc8oiuqoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_29qtfuxoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_46tj09soei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Dec_d_oe9mvp2oej</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_0wjxaksoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_1wg3yz1oei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_mmfsmisoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Fin_e_mmfsmisoei</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Carril_sistema_erp" name="Sistema ERP">
+        <bpmn:flowNodeRef>Ev_e_a5lj8gsoeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_fz5fo5qoeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_56si7muoeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_rybabvioei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_1b84nk5oei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_sbjiy2zoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Fin_e_sbjiy2zoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_zkfvtrboei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_65y4o82oei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_iv8lh8doei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_ulnzlu3oei</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Carril_auxiliar" name="Auxiliar">
+        <bpmn:flowNodeRef>Act_a_6xqr3pvoeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_ol6v9d3oeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Fin_e_ol6v9d3oeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_noqbx6doeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_my8wpbloei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_ylro6ueoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Dec_d_q95gte1oej</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_h54cjdtoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_4y9p6inoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_82fd4rooei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_cpplf3roei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Dec_d_nhb472boej</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_f8wrp9koei</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Carril_cliente_interno" name="Cliente interno">
+        <bpmn:flowNodeRef>Act_a_hp09kv2oeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_1rw2zw4oei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_zkund40oeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_zi7zkmroei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_z2caiagoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_4aih0znoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_jdfk1lgoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Fin_e_jdfk1lgoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_3mh2ymloei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_l3l7g1toei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_s34qae8oei</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Carril_jefe" name="Jefe">
+        <bpmn:flowNodeRef>Act_a_pa1dmm6oeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_856atrwoeg</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_4k2ssswoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Fin_e_4k2ssswoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_0oxu568oei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_wradpvdoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_cwdqkjwoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_kxcvqssoei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_dsyikproei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_juc12q9oei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_fceqfe7oei</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Fin_normal</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Inicio" name="">
+      <bpmn:outgoing>Flujo_Inicio__Act_a_hcxyxe0oeg</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Act_a_hcxyxe0oeg" name="1. Actividad 1 con nombre algo largo" kaze:clave="a_hcxyxe0oeg" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-01
+Responsable: Analista
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Inicio__Act_a_hcxyxe0oeg</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_hcxyxe0oeg__Ev_e_a5lj8gsoeg</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="Ev_e_a5lj8gsoeg" name="Esperar 2 h">
+      <bpmn:documentation>Antes de empezar espera 2 h.</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_hcxyxe0oeg__Ev_e_a5lj8gsoeg</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Ev_e_a5lj8gsoeg__Act_a_fz5fo5qoeg</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_a5lj8gsoeg_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2H</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Act_a_fz5fo5qoeg" name="2. Actividad 2 con nombre algo largo" kaze:clave="a_fz5fo5qoeg" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-02
+Responsable: Sistema ERP
+Entregable: Entregable oeg
+Evento: Antes de empezar espera 2 h.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Ev_e_a5lj8gsoeg__Act_a_fz5fo5qoeg</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_fz5fo5qoeg__Act_a_6xqr3pvoeg</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_fz5fo5qoeg"><bpmn:targetRef>Entregable_a_fz5fo5qoeg</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="Act_a_6xqr3pvoeg" name="3. Actividad 3 con nombre algo largo" kaze:clave="a_6xqr3pvoeg" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-03
+Responsable: Auxiliar
+Evento: Si en 3 días no ha terminado, se detiene y pasa a terminar el proceso.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_fz5fo5qoeg__Act_a_6xqr3pvoeg</bpmn:incoming>
+      <bpmn:incoming>Flujo_Dec_d_dv1eqoloej__Act_a_6xqr3pvoeg</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_6xqr3pvoeg__Act_a_hp09kv2oeg</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:boundaryEvent id="Ev_e_ol6v9d3oeg" name="3 días" attachedToRef="Act_a_6xqr3pvoeg" cancelActivity="true">
+      <bpmn:documentation>Si en 3 días no ha terminado, se detiene y pasa a terminar el proceso.</bpmn:documentation>
+      <bpmn:outgoing>Flujo_Ev_e_ol6v9d3oeg__Fin_e_ol6v9d3oeg</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_ol6v9d3oeg_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P3D</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Fin_e_ol6v9d3oeg" name="Termina por plazo">
+      <bpmn:incoming>Flujo_Ev_e_ol6v9d3oeg__Fin_e_ol6v9d3oeg</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Act_a_hp09kv2oeg" name="4. Actividad 4 con nombre algo largo" kaze:clave="a_hp09kv2oeg" kaze:ejecucion="sistema">
+      <bpmn:documentation>ACT-04
+Responsable: Cliente interno
+Entregable: Entregable oeg
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_6xqr3pvoeg__Act_a_hp09kv2oeg</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_hp09kv2oeg__Act_a_pa1dmm6oeg</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_hp09kv2oeg"><bpmn:targetRef>Entregable_a_hp09kv2oeg</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Act_a_pa1dmm6oeg" name="5. Actividad 5 con nombre algo largo" kaze:clave="a_pa1dmm6oeg" kaze:ejecucion="persona" kaze:formatos="1">
+      <bpmn:documentation>ACT-05
+Responsable: Jefe
+Formato: FT-GEN-01 Formato 1 v1
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_hp09kv2oeg__Act_a_pa1dmm6oeg</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_pa1dmm6oeg__Ev_e_801cz6loeg</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="Ev_e_801cz6loeg" name="Esperar 2 h">
+      <bpmn:documentation>Antes de empezar espera 2 h.</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_pa1dmm6oeg__Ev_e_801cz6loeg</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Ev_e_801cz6loeg__Act_a_ah8ix62oeg</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_801cz6loeg_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2H</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:scriptTask id="Act_a_ah8ix62oeg" name="6. Actividad 6 con nombre algo largo" kaze:clave="a_ah8ix62oeg" kaze:ejecucion="automatizacion">
+      <bpmn:documentation>ACT-06
+Responsable: Analista
+Entregable: Entregable oeg
+Evento: Antes de empezar espera 2 h.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Ev_e_801cz6loeg__Act_a_ah8ix62oeg</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_ah8ix62oeg__Dec_d_dv1eqoloej</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_ah8ix62oeg"><bpmn:targetRef>Entregable_a_ah8ix62oeg</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:scriptTask>
+    <bpmn:exclusiveGateway id="Dec_d_dv1eqoloej" name="¿Pasa la validación 5?" default="Flujo_Dec_d_dv1eqoloej__Act_a_56si7muoeg">
+      <bpmn:incoming>Flujo_Act_a_ah8ix62oeg__Dec_d_dv1eqoloej</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Dec_d_dv1eqoloej__Act_a_56si7muoeg</bpmn:outgoing>
+      <bpmn:outgoing>Flujo_Dec_d_dv1eqoloej__Act_a_6xqr3pvoeg</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Act_a_56si7muoeg" name="7. Actividad 7 con nombre algo largo" kaze:clave="a_56si7muoeg" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-07
+Responsable: Sistema ERP
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Dec_d_dv1eqoloej__Act_a_56si7muoeg</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_56si7muoeg__Act_a_noqbx6doeg</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Act_a_noqbx6doeg" name="8. Actividad 8 con nombre algo largo" kaze:clave="a_noqbx6doeg" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-08
+Responsable: Auxiliar
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_56si7muoeg__Act_a_noqbx6doeg</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_noqbx6doeg__Ev_e_1rw2zw4oei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="Ev_e_1rw2zw4oei" name="Esperar 2 h">
+      <bpmn:documentation>Antes de empezar espera 2 h.</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_noqbx6doeg__Ev_e_1rw2zw4oei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Ev_e_1rw2zw4oei__Act_a_zkund40oeg</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_1rw2zw4oei_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2H</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Act_a_zkund40oeg" name="9. Actividad 9 con nombre algo largo" kaze:clave="a_zkund40oeg" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-09
+Responsable: Cliente interno
+Entregable: Entregable oeg
+Evento: Antes de empezar espera 2 h.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Ev_e_1rw2zw4oei__Act_a_zkund40oeg</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_zkund40oeg__Act_a_856atrwoeg</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_zkund40oeg"><bpmn:targetRef>Entregable_a_zkund40oeg</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="Act_a_856atrwoeg" name="10. Actividad 10 con nombre algo largo" kaze:clave="a_856atrwoeg" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-10
+Responsable: Jefe
+Evento: Si en 3 días no ha terminado, se detiene y pasa a terminar el proceso.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_zkund40oeg__Act_a_856atrwoeg</bpmn:incoming>
+      <bpmn:incoming>Flujo_Dec_d_q95gte1oej__Act_a_856atrwoeg</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_856atrwoeg__Act_a_4sodscxoei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:boundaryEvent id="Ev_e_4k2ssswoei" name="3 días" attachedToRef="Act_a_856atrwoeg" cancelActivity="true">
+      <bpmn:documentation>Si en 3 días no ha terminado, se detiene y pasa a terminar el proceso.</bpmn:documentation>
+      <bpmn:outgoing>Flujo_Ev_e_4k2ssswoei__Fin_e_4k2ssswoei</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_4k2ssswoei_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P3D</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Fin_e_4k2ssswoei" name="Termina por plazo">
+      <bpmn:incoming>Flujo_Ev_e_4k2ssswoei__Fin_e_4k2ssswoei</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Act_a_4sodscxoei" name="11. Actividad 11 con nombre algo largo" kaze:clave="a_4sodscxoei" kaze:ejecucion="sistema">
+      <bpmn:documentation>ACT-11
+Responsable: Analista
+Entregable: Entregable oei
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_856atrwoeg__Act_a_4sodscxoei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_4sodscxoei__Act_a_rybabvioei</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_4sodscxoei"><bpmn:targetRef>Entregable_a_4sodscxoei</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Act_a_rybabvioei" name="12. Actividad 12 con nombre algo largo" kaze:clave="a_rybabvioei" kaze:ejecucion="persona" kaze:formatos="1">
+      <bpmn:documentation>ACT-12
+Responsable: Sistema ERP
+Formato: FT-GEN-02 Formato 2 v1
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_4sodscxoei__Act_a_rybabvioei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_rybabvioei__Ev_e_my8wpbloei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="Ev_e_my8wpbloei" name="Esperar 2 h">
+      <bpmn:documentation>Antes de empezar espera 2 h.</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_rybabvioei__Ev_e_my8wpbloei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Ev_e_my8wpbloei__Act_a_ylro6ueoei</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_my8wpbloei_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2H</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:scriptTask id="Act_a_ylro6ueoei" name="13. Actividad 13 con nombre algo largo" kaze:clave="a_ylro6ueoei" kaze:ejecucion="automatizacion">
+      <bpmn:documentation>ACT-13
+Responsable: Auxiliar
+Entregable: Entregable oei
+Evento: Antes de empezar espera 2 h.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Ev_e_my8wpbloei__Act_a_ylro6ueoei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_ylro6ueoei__Dec_d_q95gte1oej</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_ylro6ueoei"><bpmn:targetRef>Entregable_a_ylro6ueoei</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:scriptTask>
+    <bpmn:exclusiveGateway id="Dec_d_q95gte1oej" name="¿Pasa la validación 12?" default="Flujo_Dec_d_q95gte1oej__Act_a_zi7zkmroei">
+      <bpmn:incoming>Flujo_Act_a_ylro6ueoei__Dec_d_q95gte1oej</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Dec_d_q95gte1oej__Act_a_zi7zkmroei</bpmn:outgoing>
+      <bpmn:outgoing>Flujo_Dec_d_q95gte1oej__Act_a_856atrwoeg</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Act_a_zi7zkmroei" name="14. Actividad 14 con nombre algo largo" kaze:clave="a_zi7zkmroei" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-14
+Responsable: Cliente interno
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Dec_d_q95gte1oej__Act_a_zi7zkmroei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_zi7zkmroei__Act_a_0oxu568oei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Act_a_0oxu568oei" name="15. Actividad 15 con nombre algo largo" kaze:clave="a_0oxu568oei" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-15
+Responsable: Jefe
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_zi7zkmroei__Act_a_0oxu568oei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_0oxu568oei__Ev_e_lc8oiuqoei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="Ev_e_lc8oiuqoei" name="Esperar 2 h">
+      <bpmn:documentation>Antes de empezar espera 2 h.</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_0oxu568oei__Ev_e_lc8oiuqoei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Ev_e_lc8oiuqoei__Act_a_29qtfuxoei</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_lc8oiuqoei_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2H</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Act_a_29qtfuxoei" name="16. Actividad 16 con nombre algo largo" kaze:clave="a_29qtfuxoei" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-16
+Responsable: Analista
+Entregable: Entregable oei
+Evento: Antes de empezar espera 2 h.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Ev_e_lc8oiuqoei__Act_a_29qtfuxoei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_29qtfuxoei__Act_a_1b84nk5oei</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_29qtfuxoei"><bpmn:targetRef>Entregable_a_29qtfuxoei</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="Act_a_1b84nk5oei" name="17. Actividad 17 con nombre algo largo" kaze:clave="a_1b84nk5oei" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-17
+Responsable: Sistema ERP
+Evento: Si en 3 días no ha terminado, se detiene y pasa a terminar el proceso.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_29qtfuxoei__Act_a_1b84nk5oei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_1b84nk5oei__Act_a_h54cjdtoei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:boundaryEvent id="Ev_e_sbjiy2zoei" name="3 días" attachedToRef="Act_a_1b84nk5oei" cancelActivity="true">
+      <bpmn:documentation>Si en 3 días no ha terminado, se detiene y pasa a terminar el proceso.</bpmn:documentation>
+      <bpmn:outgoing>Flujo_Ev_e_sbjiy2zoei__Fin_e_sbjiy2zoei</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_sbjiy2zoei_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P3D</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Fin_e_sbjiy2zoei" name="Termina por plazo">
+      <bpmn:incoming>Flujo_Ev_e_sbjiy2zoei__Fin_e_sbjiy2zoei</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Act_a_h54cjdtoei" name="18. Actividad 18 con nombre algo largo" kaze:clave="a_h54cjdtoei" kaze:ejecucion="sistema">
+      <bpmn:documentation>ACT-18
+Responsable: Auxiliar
+Entregable: Entregable oei
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_1b84nk5oei__Act_a_h54cjdtoei</bpmn:incoming>
+      <bpmn:incoming>Flujo_Dec_d_oe9mvp2oej__Act_a_h54cjdtoei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_h54cjdtoei__Act_a_z2caiagoei</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_h54cjdtoei"><bpmn:targetRef>Entregable_a_h54cjdtoei</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Act_a_z2caiagoei" name="19. Actividad 19 con nombre algo largo" kaze:clave="a_z2caiagoei" kaze:ejecucion="persona" kaze:formatos="1">
+      <bpmn:documentation>ACT-19
+Responsable: Cliente interno
+Formato: FT-GEN-03 Formato 3 v1
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_h54cjdtoei__Act_a_z2caiagoei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_z2caiagoei__Ev_e_wradpvdoei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="Ev_e_wradpvdoei" name="Esperar 2 h">
+      <bpmn:documentation>Antes de empezar espera 2 h.</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_z2caiagoei__Ev_e_wradpvdoei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Ev_e_wradpvdoei__Act_a_cwdqkjwoei</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_wradpvdoei_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2H</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:scriptTask id="Act_a_cwdqkjwoei" name="20. Actividad 20 con nombre algo largo" kaze:clave="a_cwdqkjwoei" kaze:ejecucion="automatizacion">
+      <bpmn:documentation>ACT-20
+Responsable: Jefe
+Entregable: Entregable oei
+Evento: Antes de empezar espera 2 h.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Ev_e_wradpvdoei__Act_a_cwdqkjwoei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_cwdqkjwoei__Act_a_46tj09soei</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_cwdqkjwoei"><bpmn:targetRef>Entregable_a_cwdqkjwoei</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:scriptTask>
+    <bpmn:userTask id="Act_a_46tj09soei" name="21. Actividad 21 con nombre algo largo" kaze:clave="a_46tj09soei" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-21
+Responsable: Analista
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_cwdqkjwoei__Act_a_46tj09soei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_46tj09soei__Dec_d_oe9mvp2oej</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Dec_d_oe9mvp2oej" name="¿Pasa la validación 20?" default="Flujo_Dec_d_oe9mvp2oej__Act_a_zkfvtrboei">
+      <bpmn:incoming>Flujo_Act_a_46tj09soei__Dec_d_oe9mvp2oej</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Dec_d_oe9mvp2oej__Act_a_zkfvtrboei</bpmn:outgoing>
+      <bpmn:outgoing>Flujo_Dec_d_oe9mvp2oej__Act_a_h54cjdtoei</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Act_a_zkfvtrboei" name="22. Actividad 22 con nombre algo largo" kaze:clave="a_zkfvtrboei" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-22
+Responsable: Sistema ERP
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Dec_d_oe9mvp2oej__Act_a_zkfvtrboei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_zkfvtrboei__Ev_e_4y9p6inoei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="Ev_e_4y9p6inoei" name="Esperar 2 h">
+      <bpmn:documentation>Antes de empezar espera 2 h.</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_zkfvtrboei__Ev_e_4y9p6inoei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Ev_e_4y9p6inoei__Act_a_82fd4rooei</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_4y9p6inoei_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2H</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Act_a_82fd4rooei" name="23. Actividad 23 con nombre algo largo" kaze:clave="a_82fd4rooei" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-23
+Responsable: Auxiliar
+Entregable: Entregable oei
+Evento: Antes de empezar espera 2 h.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Ev_e_4y9p6inoei__Act_a_82fd4rooei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_82fd4rooei__Act_a_4aih0znoei</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_82fd4rooei"><bpmn:targetRef>Entregable_a_82fd4rooei</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="Act_a_4aih0znoei" name="24. Actividad 24 con nombre algo largo" kaze:clave="a_4aih0znoei" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-24
+Responsable: Cliente interno
+Evento: Si en 3 días no ha terminado, se detiene y pasa a terminar el proceso.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_82fd4rooei__Act_a_4aih0znoei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_4aih0znoei__Act_a_kxcvqssoei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:boundaryEvent id="Ev_e_jdfk1lgoei" name="3 días" attachedToRef="Act_a_4aih0znoei" cancelActivity="true">
+      <bpmn:documentation>Si en 3 días no ha terminado, se detiene y pasa a terminar el proceso.</bpmn:documentation>
+      <bpmn:outgoing>Flujo_Ev_e_jdfk1lgoei__Fin_e_jdfk1lgoei</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_jdfk1lgoei_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P3D</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Fin_e_jdfk1lgoei" name="Termina por plazo">
+      <bpmn:incoming>Flujo_Ev_e_jdfk1lgoei__Fin_e_jdfk1lgoei</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Act_a_kxcvqssoei" name="25. Actividad 25 con nombre algo largo" kaze:clave="a_kxcvqssoei" kaze:ejecucion="sistema">
+      <bpmn:documentation>ACT-25
+Responsable: Jefe
+Entregable: Entregable oei
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_4aih0znoei__Act_a_kxcvqssoei</bpmn:incoming>
+      <bpmn:incoming>Flujo_Dec_d_nhb472boej__Act_a_kxcvqssoei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_kxcvqssoei__Act_a_0wjxaksoei</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_kxcvqssoei"><bpmn:targetRef>Entregable_a_kxcvqssoei</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Act_a_0wjxaksoei" name="26. Actividad 26 con nombre algo largo" kaze:clave="a_0wjxaksoei" kaze:ejecucion="persona" kaze:formatos="1">
+      <bpmn:documentation>ACT-26
+Responsable: Analista
+Formato: FT-GEN-04 Formato 4 v1
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_kxcvqssoei__Act_a_0wjxaksoei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_0wjxaksoei__Ev_e_65y4o82oei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="Ev_e_65y4o82oei" name="Esperar 2 h">
+      <bpmn:documentation>Antes de empezar espera 2 h.</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_0wjxaksoei__Ev_e_65y4o82oei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Ev_e_65y4o82oei__Act_a_iv8lh8doei</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_65y4o82oei_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2H</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:scriptTask id="Act_a_iv8lh8doei" name="27. Actividad 27 con nombre algo largo" kaze:clave="a_iv8lh8doei" kaze:ejecucion="automatizacion">
+      <bpmn:documentation>ACT-27
+Responsable: Sistema ERP
+Entregable: Entregable oei
+Evento: Antes de empezar espera 2 h.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Ev_e_65y4o82oei__Act_a_iv8lh8doei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_iv8lh8doei__Act_a_cpplf3roei</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_iv8lh8doei"><bpmn:targetRef>Entregable_a_iv8lh8doei</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:scriptTask>
+    <bpmn:userTask id="Act_a_cpplf3roei" name="28. Actividad 28 con nombre algo largo" kaze:clave="a_cpplf3roei" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-28
+Responsable: Auxiliar
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_iv8lh8doei__Act_a_cpplf3roei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_cpplf3roei__Dec_d_nhb472boej</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Dec_d_nhb472boej" name="¿Pasa la validación 27?" default="Flujo_Dec_d_nhb472boej__Act_a_3mh2ymloei">
+      <bpmn:incoming>Flujo_Act_a_cpplf3roei__Dec_d_nhb472boej</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Dec_d_nhb472boej__Act_a_3mh2ymloei</bpmn:outgoing>
+      <bpmn:outgoing>Flujo_Dec_d_nhb472boej__Act_a_kxcvqssoei</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Act_a_3mh2ymloei" name="29. Actividad 29 con nombre algo largo" kaze:clave="a_3mh2ymloei" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-29
+Responsable: Cliente interno
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Dec_d_nhb472boej__Act_a_3mh2ymloei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_3mh2ymloei__Ev_e_dsyikproei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="Ev_e_dsyikproei" name="Esperar 2 h">
+      <bpmn:documentation>Antes de empezar espera 2 h.</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_3mh2ymloei__Ev_e_dsyikproei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Ev_e_dsyikproei__Act_a_juc12q9oei</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_dsyikproei_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2H</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Act_a_juc12q9oei" name="30. Actividad 30 con nombre algo largo" kaze:clave="a_juc12q9oei" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-30
+Responsable: Jefe
+Entregable: Entregable oei
+Evento: Antes de empezar espera 2 h.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Ev_e_dsyikproei__Act_a_juc12q9oei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_juc12q9oei__Act_a_1wg3yz1oei</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_juc12q9oei"><bpmn:targetRef>Entregable_a_juc12q9oei</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="Act_a_1wg3yz1oei" name="31. Actividad 31 con nombre algo largo" kaze:clave="a_1wg3yz1oei" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-31
+Responsable: Analista
+Evento: Si en 3 días no ha terminado, se detiene y pasa a terminar el proceso.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_juc12q9oei__Act_a_1wg3yz1oei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_1wg3yz1oei__Act_a_ulnzlu3oei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:boundaryEvent id="Ev_e_mmfsmisoei" name="3 días" attachedToRef="Act_a_1wg3yz1oei" cancelActivity="true">
+      <bpmn:documentation>Si en 3 días no ha terminado, se detiene y pasa a terminar el proceso.</bpmn:documentation>
+      <bpmn:outgoing>Flujo_Ev_e_mmfsmisoei__Fin_e_mmfsmisoei</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_mmfsmisoei_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">P3D</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="Fin_e_mmfsmisoei" name="Termina por plazo">
+      <bpmn:incoming>Flujo_Ev_e_mmfsmisoei__Fin_e_mmfsmisoei</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Act_a_ulnzlu3oei" name="32. Actividad 32 con nombre algo largo" kaze:clave="a_ulnzlu3oei" kaze:ejecucion="sistema">
+      <bpmn:documentation>ACT-32
+Responsable: Sistema ERP
+Entregable: Entregable oei
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_1wg3yz1oei__Act_a_ulnzlu3oei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_ulnzlu3oei__Act_a_f8wrp9koei</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_ulnzlu3oei"><bpmn:targetRef>Entregable_a_ulnzlu3oei</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Act_a_f8wrp9koei" name="33. Actividad 33 con nombre algo largo" kaze:clave="a_f8wrp9koei" kaze:ejecucion="persona" kaze:formatos="1">
+      <bpmn:documentation>ACT-33
+Responsable: Auxiliar
+Formato: FT-GEN-05 Formato 5 v1
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_ulnzlu3oei__Act_a_f8wrp9koei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_f8wrp9koei__Ev_e_l3l7g1toei</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="Ev_e_l3l7g1toei" name="Esperar 2 h">
+      <bpmn:documentation>Antes de empezar espera 2 h.</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_f8wrp9koei__Ev_e_l3l7g1toei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Ev_e_l3l7g1toei__Act_a_s34qae8oei</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Ev_e_l3l7g1toei_def"><bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT2H</bpmn:timeDuration></bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:scriptTask id="Act_a_s34qae8oei" name="34. Actividad 34 con nombre algo largo" kaze:clave="a_s34qae8oei" kaze:ejecucion="automatizacion">
+      <bpmn:documentation>ACT-34
+Responsable: Cliente interno
+Entregable: Entregable oei
+Evento: Antes de empezar espera 2 h.
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Ev_e_l3l7g1toei__Act_a_s34qae8oei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_s34qae8oei__Act_a_fceqfe7oei</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_s34qae8oei"><bpmn:targetRef>Entregable_a_s34qae8oei</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:scriptTask>
+    <bpmn:userTask id="Act_a_fceqfe7oei" name="35. Actividad 35 con nombre algo largo" kaze:clave="a_fceqfe7oei" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-35
+Responsable: Jefe
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_s34qae8oei__Act_a_fceqfe7oei</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_fceqfe7oei__Fin_normal</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Fin_normal" name="Fin">
+      <bpmn:incoming>Flujo_Act_a_fceqfe7oei__Fin_normal</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_a5lj8gsoeg__Act_a_fz5fo5qoeg" sourceRef="Ev_e_a5lj8gsoeg" targetRef="Act_a_fz5fo5qoeg"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_801cz6loeg__Act_a_ah8ix62oeg" sourceRef="Ev_e_801cz6loeg" targetRef="Act_a_ah8ix62oeg"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_1rw2zw4oei__Act_a_zkund40oeg" sourceRef="Ev_e_1rw2zw4oei" targetRef="Act_a_zkund40oeg"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_my8wpbloei__Act_a_ylro6ueoei" sourceRef="Ev_e_my8wpbloei" targetRef="Act_a_ylro6ueoei"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_lc8oiuqoei__Act_a_29qtfuxoei" sourceRef="Ev_e_lc8oiuqoei" targetRef="Act_a_29qtfuxoei"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_wradpvdoei__Act_a_cwdqkjwoei" sourceRef="Ev_e_wradpvdoei" targetRef="Act_a_cwdqkjwoei"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_4y9p6inoei__Act_a_82fd4rooei" sourceRef="Ev_e_4y9p6inoei" targetRef="Act_a_82fd4rooei"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_65y4o82oei__Act_a_iv8lh8doei" sourceRef="Ev_e_65y4o82oei" targetRef="Act_a_iv8lh8doei"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_dsyikproei__Act_a_juc12q9oei" sourceRef="Ev_e_dsyikproei" targetRef="Act_a_juc12q9oei"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_l3l7g1toei__Act_a_s34qae8oei" sourceRef="Ev_e_l3l7g1toei" targetRef="Act_a_s34qae8oei"/>
+    <bpmn:sequenceFlow id="Flujo_Inicio__Act_a_hcxyxe0oeg" sourceRef="Inicio" targetRef="Act_a_hcxyxe0oeg"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_hcxyxe0oeg__Ev_e_a5lj8gsoeg" sourceRef="Act_a_hcxyxe0oeg" targetRef="Ev_e_a5lj8gsoeg"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_fz5fo5qoeg__Act_a_6xqr3pvoeg" sourceRef="Act_a_fz5fo5qoeg" targetRef="Act_a_6xqr3pvoeg"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_6xqr3pvoeg__Act_a_hp09kv2oeg" sourceRef="Act_a_6xqr3pvoeg" targetRef="Act_a_hp09kv2oeg"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_hp09kv2oeg__Act_a_pa1dmm6oeg" sourceRef="Act_a_hp09kv2oeg" targetRef="Act_a_pa1dmm6oeg"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_pa1dmm6oeg__Ev_e_801cz6loeg" sourceRef="Act_a_pa1dmm6oeg" targetRef="Ev_e_801cz6loeg"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_ah8ix62oeg__Dec_d_dv1eqoloej" sourceRef="Act_a_ah8ix62oeg" targetRef="Dec_d_dv1eqoloej"/>
+    <bpmn:sequenceFlow id="Flujo_Dec_d_dv1eqoloej__Act_a_56si7muoeg" name="Sí" sourceRef="Dec_d_dv1eqoloej" targetRef="Act_a_56si7muoeg"/>
+    <bpmn:sequenceFlow id="Flujo_Dec_d_dv1eqoloej__Act_a_6xqr3pvoeg" name="No" sourceRef="Dec_d_dv1eqoloej" targetRef="Act_a_6xqr3pvoeg">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">No</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flujo_Act_a_56si7muoeg__Act_a_noqbx6doeg" sourceRef="Act_a_56si7muoeg" targetRef="Act_a_noqbx6doeg"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_noqbx6doeg__Ev_e_1rw2zw4oei" sourceRef="Act_a_noqbx6doeg" targetRef="Ev_e_1rw2zw4oei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_zkund40oeg__Act_a_856atrwoeg" sourceRef="Act_a_zkund40oeg" targetRef="Act_a_856atrwoeg"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_856atrwoeg__Act_a_4sodscxoei" sourceRef="Act_a_856atrwoeg" targetRef="Act_a_4sodscxoei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_4sodscxoei__Act_a_rybabvioei" sourceRef="Act_a_4sodscxoei" targetRef="Act_a_rybabvioei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_rybabvioei__Ev_e_my8wpbloei" sourceRef="Act_a_rybabvioei" targetRef="Ev_e_my8wpbloei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_ylro6ueoei__Dec_d_q95gte1oej" sourceRef="Act_a_ylro6ueoei" targetRef="Dec_d_q95gte1oej"/>
+    <bpmn:sequenceFlow id="Flujo_Dec_d_q95gte1oej__Act_a_zi7zkmroei" name="Sí" sourceRef="Dec_d_q95gte1oej" targetRef="Act_a_zi7zkmroei"/>
+    <bpmn:sequenceFlow id="Flujo_Dec_d_q95gte1oej__Act_a_856atrwoeg" name="No" sourceRef="Dec_d_q95gte1oej" targetRef="Act_a_856atrwoeg">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">No</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flujo_Act_a_zi7zkmroei__Act_a_0oxu568oei" sourceRef="Act_a_zi7zkmroei" targetRef="Act_a_0oxu568oei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_0oxu568oei__Ev_e_lc8oiuqoei" sourceRef="Act_a_0oxu568oei" targetRef="Ev_e_lc8oiuqoei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_29qtfuxoei__Act_a_1b84nk5oei" sourceRef="Act_a_29qtfuxoei" targetRef="Act_a_1b84nk5oei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_1b84nk5oei__Act_a_h54cjdtoei" sourceRef="Act_a_1b84nk5oei" targetRef="Act_a_h54cjdtoei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_h54cjdtoei__Act_a_z2caiagoei" sourceRef="Act_a_h54cjdtoei" targetRef="Act_a_z2caiagoei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_z2caiagoei__Ev_e_wradpvdoei" sourceRef="Act_a_z2caiagoei" targetRef="Ev_e_wradpvdoei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_cwdqkjwoei__Act_a_46tj09soei" sourceRef="Act_a_cwdqkjwoei" targetRef="Act_a_46tj09soei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_46tj09soei__Dec_d_oe9mvp2oej" sourceRef="Act_a_46tj09soei" targetRef="Dec_d_oe9mvp2oej"/>
+    <bpmn:sequenceFlow id="Flujo_Dec_d_oe9mvp2oej__Act_a_zkfvtrboei" name="Sí" sourceRef="Dec_d_oe9mvp2oej" targetRef="Act_a_zkfvtrboei"/>
+    <bpmn:sequenceFlow id="Flujo_Dec_d_oe9mvp2oej__Act_a_h54cjdtoei" name="No" sourceRef="Dec_d_oe9mvp2oej" targetRef="Act_a_h54cjdtoei">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">No</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flujo_Act_a_zkfvtrboei__Ev_e_4y9p6inoei" sourceRef="Act_a_zkfvtrboei" targetRef="Ev_e_4y9p6inoei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_82fd4rooei__Act_a_4aih0znoei" sourceRef="Act_a_82fd4rooei" targetRef="Act_a_4aih0znoei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_4aih0znoei__Act_a_kxcvqssoei" sourceRef="Act_a_4aih0znoei" targetRef="Act_a_kxcvqssoei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_kxcvqssoei__Act_a_0wjxaksoei" sourceRef="Act_a_kxcvqssoei" targetRef="Act_a_0wjxaksoei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_0wjxaksoei__Ev_e_65y4o82oei" sourceRef="Act_a_0wjxaksoei" targetRef="Ev_e_65y4o82oei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_iv8lh8doei__Act_a_cpplf3roei" sourceRef="Act_a_iv8lh8doei" targetRef="Act_a_cpplf3roei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_cpplf3roei__Dec_d_nhb472boej" sourceRef="Act_a_cpplf3roei" targetRef="Dec_d_nhb472boej"/>
+    <bpmn:sequenceFlow id="Flujo_Dec_d_nhb472boej__Act_a_3mh2ymloei" name="Sí" sourceRef="Dec_d_nhb472boej" targetRef="Act_a_3mh2ymloei"/>
+    <bpmn:sequenceFlow id="Flujo_Dec_d_nhb472boej__Act_a_kxcvqssoei" name="No" sourceRef="Dec_d_nhb472boej" targetRef="Act_a_kxcvqssoei">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">No</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flujo_Act_a_3mh2ymloei__Ev_e_dsyikproei" sourceRef="Act_a_3mh2ymloei" targetRef="Ev_e_dsyikproei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_juc12q9oei__Act_a_1wg3yz1oei" sourceRef="Act_a_juc12q9oei" targetRef="Act_a_1wg3yz1oei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_1wg3yz1oei__Act_a_ulnzlu3oei" sourceRef="Act_a_1wg3yz1oei" targetRef="Act_a_ulnzlu3oei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_ulnzlu3oei__Act_a_f8wrp9koei" sourceRef="Act_a_ulnzlu3oei" targetRef="Act_a_f8wrp9koei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_f8wrp9koei__Ev_e_l3l7g1toei" sourceRef="Act_a_f8wrp9koei" targetRef="Ev_e_l3l7g1toei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_s34qae8oei__Act_a_fceqfe7oei" sourceRef="Act_a_s34qae8oei" targetRef="Act_a_fceqfe7oei"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_fceqfe7oei__Fin_normal" sourceRef="Act_a_fceqfe7oei" targetRef="Fin_normal"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_ol6v9d3oeg__Fin_e_ol6v9d3oeg" sourceRef="Ev_e_ol6v9d3oeg" targetRef="Fin_e_ol6v9d3oeg"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_4k2ssswoei__Fin_e_4k2ssswoei" sourceRef="Ev_e_4k2ssswoei" targetRef="Fin_e_4k2ssswoei"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_sbjiy2zoei__Fin_e_sbjiy2zoei" sourceRef="Ev_e_sbjiy2zoei" targetRef="Fin_e_sbjiy2zoei"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_jdfk1lgoei__Fin_e_jdfk1lgoei" sourceRef="Ev_e_jdfk1lgoei" targetRef="Fin_e_jdfk1lgoei"/>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_mmfsmisoei__Fin_e_mmfsmisoei" sourceRef="Ev_e_mmfsmisoei" targetRef="Fin_e_mmfsmisoei"/>
+    <bpmn:dataObject id="Dato_a_fz5fo5qoeg"/>
+    <bpmn:dataObjectReference id="Entregable_a_fz5fo5qoeg" name="Entregable oeg" dataObjectRef="Dato_a_fz5fo5qoeg"/>
+    <bpmn:dataObject id="Dato_a_hp09kv2oeg"/>
+    <bpmn:dataObjectReference id="Entregable_a_hp09kv2oeg" name="Entregable oeg" dataObjectRef="Dato_a_hp09kv2oeg"/>
+    <bpmn:dataObject id="Dato_a_ah8ix62oeg"/>
+    <bpmn:dataObjectReference id="Entregable_a_ah8ix62oeg" name="Entregable oeg" dataObjectRef="Dato_a_ah8ix62oeg"/>
+    <bpmn:dataObject id="Dato_a_zkund40oeg"/>
+    <bpmn:dataObjectReference id="Entregable_a_zkund40oeg" name="Entregable oeg" dataObjectRef="Dato_a_zkund40oeg"/>
+    <bpmn:dataObject id="Dato_a_4sodscxoei"/>
+    <bpmn:dataObjectReference id="Entregable_a_4sodscxoei" name="Entregable oei" dataObjectRef="Dato_a_4sodscxoei"/>
+    <bpmn:dataObject id="Dato_a_ylro6ueoei"/>
+    <bpmn:dataObjectReference id="Entregable_a_ylro6ueoei" name="Entregable oei" dataObjectRef="Dato_a_ylro6ueoei"/>
+    <bpmn:dataObject id="Dato_a_29qtfuxoei"/>
+    <bpmn:dataObjectReference id="Entregable_a_29qtfuxoei" name="Entregable oei" dataObjectRef="Dato_a_29qtfuxoei"/>
+    <bpmn:dataObject id="Dato_a_h54cjdtoei"/>
+    <bpmn:dataObjectReference id="Entregable_a_h54cjdtoei" name="Entregable oei" dataObjectRef="Dato_a_h54cjdtoei"/>
+    <bpmn:dataObject id="Dato_a_cwdqkjwoei"/>
+    <bpmn:dataObjectReference id="Entregable_a_cwdqkjwoei" name="Entregable oei" dataObjectRef="Dato_a_cwdqkjwoei"/>
+    <bpmn:dataObject id="Dato_a_82fd4rooei"/>
+    <bpmn:dataObjectReference id="Entregable_a_82fd4rooei" name="Entregable oei" dataObjectRef="Dato_a_82fd4rooei"/>
+    <bpmn:dataObject id="Dato_a_kxcvqssoei"/>
+    <bpmn:dataObjectReference id="Entregable_a_kxcvqssoei" name="Entregable oei" dataObjectRef="Dato_a_kxcvqssoei"/>
+    <bpmn:dataObject id="Dato_a_iv8lh8doei"/>
+    <bpmn:dataObjectReference id="Entregable_a_iv8lh8doei" name="Entregable oei" dataObjectRef="Dato_a_iv8lh8doei"/>
+    <bpmn:dataObject id="Dato_a_juc12q9oei"/>
+    <bpmn:dataObjectReference id="Entregable_a_juc12q9oei" name="Entregable oei" dataObjectRef="Dato_a_juc12q9oei"/>
+    <bpmn:dataObject id="Dato_a_ulnzlu3oei"/>
+    <bpmn:dataObjectReference id="Entregable_a_ulnzlu3oei" name="Entregable oei" dataObjectRef="Dato_a_ulnzlu3oei"/>
+    <bpmn:dataObject id="Dato_a_s34qae8oei"/>
+    <bpmn:dataObjectReference id="Entregable_a_s34qae8oei" name="Entregable oei" dataObjectRef="Dato_a_s34qae8oei"/>
+    <bpmn:group id="Fase_f_rcs3ipjoeg" categoryValueRef="ValorFase_f_rcs3ipjoeg"/>
+    <bpmn:group id="Fase_f_uxye9awoeg" categoryValueRef="ValorFase_f_uxye9awoeg"/>
+    <bpmn:group id="Fase_f_u7rx2m5oei" categoryValueRef="ValorFase_f_u7rx2m5oei"/>
+    <bpmn:group id="Fase_f_st3ww6yoei" categoryValueRef="ValorFase_f_st3ww6yoei"/>
+    <bpmn:group id="Fase_f_0tmpurloei" categoryValueRef="ValorFase_f_0tmpurloei"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagrama">
+    <bpmndi:BPMNPlane id="Plano" bpmnElement="Colaboracion">
+      <bpmndi:BPMNShape id="Participante_di" bpmnElement="Participante" isHorizontal="true"><dc:Bounds x="40" y="40" width="9032" height="1190"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Carril_analista_di" bpmnElement="Carril_analista" isHorizontal="true"><dc:Bounds x="70" y="40" width="9002" height="238"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Carril_sistema_erp_di" bpmnElement="Carril_sistema_erp" isHorizontal="true"><dc:Bounds x="70" y="278" width="9002" height="238"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Carril_auxiliar_di" bpmnElement="Carril_auxiliar" isHorizontal="true"><dc:Bounds x="70" y="516" width="9002" height="238"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Carril_cliente_interno_di" bpmnElement="Carril_cliente_interno" isHorizontal="true"><dc:Bounds x="70" y="754" width="9002" height="238"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Carril_jefe_di" bpmnElement="Carril_jefe" isHorizontal="true"><dc:Bounds x="70" y="992" width="9002" height="238"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fase_f_rcs3ipjoeg_di" bpmnElement="Fase_f_rcs3ipjoeg"><dc:Bounds x="230" y="46" width="1760" height="1178"/><bpmndi:BPMNLabel><dc:Bounds x="238" y="50" width="200" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fase_f_uxye9awoeg_di" bpmnElement="Fase_f_uxye9awoeg"><dc:Bounds x="2004" y="46" width="1760" height="1178"/><bpmndi:BPMNLabel><dc:Bounds x="2012" y="50" width="200" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fase_f_u7rx2m5oei_di" bpmnElement="Fase_f_u7rx2m5oei"><dc:Bounds x="3778" y="46" width="1721" height="1178"/><bpmndi:BPMNLabel><dc:Bounds x="3786" y="50" width="200" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fase_f_st3ww6yoei_di" bpmnElement="Fase_f_st3ww6yoei"><dc:Bounds x="5552" y="46" width="1721" height="1178"/><bpmndi:BPMNLabel><dc:Bounds x="5560" y="50" width="200" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fase_f_0tmpurloei_di" bpmnElement="Fase_f_0tmpurloei"><dc:Bounds x="7326" y="46" width="1586" height="1178"/><bpmndi:BPMNLabel><dc:Bounds x="7334" y="50" width="200" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Inicio_di" bpmnElement="Inicio"><dc:Bounds x="132" y="114" width="36" height="36"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_hcxyxe0oeg_di" bpmnElement="Act_a_hcxyxe0oeg"><dc:Bounds x="246" y="92" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_a5lj8gsoeg_di" bpmnElement="Ev_e_a5lj8gsoeg"><dc:Bounds x="444" y="352" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="412" y="318" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_fz5fo5qoeg_di" bpmnElement="Act_a_fz5fo5qoeg"><dc:Bounds x="558" y="330" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_6xqr3pvoeg_di" bpmnElement="Act_a_6xqr3pvoeg"><dc:Bounds x="724" y="568" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_ol6v9d3oeg_di" bpmnElement="Ev_e_ol6v9d3oeg"><dc:Bounds x="804" y="630" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="842" y="660" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fin_e_ol6v9d3oeg_di" bpmnElement="Fin_e_ol6v9d3oeg"><dc:Bounds x="922" y="590" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="890" y="630" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_hp09kv2oeg_di" bpmnElement="Act_a_hp09kv2oeg"><dc:Bounds x="1036" y="806" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_pa1dmm6oeg_di" bpmnElement="Act_a_pa1dmm6oeg"><dc:Bounds x="1202" y="1044" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_801cz6loeg_di" bpmnElement="Ev_e_801cz6loeg"><dc:Bounds x="1400" y="114" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="1368" y="80" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_ah8ix62oeg_di" bpmnElement="Act_a_ah8ix62oeg"><dc:Bounds x="1514" y="92" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Dec_d_dv1eqoloej_di" bpmnElement="Dec_d_dv1eqoloej" isMarkerVisible="true"><dc:Bounds x="1719" y="107" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="1680" y="61" width="128" height="42"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_56si7muoeg_di" bpmnElement="Act_a_56si7muoeg"><dc:Bounds x="1854" y="330" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_noqbx6doeg_di" bpmnElement="Act_a_noqbx6doeg"><dc:Bounds x="2020" y="568" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_1rw2zw4oei_di" bpmnElement="Ev_e_1rw2zw4oei"><dc:Bounds x="2218" y="828" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="2186" y="794" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_zkund40oeg_di" bpmnElement="Act_a_zkund40oeg"><dc:Bounds x="2332" y="806" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_856atrwoeg_di" bpmnElement="Act_a_856atrwoeg"><dc:Bounds x="2498" y="1044" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_4k2ssswoei_di" bpmnElement="Ev_e_4k2ssswoei"><dc:Bounds x="2578" y="1106" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="2616" y="1136" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fin_e_4k2ssswoei_di" bpmnElement="Fin_e_4k2ssswoei"><dc:Bounds x="2696" y="1066" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="2664" y="1106" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_4sodscxoei_di" bpmnElement="Act_a_4sodscxoei"><dc:Bounds x="2810" y="92" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_rybabvioei_di" bpmnElement="Act_a_rybabvioei"><dc:Bounds x="2976" y="330" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_my8wpbloei_di" bpmnElement="Ev_e_my8wpbloei"><dc:Bounds x="3174" y="590" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="3142" y="556" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_ylro6ueoei_di" bpmnElement="Act_a_ylro6ueoei"><dc:Bounds x="3288" y="568" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Dec_d_q95gte1oej_di" bpmnElement="Dec_d_q95gte1oej" isMarkerVisible="true"><dc:Bounds x="3493" y="583" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="3454" y="537" width="128" height="42"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_zi7zkmroei_di" bpmnElement="Act_a_zi7zkmroei"><dc:Bounds x="3628" y="806" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_0oxu568oei_di" bpmnElement="Act_a_0oxu568oei"><dc:Bounds x="3794" y="1044" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_lc8oiuqoei_di" bpmnElement="Ev_e_lc8oiuqoei"><dc:Bounds x="3992" y="114" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="3960" y="80" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_29qtfuxoei_di" bpmnElement="Act_a_29qtfuxoei"><dc:Bounds x="4106" y="92" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_1b84nk5oei_di" bpmnElement="Act_a_1b84nk5oei"><dc:Bounds x="4272" y="330" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_sbjiy2zoei_di" bpmnElement="Ev_e_sbjiy2zoei"><dc:Bounds x="4352" y="392" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="4390" y="422" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fin_e_sbjiy2zoei_di" bpmnElement="Fin_e_sbjiy2zoei"><dc:Bounds x="4470" y="352" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="4438" y="392" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_h54cjdtoei_di" bpmnElement="Act_a_h54cjdtoei"><dc:Bounds x="4584" y="568" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_z2caiagoei_di" bpmnElement="Act_a_z2caiagoei"><dc:Bounds x="4750" y="806" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_wradpvdoei_di" bpmnElement="Ev_e_wradpvdoei"><dc:Bounds x="4948" y="1066" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="4916" y="1032" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_cwdqkjwoei_di" bpmnElement="Act_a_cwdqkjwoei"><dc:Bounds x="5062" y="1044" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_46tj09soei_di" bpmnElement="Act_a_46tj09soei"><dc:Bounds x="5228" y="92" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Dec_d_oe9mvp2oej_di" bpmnElement="Dec_d_oe9mvp2oej" isMarkerVisible="true"><dc:Bounds x="5433" y="107" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="5394" y="61" width="128" height="42"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_zkfvtrboei_di" bpmnElement="Act_a_zkfvtrboei"><dc:Bounds x="5568" y="330" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_4y9p6inoei_di" bpmnElement="Ev_e_4y9p6inoei"><dc:Bounds x="5766" y="590" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="5734" y="556" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_82fd4rooei_di" bpmnElement="Act_a_82fd4rooei"><dc:Bounds x="5880" y="568" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_4aih0znoei_di" bpmnElement="Act_a_4aih0znoei"><dc:Bounds x="6046" y="806" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_jdfk1lgoei_di" bpmnElement="Ev_e_jdfk1lgoei"><dc:Bounds x="6126" y="868" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="6164" y="898" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fin_e_jdfk1lgoei_di" bpmnElement="Fin_e_jdfk1lgoei"><dc:Bounds x="6244" y="828" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="6212" y="868" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_kxcvqssoei_di" bpmnElement="Act_a_kxcvqssoei"><dc:Bounds x="6358" y="1044" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_0wjxaksoei_di" bpmnElement="Act_a_0wjxaksoei"><dc:Bounds x="6524" y="92" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_65y4o82oei_di" bpmnElement="Ev_e_65y4o82oei"><dc:Bounds x="6722" y="352" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="6690" y="318" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_iv8lh8doei_di" bpmnElement="Act_a_iv8lh8doei"><dc:Bounds x="6836" y="330" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_cpplf3roei_di" bpmnElement="Act_a_cpplf3roei"><dc:Bounds x="7002" y="568" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Dec_d_nhb472boej_di" bpmnElement="Dec_d_nhb472boej" isMarkerVisible="true"><dc:Bounds x="7207" y="583" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="7168" y="537" width="128" height="42"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_3mh2ymloei_di" bpmnElement="Act_a_3mh2ymloei"><dc:Bounds x="7342" y="806" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_dsyikproei_di" bpmnElement="Ev_e_dsyikproei"><dc:Bounds x="7540" y="1066" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="7508" y="1032" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_juc12q9oei_di" bpmnElement="Act_a_juc12q9oei"><dc:Bounds x="7654" y="1044" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_1wg3yz1oei_di" bpmnElement="Act_a_1wg3yz1oei"><dc:Bounds x="7820" y="92" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_mmfsmisoei_di" bpmnElement="Ev_e_mmfsmisoei"><dc:Bounds x="7900" y="154" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="7938" y="184" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fin_e_mmfsmisoei_di" bpmnElement="Fin_e_mmfsmisoei"><dc:Bounds x="8018" y="114" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="7986" y="154" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_ulnzlu3oei_di" bpmnElement="Act_a_ulnzlu3oei"><dc:Bounds x="8132" y="330" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_f8wrp9koei_di" bpmnElement="Act_a_f8wrp9koei"><dc:Bounds x="8298" y="568" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_l3l7g1toei_di" bpmnElement="Ev_e_l3l7g1toei"><dc:Bounds x="8496" y="828" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="8464" y="794" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_s34qae8oei_di" bpmnElement="Act_a_s34qae8oei"><dc:Bounds x="8610" y="806" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_fceqfe7oei_di" bpmnElement="Act_a_fceqfe7oei"><dc:Bounds x="8776" y="1044" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fin_normal_di" bpmnElement="Fin_normal"><dc:Bounds x="8974" y="1066" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="8942" y="1106" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_fz5fo5qoeg_di" bpmnElement="Entregable_a_fz5fo5qoeg"><dc:Bounds x="564" y="432" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="606" y="442" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_hp09kv2oeg_di" bpmnElement="Entregable_a_hp09kv2oeg"><dc:Bounds x="1042" y="908" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="1084" y="918" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_ah8ix62oeg_di" bpmnElement="Entregable_a_ah8ix62oeg"><dc:Bounds x="1520" y="194" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="1562" y="204" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_zkund40oeg_di" bpmnElement="Entregable_a_zkund40oeg"><dc:Bounds x="2338" y="908" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="2380" y="918" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_4sodscxoei_di" bpmnElement="Entregable_a_4sodscxoei"><dc:Bounds x="2816" y="194" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="2858" y="204" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_ylro6ueoei_di" bpmnElement="Entregable_a_ylro6ueoei"><dc:Bounds x="3294" y="670" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="3336" y="680" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_29qtfuxoei_di" bpmnElement="Entregable_a_29qtfuxoei"><dc:Bounds x="4112" y="194" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="4154" y="204" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_h54cjdtoei_di" bpmnElement="Entregable_a_h54cjdtoei"><dc:Bounds x="4590" y="670" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="4632" y="680" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_cwdqkjwoei_di" bpmnElement="Entregable_a_cwdqkjwoei"><dc:Bounds x="5068" y="1146" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="5110" y="1156" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_82fd4rooei_di" bpmnElement="Entregable_a_82fd4rooei"><dc:Bounds x="5886" y="670" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="5928" y="680" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_kxcvqssoei_di" bpmnElement="Entregable_a_kxcvqssoei"><dc:Bounds x="6364" y="1146" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="6406" y="1156" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_iv8lh8doei_di" bpmnElement="Entregable_a_iv8lh8doei"><dc:Bounds x="6842" y="432" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="6884" y="442" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_juc12q9oei_di" bpmnElement="Entregable_a_juc12q9oei"><dc:Bounds x="7660" y="1146" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="7702" y="1156" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_ulnzlu3oei_di" bpmnElement="Entregable_a_ulnzlu3oei"><dc:Bounds x="8138" y="432" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="8180" y="442" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_s34qae8oei_di" bpmnElement="Entregable_a_s34qae8oei"><dc:Bounds x="8616" y="908" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="8658" y="918" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_a5lj8gsoeg__Act_a_fz5fo5qoeg_di" bpmnElement="Flujo_Ev_e_a5lj8gsoeg__Act_a_fz5fo5qoeg"><di:waypoint x="480" y="370"/><di:waypoint x="558" y="370"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_801cz6loeg__Act_a_ah8ix62oeg_di" bpmnElement="Flujo_Ev_e_801cz6loeg__Act_a_ah8ix62oeg"><di:waypoint x="1436" y="132"/><di:waypoint x="1514" y="132"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_1rw2zw4oei__Act_a_zkund40oeg_di" bpmnElement="Flujo_Ev_e_1rw2zw4oei__Act_a_zkund40oeg"><di:waypoint x="2254" y="846"/><di:waypoint x="2332" y="846"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_my8wpbloei__Act_a_ylro6ueoei_di" bpmnElement="Flujo_Ev_e_my8wpbloei__Act_a_ylro6ueoei"><di:waypoint x="3210" y="608"/><di:waypoint x="3288" y="608"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_lc8oiuqoei__Act_a_29qtfuxoei_di" bpmnElement="Flujo_Ev_e_lc8oiuqoei__Act_a_29qtfuxoei"><di:waypoint x="4028" y="132"/><di:waypoint x="4106" y="132"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_wradpvdoei__Act_a_cwdqkjwoei_di" bpmnElement="Flujo_Ev_e_wradpvdoei__Act_a_cwdqkjwoei"><di:waypoint x="4984" y="1084"/><di:waypoint x="5062" y="1084"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_4y9p6inoei__Act_a_82fd4rooei_di" bpmnElement="Flujo_Ev_e_4y9p6inoei__Act_a_82fd4rooei"><di:waypoint x="5802" y="608"/><di:waypoint x="5880" y="608"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_65y4o82oei__Act_a_iv8lh8doei_di" bpmnElement="Flujo_Ev_e_65y4o82oei__Act_a_iv8lh8doei"><di:waypoint x="6758" y="370"/><di:waypoint x="6836" y="370"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_dsyikproei__Act_a_juc12q9oei_di" bpmnElement="Flujo_Ev_e_dsyikproei__Act_a_juc12q9oei"><di:waypoint x="7576" y="1084"/><di:waypoint x="7654" y="1084"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_l3l7g1toei__Act_a_s34qae8oei_di" bpmnElement="Flujo_Ev_e_l3l7g1toei__Act_a_s34qae8oei"><di:waypoint x="8532" y="846"/><di:waypoint x="8610" y="846"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Inicio__Act_a_hcxyxe0oeg_di" bpmnElement="Flujo_Inicio__Act_a_hcxyxe0oeg"><di:waypoint x="168" y="132"/><di:waypoint x="246" y="132"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_hcxyxe0oeg__Ev_e_a5lj8gsoeg_di" bpmnElement="Flujo_Act_a_hcxyxe0oeg__Ev_e_a5lj8gsoeg"><di:waypoint x="306" y="172"/><di:waypoint x="306" y="370"/><di:waypoint x="444" y="370"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_fz5fo5qoeg__Act_a_6xqr3pvoeg_di" bpmnElement="Flujo_Act_a_fz5fo5qoeg__Act_a_6xqr3pvoeg"><di:waypoint x="678" y="370"/><di:waypoint x="784" y="370"/><di:waypoint x="784" y="568"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_6xqr3pvoeg__Act_a_hp09kv2oeg_di" bpmnElement="Flujo_Act_a_6xqr3pvoeg__Act_a_hp09kv2oeg"><di:waypoint x="784" y="648"/><di:waypoint x="784" y="846"/><di:waypoint x="1036" y="846"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_hp09kv2oeg__Act_a_pa1dmm6oeg_di" bpmnElement="Flujo_Act_a_hp09kv2oeg__Act_a_pa1dmm6oeg"><di:waypoint x="1156" y="846"/><di:waypoint x="1262" y="846"/><di:waypoint x="1262" y="1044"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_pa1dmm6oeg__Ev_e_801cz6loeg_di" bpmnElement="Flujo_Act_a_pa1dmm6oeg__Ev_e_801cz6loeg"><di:waypoint x="1322" y="1084"/><di:waypoint x="1418" y="1084"/><di:waypoint x="1418" y="150"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_ah8ix62oeg__Dec_d_dv1eqoloej_di" bpmnElement="Flujo_Act_a_ah8ix62oeg__Dec_d_dv1eqoloej"><di:waypoint x="1634" y="132"/><di:waypoint x="1719" y="132"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Dec_d_dv1eqoloej__Act_a_56si7muoeg_di" bpmnElement="Flujo_Dec_d_dv1eqoloej__Act_a_56si7muoeg"><di:waypoint x="1744" y="157"/><di:waypoint x="1744" y="370"/><di:waypoint x="1854" y="370"/><bpmndi:BPMNLabel><dc:Bounds x="1749" y="165" width="34" height="16"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Dec_d_dv1eqoloej__Act_a_6xqr3pvoeg_di" bpmnElement="Flujo_Dec_d_dv1eqoloej__Act_a_6xqr3pvoeg"><di:waypoint x="1769" y="132"/><di:waypoint x="1781" y="132"/><di:waypoint x="1781" y="556"/><di:waypoint x="712" y="556"/><di:waypoint x="712" y="608"/><di:waypoint x="724" y="608"/><bpmndi:BPMNLabel><dc:Bounds x="1775" y="113" width="34" height="16"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_56si7muoeg__Act_a_noqbx6doeg_di" bpmnElement="Flujo_Act_a_56si7muoeg__Act_a_noqbx6doeg"><di:waypoint x="1974" y="370"/><di:waypoint x="2080" y="370"/><di:waypoint x="2080" y="568"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_noqbx6doeg__Ev_e_1rw2zw4oei_di" bpmnElement="Flujo_Act_a_noqbx6doeg__Ev_e_1rw2zw4oei"><di:waypoint x="2080" y="648"/><di:waypoint x="2080" y="846"/><di:waypoint x="2218" y="846"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_zkund40oeg__Act_a_856atrwoeg_di" bpmnElement="Flujo_Act_a_zkund40oeg__Act_a_856atrwoeg"><di:waypoint x="2452" y="846"/><di:waypoint x="2558" y="846"/><di:waypoint x="2558" y="1044"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_856atrwoeg__Act_a_4sodscxoei_di" bpmnElement="Flujo_Act_a_856atrwoeg__Act_a_4sodscxoei"><di:waypoint x="2618" y="1084"/><di:waypoint x="2684" y="1084"/><di:waypoint x="2684" y="132"/><di:waypoint x="2810" y="132"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_4sodscxoei__Act_a_rybabvioei_di" bpmnElement="Flujo_Act_a_4sodscxoei__Act_a_rybabvioei"><di:waypoint x="2930" y="132"/><di:waypoint x="3036" y="132"/><di:waypoint x="3036" y="330"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_rybabvioei__Ev_e_my8wpbloei_di" bpmnElement="Flujo_Act_a_rybabvioei__Ev_e_my8wpbloei"><di:waypoint x="3036" y="410"/><di:waypoint x="3036" y="608"/><di:waypoint x="3174" y="608"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_ylro6ueoei__Dec_d_q95gte1oej_di" bpmnElement="Flujo_Act_a_ylro6ueoei__Dec_d_q95gte1oej"><di:waypoint x="3408" y="608"/><di:waypoint x="3493" y="608"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Dec_d_q95gte1oej__Act_a_zi7zkmroei_di" bpmnElement="Flujo_Dec_d_q95gte1oej__Act_a_zi7zkmroei"><di:waypoint x="3518" y="633"/><di:waypoint x="3518" y="846"/><di:waypoint x="3628" y="846"/><bpmndi:BPMNLabel><dc:Bounds x="3523" y="641" width="34" height="16"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Dec_d_q95gte1oej__Act_a_856atrwoeg_di" bpmnElement="Flujo_Dec_d_q95gte1oej__Act_a_856atrwoeg"><di:waypoint x="3543" y="608"/><di:waypoint x="3555" y="608"/><di:waypoint x="3555" y="1032"/><di:waypoint x="2486" y="1032"/><di:waypoint x="2486" y="1084"/><di:waypoint x="2498" y="1084"/><bpmndi:BPMNLabel><dc:Bounds x="3549" y="589" width="34" height="16"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_zi7zkmroei__Act_a_0oxu568oei_di" bpmnElement="Flujo_Act_a_zi7zkmroei__Act_a_0oxu568oei"><di:waypoint x="3748" y="846"/><di:waypoint x="3854" y="846"/><di:waypoint x="3854" y="1044"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_0oxu568oei__Ev_e_lc8oiuqoei_di" bpmnElement="Flujo_Act_a_0oxu568oei__Ev_e_lc8oiuqoei"><di:waypoint x="3914" y="1084"/><di:waypoint x="4010" y="1084"/><di:waypoint x="4010" y="150"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_29qtfuxoei__Act_a_1b84nk5oei_di" bpmnElement="Flujo_Act_a_29qtfuxoei__Act_a_1b84nk5oei"><di:waypoint x="4226" y="132"/><di:waypoint x="4332" y="132"/><di:waypoint x="4332" y="330"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_1b84nk5oei__Act_a_h54cjdtoei_di" bpmnElement="Flujo_Act_a_1b84nk5oei__Act_a_h54cjdtoei"><di:waypoint x="4332" y="410"/><di:waypoint x="4332" y="608"/><di:waypoint x="4584" y="608"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_h54cjdtoei__Act_a_z2caiagoei_di" bpmnElement="Flujo_Act_a_h54cjdtoei__Act_a_z2caiagoei"><di:waypoint x="4704" y="608"/><di:waypoint x="4810" y="608"/><di:waypoint x="4810" y="806"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_z2caiagoei__Ev_e_wradpvdoei_di" bpmnElement="Flujo_Act_a_z2caiagoei__Ev_e_wradpvdoei"><di:waypoint x="4810" y="886"/><di:waypoint x="4810" y="1084"/><di:waypoint x="4948" y="1084"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_cwdqkjwoei__Act_a_46tj09soei_di" bpmnElement="Flujo_Act_a_cwdqkjwoei__Act_a_46tj09soei"><di:waypoint x="5182" y="1084"/><di:waypoint x="5288" y="1084"/><di:waypoint x="5288" y="172"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_46tj09soei__Dec_d_oe9mvp2oej_di" bpmnElement="Flujo_Act_a_46tj09soei__Dec_d_oe9mvp2oej"><di:waypoint x="5348" y="132"/><di:waypoint x="5433" y="132"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Dec_d_oe9mvp2oej__Act_a_zkfvtrboei_di" bpmnElement="Flujo_Dec_d_oe9mvp2oej__Act_a_zkfvtrboei"><di:waypoint x="5458" y="157"/><di:waypoint x="5458" y="370"/><di:waypoint x="5568" y="370"/><bpmndi:BPMNLabel><dc:Bounds x="5463" y="165" width="34" height="16"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Dec_d_oe9mvp2oej__Act_a_h54cjdtoei_di" bpmnElement="Flujo_Dec_d_oe9mvp2oej__Act_a_h54cjdtoei"><di:waypoint x="5483" y="132"/><di:waypoint x="5495" y="132"/><di:waypoint x="5495" y="556"/><di:waypoint x="4644" y="556"/><di:waypoint x="4644" y="568"/><bpmndi:BPMNLabel><dc:Bounds x="5489" y="113" width="34" height="16"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_zkfvtrboei__Ev_e_4y9p6inoei_di" bpmnElement="Flujo_Act_a_zkfvtrboei__Ev_e_4y9p6inoei"><di:waypoint x="5628" y="410"/><di:waypoint x="5628" y="608"/><di:waypoint x="5766" y="608"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_82fd4rooei__Act_a_4aih0znoei_di" bpmnElement="Flujo_Act_a_82fd4rooei__Act_a_4aih0znoei"><di:waypoint x="6000" y="608"/><di:waypoint x="6106" y="608"/><di:waypoint x="6106" y="806"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_4aih0znoei__Act_a_kxcvqssoei_di" bpmnElement="Flujo_Act_a_4aih0znoei__Act_a_kxcvqssoei"><di:waypoint x="6106" y="886"/><di:waypoint x="6106" y="1084"/><di:waypoint x="6358" y="1084"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_kxcvqssoei__Act_a_0wjxaksoei_di" bpmnElement="Flujo_Act_a_kxcvqssoei__Act_a_0wjxaksoei"><di:waypoint x="6478" y="1084"/><di:waypoint x="6584" y="1084"/><di:waypoint x="6584" y="172"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_0wjxaksoei__Ev_e_65y4o82oei_di" bpmnElement="Flujo_Act_a_0wjxaksoei__Ev_e_65y4o82oei"><di:waypoint x="6644" y="132"/><di:waypoint x="6687" y="132"/><di:waypoint x="6687" y="370"/><di:waypoint x="6722" y="370"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_iv8lh8doei__Act_a_cpplf3roei_di" bpmnElement="Flujo_Act_a_iv8lh8doei__Act_a_cpplf3roei"><di:waypoint x="6956" y="370"/><di:waypoint x="7062" y="370"/><di:waypoint x="7062" y="568"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_cpplf3roei__Dec_d_nhb472boej_di" bpmnElement="Flujo_Act_a_cpplf3roei__Dec_d_nhb472boej"><di:waypoint x="7122" y="608"/><di:waypoint x="7207" y="608"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Dec_d_nhb472boej__Act_a_3mh2ymloei_di" bpmnElement="Flujo_Dec_d_nhb472boej__Act_a_3mh2ymloei"><di:waypoint x="7232" y="633"/><di:waypoint x="7232" y="846"/><di:waypoint x="7342" y="846"/><bpmndi:BPMNLabel><dc:Bounds x="7237" y="641" width="34" height="16"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Dec_d_nhb472boej__Act_a_kxcvqssoei_di" bpmnElement="Flujo_Dec_d_nhb472boej__Act_a_kxcvqssoei"><di:waypoint x="7257" y="608"/><di:waypoint x="7269" y="608"/><di:waypoint x="7269" y="1032"/><di:waypoint x="6418" y="1032"/><di:waypoint x="6418" y="1044"/><bpmndi:BPMNLabel><dc:Bounds x="7263" y="589" width="34" height="16"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_3mh2ymloei__Ev_e_dsyikproei_di" bpmnElement="Flujo_Act_a_3mh2ymloei__Ev_e_dsyikproei"><di:waypoint x="7402" y="886"/><di:waypoint x="7402" y="1084"/><di:waypoint x="7540" y="1084"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_juc12q9oei__Act_a_1wg3yz1oei_di" bpmnElement="Flujo_Act_a_juc12q9oei__Act_a_1wg3yz1oei"><di:waypoint x="7774" y="1084"/><di:waypoint x="7880" y="1084"/><di:waypoint x="7880" y="172"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_1wg3yz1oei__Act_a_ulnzlu3oei_di" bpmnElement="Flujo_Act_a_1wg3yz1oei__Act_a_ulnzlu3oei"><di:waypoint x="7880" y="172"/><di:waypoint x="7880" y="184"/><di:waypoint x="7888" y="184"/><di:waypoint x="7888" y="370"/><di:waypoint x="8132" y="370"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_ulnzlu3oei__Act_a_f8wrp9koei_di" bpmnElement="Flujo_Act_a_ulnzlu3oei__Act_a_f8wrp9koei"><di:waypoint x="8252" y="370"/><di:waypoint x="8358" y="370"/><di:waypoint x="8358" y="568"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_f8wrp9koei__Ev_e_l3l7g1toei_di" bpmnElement="Flujo_Act_a_f8wrp9koei__Ev_e_l3l7g1toei"><di:waypoint x="8358" y="648"/><di:waypoint x="8358" y="846"/><di:waypoint x="8496" y="846"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_s34qae8oei__Act_a_fceqfe7oei_di" bpmnElement="Flujo_Act_a_s34qae8oei__Act_a_fceqfe7oei"><di:waypoint x="8730" y="846"/><di:waypoint x="8836" y="846"/><di:waypoint x="8836" y="1044"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_fceqfe7oei__Fin_normal_di" bpmnElement="Flujo_Act_a_fceqfe7oei__Fin_normal"><di:waypoint x="8896" y="1084"/><di:waypoint x="8974" y="1084"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_ol6v9d3oeg__Fin_e_ol6v9d3oeg_di" bpmnElement="Flujo_Ev_e_ol6v9d3oeg__Fin_e_ol6v9d3oeg"><di:waypoint x="822" y="666"/><di:waypoint x="822" y="693"/><di:waypoint x="993" y="693"/><di:waypoint x="993" y="578"/><di:waypoint x="940" y="578"/><di:waypoint x="940" y="590"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_4k2ssswoei__Fin_e_4k2ssswoei_di" bpmnElement="Flujo_Ev_e_4k2ssswoei__Fin_e_4k2ssswoei"><di:waypoint x="2596" y="1142"/><di:waypoint x="2596" y="1169"/><di:waypoint x="2767" y="1169"/><di:waypoint x="2767" y="1054"/><di:waypoint x="2714" y="1054"/><di:waypoint x="2714" y="1066"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_sbjiy2zoei__Fin_e_sbjiy2zoei_di" bpmnElement="Flujo_Ev_e_sbjiy2zoei__Fin_e_sbjiy2zoei"><di:waypoint x="4370" y="428"/><di:waypoint x="4370" y="455"/><di:waypoint x="4541" y="455"/><di:waypoint x="4541" y="340"/><di:waypoint x="4488" y="340"/><di:waypoint x="4488" y="352"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_jdfk1lgoei__Fin_e_jdfk1lgoei_di" bpmnElement="Flujo_Ev_e_jdfk1lgoei__Fin_e_jdfk1lgoei"><di:waypoint x="6144" y="904"/><di:waypoint x="6144" y="931"/><di:waypoint x="6315" y="931"/><di:waypoint x="6315" y="816"/><di:waypoint x="6262" y="816"/><di:waypoint x="6262" y="828"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_mmfsmisoei__Fin_e_mmfsmisoei_di" bpmnElement="Flujo_Ev_e_mmfsmisoei__Fin_e_mmfsmisoei"><di:waypoint x="7918" y="190"/><di:waypoint x="7918" y="217"/><di:waypoint x="8089" y="217"/><di:waypoint x="8089" y="102"/><di:waypoint x="8036" y="102"/><di:waypoint x="8036" y="114"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_fz5fo5qoeg_di" bpmnElement="Asoc_a_fz5fo5qoeg"><di:waypoint x="582" y="410"/><di:waypoint x="582" y="432"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_hp09kv2oeg_di" bpmnElement="Asoc_a_hp09kv2oeg"><di:waypoint x="1060" y="886"/><di:waypoint x="1060" y="908"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_ah8ix62oeg_di" bpmnElement="Asoc_a_ah8ix62oeg"><di:waypoint x="1538" y="172"/><di:waypoint x="1538" y="194"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_zkund40oeg_di" bpmnElement="Asoc_a_zkund40oeg"><di:waypoint x="2356" y="886"/><di:waypoint x="2356" y="908"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_4sodscxoei_di" bpmnElement="Asoc_a_4sodscxoei"><di:waypoint x="2834" y="172"/><di:waypoint x="2834" y="194"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_ylro6ueoei_di" bpmnElement="Asoc_a_ylro6ueoei"><di:waypoint x="3312" y="648"/><di:waypoint x="3312" y="670"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_29qtfuxoei_di" bpmnElement="Asoc_a_29qtfuxoei"><di:waypoint x="4130" y="172"/><di:waypoint x="4130" y="194"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_h54cjdtoei_di" bpmnElement="Asoc_a_h54cjdtoei"><di:waypoint x="4608" y="648"/><di:waypoint x="4608" y="670"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_cwdqkjwoei_di" bpmnElement="Asoc_a_cwdqkjwoei"><di:waypoint x="5086" y="1124"/><di:waypoint x="5086" y="1146"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_82fd4rooei_di" bpmnElement="Asoc_a_82fd4rooei"><di:waypoint x="5904" y="648"/><di:waypoint x="5904" y="670"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_kxcvqssoei_di" bpmnElement="Asoc_a_kxcvqssoei"><di:waypoint x="6382" y="1124"/><di:waypoint x="6382" y="1146"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_iv8lh8doei_di" bpmnElement="Asoc_a_iv8lh8doei"><di:waypoint x="6860" y="410"/><di:waypoint x="6860" y="432"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_juc12q9oei_di" bpmnElement="Asoc_a_juc12q9oei"><di:waypoint x="7678" y="1124"/><di:waypoint x="7678" y="1146"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_ulnzlu3oei_di" bpmnElement="Asoc_a_ulnzlu3oei"><di:waypoint x="8156" y="410"/><di:waypoint x="8156" y="432"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_s34qae8oei_di" bpmnElement="Asoc_a_s34qae8oei"><di:waypoint x="8634" y="886"/><di:waypoint x="8634" y="908"/></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

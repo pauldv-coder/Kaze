@@ -1,0 +1,12 @@
+<!-- @dsCard group="Datos" height=96 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>SummaryStrip — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo kz-demo--col"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h(K.SummaryStrip, { celdas: [{ valor: '12', etiqueta: 'Procesos' }, { valor: '3', etiqueta: 'En revisión', tono: 'alerta' }, { valor: '7', etiqueta: 'Aprobados', tono: 'bien' }, { valor: '18', etiqueta: 'Preguntas abiertas' }, { valor: '5', etiqueta: 'Sugerencias IA por validar' }] }));
+</script>
+</body>
+</html>

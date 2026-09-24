@@ -1,0 +1,19 @@
+<!-- @dsCard group="Estado" height=210 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>SelectorVersion — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo kz-demo--white" style="align-items: flex-start; min-height: 170px"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  var nada = function () {};
+  var dos = [{ id: 'asis', tipo: 'asis', version: 2, estado: 'aprobado' }, { id: 'tobe', tipo: 'tobe', version: 1, estado: 'borrador' }];
+  ReactDOM.createRoot(document.getElementById('root')).render(h(React.Fragment, null,
+    h(K.SelectorVersion, { versiones: [{ id: 'asis', tipo: 'asis', version: 1, estado: 'borrador' }], actual: 'asis', onCambiar: nada, onCrear: nada }),
+    h('span', { style: { width: 24 } }),
+    h(K.SelectorVersion, { versiones: dos, actual: 'tobe', onCambiar: nada })));
+  // La segunda se muestra abierta.
+  setTimeout(function () { var b = document.querySelectorAll('.kz-versel__btn')[1]; if (b) b.click(); }, 80);
+</script>
+</body>
+</html>

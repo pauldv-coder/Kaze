@@ -1,0 +1,12 @@
+<!-- @dsCard group="Base" height=150 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>CampoTexto — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo kz-demo--white"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 16, width: '100%' } }, h(K.CampoTexto, { etiqueta: 'Actividad', defaultValue: 'Validar solicitud' }), h(K.CampoTexto, { etiqueta: 'Unidad de tiempo', como: 'select', opciones: ['minutos', 'horas', 'días'] , defaultValue: 'horas' }), h(K.CampoTexto, { etiqueta: 'Responsable', placeholder: 'Rol, no persona', error: 'Escribe un rol: «Analista de cartera».' })));
+</script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+Este procedimiento cuenta cómo se hace el proceso «Conciliación bancaria mensual»: quién hace cada paso, con qué y qué entrega. El proceso empieza cuando el banco publica el extracto del mes (cada mes, hacia el tercer día hábil) y termina con la conciliación aprobada y archivada. Tiene 8 pasos en 3 fases: Preparación, Cuadre y Cierre. Participan el auxiliar contable, el sistema contable, el analista contable y el jefe de contabilidad. Se hace mensual, por cuenta bancaria.
+
+Cómo leerlo: cada paso lleva el número que tiene en el diagrama. «Importante» marca una regla que se debe cumplir y «Atención», un problema conocido. Lo que falta confirmar va en color. La ficha técnica de cada actividad está en los anexos.
+
+Aplica a las cuentas corrientes y de ahorro en pesos de los clientes del despacho. No incluye las cuentas en moneda extranjera y tarjetas de crédito.
+
+El proceso empieza cuando el banco publica el extracto del mes (cada mes, hacia el tercer día hábil) y termina con la conciliación aprobada y archivada.
+
+Participan el auxiliar contable, el sistema contable, el analista contable y el jefe de contabilidad, de las áreas de Contabilidad y Tesorería. El resultado lo recibe la gerencia financiera del cliente, fuera de la organización.
+
+Esta fase busca tener los movimientos del banco dentro del sistema. Empieza cuando el banco publica el extracto y termina con los movimientos cargados en Siigo. Entrega el extracto del mes y los movimientos bancarios cargados.
+
+Con el acceso al portal del banco, el auxiliar contable descarga el extracto bancario. Ingresa al portal empresarial con el token de la empresa y descarga el extracto en PDF y en Excel. Guarda ambos archivos en la carpeta del mes. Usa el portal empresarial del banco. Antes de seguir, comprueba que el extracto cubre el mes completo y trae saldo final. El resultado es el extracto del mes. Toma un cuarto de hora.
+
+Con el extracto del mes, el auxiliar contable carga el extracto al sistema contable. Usa Siigo Nube. El resultado son los movimientos bancarios cargados. Toma media hora.
+
+Por confirmar: cuánto espera.
+
+Esta fase busca explicar cada diferencia entre banco y libros. Empieza con los movimientos cargados en Siigo. Entrega las partidas conciliatorias.
+
+Con los movimientos bancarios cargados, el sistema contable ejecuta el cuadre automático. Usa Siigo Nube. El resultado es el reporte de partidas sin cruce. Toma unos 6 minutos.
+
+Luego se decide: ¿Cruzan todos los movimientos?
+
+Si la respuesta es «Sí, todo cruza», sigue en el paso 6 (Revisar y aprobar la conciliación).
+
+Si la respuesta es «Quedan partidas sin cruce», sigue en el paso 4 (Investigar diferencias).
+
+También se llega a este paso desde el paso 6, si la respuesta es «Con observaciones». Con el reporte de partidas sin cruce, el analista contable investiga las diferencias. Lo hace por cada partida sin cruce, una tras otra. Revisa cada partida del reporte contra los soportes. Si es una consignación sin referencia, llama al cliente para identificarla; si es una comisión, pide el soporte al banco. Cuenta con el apoyo de la tesorería del cliente. El resultado es la explicación de cada diferencia. Al terminar, espera la respuesta del cliente, que envía la tesorería del cliente desde fuera de la organización.
+
+Las consignaciones sin referencia se demoran porque hay que llamar al cliente.
+
+Hay preguntas abiertas sobre este paso. Por confirmar: cuánto tarda y cuánto espera.
+
+Con la explicación de cada diferencia, el analista contable registra las partidas conciliatorias. Usa el formato FT-CON-02 «Registro de partidas conciliatorias». El resultado son las partidas conciliatorias. Toma una hora.
+
+Toda partida mayor a 90 días se ajusta contra gasto con visto bueno de la jefe.
+
+Por confirmar: cómo se sabe que quedó bien.
+
+Esta fase busca dejar la conciliación aprobada, enviada y archivada. Empieza con las diferencias explicadas y termina con la conciliación archivada en la carpeta del cliente. Entrega la conciliación firmada y el informe de conciliación.
+
+También se llega a este paso desde el paso 3, si la respuesta es «Sí, todo cruza». Con las partidas conciliatorias, el jefe de contabilidad revisa y aprueba la conciliación. Usa el formato FT-CON-01 «Formato de conciliación bancaria». Antes de seguir, comprueba esto: diferencia final en cero o totalmente explicada. El resultado es la conciliación firmada. Toma media hora, más 24 horas de espera.
+
+Luego se decide: ¿La jefe aprueba la conciliación?
+
+Si la respuesta es «Aprobada», sigue en el paso 7 (Enviar informe de conciliación al cliente).
+
+Si la respuesta es «Con observaciones», vuelve al paso 4 (Investigar diferencias).
+
+Con la conciliación firmada, el auxiliar contable envía el informe de conciliación al cliente. Usa el correo electrónico. El resultado es el informe de conciliación, que se entrega a la gerencia financiera del cliente, fuera de la organización. Toma un cuarto de hora.
+
+Con la conciliación firmada, el auxiliar contable archiva la conciliación. Trabaja con la carpeta del cliente en SharePoint. Toma unos 6 minutos. Con esto termina el proceso, con la conciliación aprobada y archivada.

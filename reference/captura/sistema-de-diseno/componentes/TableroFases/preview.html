@@ -1,0 +1,71 @@
+<!-- @dsCard group="Captura" height=640 subtitle="Lista por fase, corrige y arrastra: el número se recalcula" -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>TableroFases — vista previa</title>
+<style>
+  .demo { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .barra { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .modo { display: inline-flex; border: 1px solid var(--color-borde); border-radius: var(--radius-md); overflow: hidden; }
+  .modo button { font: inherit; font-size: 12.5px; font-weight: 600; padding: 6px 12px; border: 0; background: var(--color-blanco); color: var(--color-tinta); cursor: pointer; }
+  .modo button + button { border-left: 1px solid var(--color-borde); }
+  .modo button[aria-pressed="true"] { background: var(--color-tinta); color: var(--color-blanco); }
+  .ayuda { margin: 0; font-size: 12px; line-height: 1.5; color: var(--color-apagado); }
+  .completo { --kz-fase-ancho: 212px; }
+  .seq { margin: 0; padding: 10px 12px; background: var(--color-blanco); border: 1px solid var(--color-borde); border-radius: var(--radius-lg); font-size: 12px; line-height: 20px; }
+  .seq b { font-family: var(--font-display); font-variant-numeric: tabular-nums; }
+  .seq .lbl { font-size: 10.5px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--color-apagado); margin-right: 8px; }
+</style>
+</head>
+<body>
+<div id="root" class="demo"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  var n = 0;
+  function nuevaClave() { n += 1; return 'n' + n; }
+  var INICIAL = [
+    { id: 'prep', nombre: 'Preparación', objetivo: 'Tener el extracto listo para cruzar.', entrada: 'Cierre del mes en el banco', entregables: ['Extracto del mes'], salida: 'Extracto cargado', actividades: [
+      { clave: 'a1', nombre: 'Descargar extracto', responsable: 'Auxiliar contable', entregable: 'Extracto del mes' },
+      { clave: 'a2', nombre: 'Cargar extracto al sistema', responsable: 'Auxiliar contable' } ] },
+    { id: 'cuadre', nombre: 'Cuadre', objetivo: 'Explicar cada diferencia.', entrada: 'Extracto cargado', entregables: ['Partida conciliatoria'], salida: null, actividades: [
+      { clave: 'a3', nombre: 'Ejecutar cuadre automático', responsable: 'Sistema contable', entregable: 'Reporte de partidas' },
+      { clave: 'a4', nombre: 'Revisar partidas sin cruce', responsable: 'Analista contable', estado: 'sugerencia' },
+      { clave: 'a5', nombre: 'Investigar diferencia', responsable: null, estado: 'pregunta' } ] },
+    { id: 'cierre', nombre: 'Cierre', objetivo: 'Dejar la conciliación aprobada y archivada.', entrada: 'Sin diferencias abiertas', entregables: ['Conciliación firmada'], salida: 'Conciliación archivada', actividades: [
+      { clave: 'a6', nombre: 'Archivar conciliación', responsable: 'Auxiliar contable' } ] },
+    { id: 'sin', sinFase: true, nombre: 'Sin fase', actividades: [
+      { clave: 'a7', nombre: 'Confirmar saldos con tesorería', responsable: null } ] }
+  ];
+  function copiar(fs) { return fs.map(function (f) { return Object.assign({}, f, { actividades: f.actividades.slice() }); }); }
+  function Demo() {
+    var e = React.useState(INICIAL), fases = e[0], setFases = e[1];
+    var m = React.useState('listar'), modo = m[0], setModo = m[1];
+    var t = React.useState(null), sel = t[0], setSel = t[1];
+    var listar = modo === 'listar';
+    function editar(fn) { setFases(function (fs) { var c = copiar(fs); fn(c); return c; }); }
+    var seq = K.secuenciaActividades(fases);
+    var numeradas = seq.filter(function (a) { return a.numero != null; });
+    var elegida = seq.filter(function (a) { return a.clave === sel; })[0];
+    return h('div', { style: { display: 'flex', flexDirection: 'column', gap: 12 } },
+      h('div', { className: 'barra' },
+        h('div', { className: 'modo', role: 'group', 'aria-label': 'Vista del tablero' },
+          h('button', { type: 'button', 'aria-pressed': listar, onClick: function () { setModo('listar'); } }, '1 · Listar y agrupar'),
+          h('button', { type: 'button', 'aria-pressed': !listar, onClick: function () { setModo('criterios'); } }, 'Con criterios')),
+        h('p', { className: 'ayuda' }, listar ? 'Escribe en «+ Agregar actividad» y pulsa Enter · clic en un nombre para corregirlo · arrastra para ordenar.' : 'La misma secuencia con los criterios de cada fase.')),
+      h('div', { className: listar ? '' : 'completo' },
+        h(K.TableroFases, {
+          fases: fases, compacto: listar, seleccionada: sel, onSeleccionar: setSel,
+          onCambio: function (f) { setFases(f); },
+          onAgregar: listar ? function (id, nombres) { editar(function (c) { var f = c.filter(function (x) { return x.id === id; })[0]; nombres.forEach(function (nm) { f.actividades.push({ clave: nuevaClave(), nombre: nm }); }); }); } : undefined,
+          onRenombrar: listar ? function (k, nm) { editar(function (c) { c.forEach(function (f) { f.actividades = f.actividades.map(function (a) { return a.clave === k ? Object.assign({}, a, { nombre: nm }) : a; }); }); }); } : undefined,
+          onEliminar: listar ? function (k) { editar(function (c) { c.forEach(function (f) { f.actividades = f.actividades.filter(function (a) { return a.clave !== k; }); }); }); } : undefined,
+          onNuevaFase: listar ? function (nm) { editar(function (c) { c.splice(c.length - 1, 0, { id: 'f' + nuevaClave(), nombre: nm, entregables: [], actividades: [] }); }); } : undefined,
+          onRenombrarFase: listar ? function (id, nm) { editar(function (c) { c.forEach(function (f, i) { if (f.id === id) c[i] = Object.assign({}, f, { nombre: nm }); }); }); } : undefined
+        })),
+      h('p', { className: 'seq' }, h('span', { className: 'lbl' }, 'Secuencia'),
+        numeradas.map(function (a, i) { return h(React.Fragment, { key: a.clave }, i ? ' → ' : '', h('b', null, a.codigo), ' ', a.nombre); }),
+        elegida ? h(React.Fragment, null, h('br'), h('span', { className: 'lbl' }, 'Ficha abierta'), h('b', null, elegida.codigo || '—'), ' ', elegida.nombre) : null));
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(h(Demo));
+</script>
+</body>
+</html>

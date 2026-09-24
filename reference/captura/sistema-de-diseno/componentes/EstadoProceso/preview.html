@@ -1,0 +1,16 @@
+<!-- @dsCard group="Estado" height=112 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>EstadoProceso — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo kz-demo--col kz-demo--white"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  var fila = { display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' };
+  var estados = ['borrador', 'revision', 'aprobado', 'cambios'];
+  ReactDOM.createRoot(document.getElementById('root')).render(h(React.Fragment, null,
+    h('div', { style: fila }, estados.map(function (e) { return h(K.EstadoProceso, { key: e, estado: e }); })),
+    h('div', { style: fila }, estados.map(function (e) { return h(K.EstadoProceso, { key: e, estado: e, destacado: true }); }))));
+</script>
+</body>
+</html>

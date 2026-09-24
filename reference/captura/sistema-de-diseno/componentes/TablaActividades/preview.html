@@ -1,0 +1,19 @@
+<!-- @dsCard group="Captura" height=300 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>TablaActividades — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo kz-demo--col"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  var filas = [
+    { clave: 'a1', codigo: 'ACT-01', nombre: 'Descargar extracto', fase: 'Preparación', responsable: 'Auxiliar contable', entregable: 'Extracto del mes', proceso: 0.25, espera: 0, unidad: 'h', estado: 'confirmado' },
+    { clave: 'a2', codigo: 'ACT-02', nombre: 'Ejecutar cuadre automático', fase: 'Cuadre', responsable: 'Sistema contable', entregable: 'Reporte de partidas', proceso: 0.1, espera: 'desconocido', unidad: 'h', estado: 'confirmado' },
+    { clave: 'a3', codigo: 'ACT-03', nombre: 'Revisar partidas sin cruce', fase: 'Cuadre', responsable: 'Analista contable', entregable: null, proceso: 'desconocido', espera: 'desconocido', unidad: 'h', estado: 'sugerencia' },
+    { clave: 'a4', codigo: 'ACT-04', nombre: 'Investigar diferencia', fase: 'Cuadre', responsable: 'Analista contable', entregable: 'Partida conciliatoria', proceso: 2, espera: 0, unidad: 'h', estado: 'pregunta' },
+    { clave: 'a5', codigo: null, nombre: 'Archivar conciliación', fase: null, responsable: null, entregable: null, entregableEstado: 'na', proceso: 'na', espera: 'na', unidad: 'h', estado: 'confirmado' }
+  ];
+  ReactDOM.createRoot(document.getElementById('root')).render(h(K.TablaActividades, { filas: filas, seleccionada: 'a4' }));
+</script>
+</body>
+</html>

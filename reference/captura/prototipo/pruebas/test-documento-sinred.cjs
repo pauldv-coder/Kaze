@@ -1,0 +1,23 @@
+const { chromium } = require('playwright-core');
+const fs = require('fs'), path = require('path');
+const DS = '<SANDBOX>/ds/out/project/components/lib/';
+const FAKE = `window.claude = { use: async n => n === 'downloads' ? { save: async r => ({ status: 'saved' }) } : null };`;
+(async () => {
+  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+  const ctx = await b.newContext({ viewport: { width: 1280, height: 860 } });
+  await ctx.route('https://cdnjs.cloudflare.com/**', r => r.fulfill({ contentType: 'text/javascript', body: fs.readFileSync(DS + (r.request().url().includes('react-dom') ? 'react-dom.production.min.js' : 'react.production.min.js'), 'utf8') }));
+  await ctx.route('https://cdn.jsdelivr.net/**', r => { if (r.request().url().includes('docx')) return r.abort(); r.fulfill({ contentType: 'text/javascript', body: fs.readFileSync(path.join(__dirname, 'package/dist/bpmn-modeler.production.min.js'), 'utf8') }); });
+  await ctx.route(u => u.hostname.startsWith('fonts.'), r => r.fulfill({ contentType: 'text/css', body: '' }));
+  await ctx.addInitScript(FAKE);
+  const p = await ctx.newPage();
+  const ok = (c, msg) => console.log((c ? 'OK   ' : 'FALLA') + ' ' + msg);
+  await p.goto('file://' + path.join(__dirname, 'out/test.html')); await p.waitForSelector('.tabla-procesos tbody tr');
+  await p.click('.enlace-fila'); await p.waitForSelector('.tabs');
+  await p.click('.kz-head button:has-text("Exportar documento")'); await p.waitForSelector('.modal');
+  await p.click('.modal__pie button:has-text("Descargar Word")');
+  await p.waitForSelector('.modal [role=alert]', { timeout: 10000 });
+  const t = await p.textContent('.modal [role=alert]');
+  ok(/conexión/.test(t), 'sin red: ' + t);
+  ok(await p.locator('.modal__pie button:has-text("Descargar Word")').isEnabled(), 'se puede reintentar');
+  await b.close();
+})().catch(e => { console.error('FALLO', e.stack); process.exit(1); });

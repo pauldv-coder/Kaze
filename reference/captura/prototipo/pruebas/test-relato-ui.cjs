@@ -1,0 +1,60 @@
+// Texto propio de un paso: se escribe en la ficha, reemplaza el párrafo automático en el Word y se puede volver al automático.
+const { chromium } = require('playwright-core');
+const fs = require('fs'), path = require('path');
+const DS = '<SANDBOX>/ds/out/project/components/lib/';
+const FAKE = `window.claude = { use: async n => n === 'downloads' ? { save: async r => { window.__d = (window.__d || []).concat([r.filename]); window.__blobs = (window.__blobs || []).concat([r.data]); return { status: 'saved' }; } } : null };`;
+(async () => {
+  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+  const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } });
+  await ctx.route('https://cdnjs.cloudflare.com/**', r => r.fulfill({ contentType: 'text/javascript', body: fs.readFileSync(DS + (r.request().url().includes('react-dom') ? 'react-dom.production.min.js' : 'react.production.min.js'), 'utf8') }));
+  await ctx.route('https://cdn.jsdelivr.net/**', r => { const u = r.request().url(); const f = u.includes('docx') ? require('child_process').execSync('npm root -g').toString().trim() + '/docx/dist/index.iife.js' : path.join(__dirname, 'package/dist/' + (u.includes('modeler') ? 'bpmn-modeler.production.min.js' : 'bpmn-navigated-viewer.production.min.js')); r.fulfill({ contentType: 'text/javascript', body: fs.readFileSync(f, 'utf8') }); });
+  await ctx.route(u => u.hostname.startsWith('fonts.'), r => r.fulfill({ contentType: 'text/css', body: '' }));
+  await ctx.addInitScript(FAKE);
+  const p = await ctx.newPage();
+  const errs = []; p.on('pageerror', e => errs.push(e.message)); p.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') errs.push(m.text()); });
+  const ok = (c, msg) => console.log((c ? 'OK   ' : 'FALLA') + ' ' + msg);
+  const est = async () => { await p.waitForTimeout(900); return p.evaluate(() => JSON.parse(localStorage.getItem('kaze-captura:procesos:v1')).p_conciliacion); };
+  await p.goto('file://' + path.join(__dirname, 'out/test.html')); await p.waitForSelector('.tabla-procesos tbody tr');
+  await p.click('.enlace-fila'); await p.waitForSelector('.tabs');
+  await p.click('button[role=tab]:has-text("Actividades")');
+  await p.click('.paso:has-text("Caracterizar")');
+  await p.locator('.lf__i').filter({ hasText: 'Investigar diferencias' }).click(); await p.waitForTimeout(200);
+  const antes = (await p.textContent('.relato-prev .relato')).replace(/\s+/g, ' ').trim();
+  ok(!!(await p.$('.ficha #fa-desc, .ficha [id$="desc"]')) || /Descripción/.test(await p.textContent('.ficha')), 'la ficha conserva el campo Descripción');
+  await p.click('.relato-prev button:has-text("Escribir mi propio texto")'); await p.waitForSelector('#fa-relato');
+  const semilla = await p.inputValue('#fa-relato');
+  ok(semilla.length > 20 && antes.indexOf(semilla.slice(0, 20)) >= 0, 'el campo parte del texto automático: «' + semilla.slice(0, 70) + '…»');
+  const PROPIO = 'El analista contable busca el origen de cada diferencia en el extracto y en el libro auxiliar, y deja la explicación en la hoja de trabajo';
+  await p.fill('#fa-relato', PROPIO); await p.press('#fa-relato', 'Tab'); await p.waitForTimeout(250);
+  const prev = (await p.textContent('.relato-prev .relato')).replace(/\s+/g, ' ').trim();
+  ok(prev.indexOf(PROPIO) >= 0, 'la vista previa usa el texto propio');
+  ok(/texto propio/.test(await p.textContent('.relato-prev .ficha__st')), 'el título marca «texto propio»');
+  let s = await est();
+  const act = Object.values(s.versiones.asis.actividades).find(a => /Investigar diferencias/.test(a.nombre));
+  ok(act.relato === PROPIO, 'queda guardado en la actividad');
+  await p.locator('.relato-prev').scrollIntoViewIfNeeded();
+  await p.screenshot({ path: 'out/r1-relato-propio.png' });
+  // Word
+  await p.click('.kz-head button:has-text("Exportar documento")'); await p.waitForSelector('.modal');
+  await p.click('.modal__pie button:has-text("Descargar Word")');
+  await p.waitForFunction(() => (window.__d || []).some(n => /\.docx$/.test(n)), null, { timeout: 30000 });
+  const b64 = await p.evaluate(async () => { const d = window.__blobs[window.__blobs.length - 1]; const buf = d instanceof Blob ? await d.arrayBuffer() : d; const u = new Uint8Array(buf); let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); });
+  fs.writeFileSync(path.join(__dirname, 'out/doc-propio.docx'), Buffer.from(b64, 'base64'));
+  const xml = require('child_process').execSync('unzip -p out/doc-propio.docx word/document.xml', { cwd: __dirname }).toString().replace(/<[^>]+>/g, '');
+  ok(xml.indexOf(PROPIO.slice(0, 60)) >= 0, 'el Word usa el texto propio');
+  ok(xml.indexOf(semilla.slice(0, 40)) < 0 || semilla.slice(0, 40) === PROPIO.slice(0, 40), 'y ya no trae el párrafo automático de ese paso');
+  await p.click('.modal__pie button:has-text("Cerrar")');
+  // Volver al automático
+  await p.click('.relato-prev button:has-text("Volver al texto automático")'); await p.waitForTimeout(250);
+  ok(!(await p.$('#fa-relato')) && (await p.textContent('.relato-prev .relato')).replace(/\s+/g, ' ').trim() === antes, 'vuelve al texto automático');
+  s = await est();
+  ok(Object.values(s.versiones.asis.actividades).find(a => /Investigar diferencias/.test(a.nombre)).relato == null, 'y se borra el texto propio');
+  // Teléfono
+  await p.click('.relato-prev button:has-text("Escribir mi propio texto")'); await p.waitForSelector('#fa-relato');
+  await p.setViewportSize({ width: 400, height: 860 }); await p.waitForTimeout(250);
+  await p.locator('.relato-prev').scrollIntoViewIfNeeded();
+  await p.screenshot({ path: 'out/r2-relato-movil.png' });
+  ok(await p.evaluate(() => document.documentElement.scrollWidth) <= 400, 'sin desborde a 400 px');
+  console.log('ERRORES:', errs.length ? errs : 'ninguno');
+  await b.close();
+})().catch(e => { console.error('FALLO', e.stack); process.exit(1); });

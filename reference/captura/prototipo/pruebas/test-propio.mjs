@@ -1,0 +1,15 @@
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+global.window = { React: require('react') };
+require('<SANDBOX>/ds/build/bundle.js');
+const N = await import('./src/narrador.js');
+const { proceso } = await import('./seed.mjs');
+const p = JSON.parse(JSON.stringify(proceso)); const m = p.versiones.asis;
+const a = N.narrarActividad(p, m, 'a_revisar');
+console.log('AUTO:', a.automatico);
+m.actividades.a_revisar.relato = 'La jefe revisa todas las conciliaciones del mes antes del cierre, partida por partida, y firma el formato';
+const b = N.narrarActividad(p, m, 'a_revisar');
+console.log('PROPIO:', b.propio, '|', b.parrafos.map(q => q.tipo + ': ' + q.runs.map(r => r.t).join('')).join('\n  '));
+m.actividades.a_archivar.relato = 'El auxiliar guarda el PDF firmado en la carpeta del cliente.';
+const c = N.narrarActividad(p, m, 'a_archivar');
+console.log('CIERRE:', c.parrafos[0].runs.map(r => r.t).join(''));

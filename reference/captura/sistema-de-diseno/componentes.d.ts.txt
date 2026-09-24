@@ -1,0 +1,387 @@
+import type * as React from 'react';
+
+/* ── Base ── */
+export interface BotonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** primario = tinta (acción principal de un formulario); acento = CTA de la pantalla, uno solo: fondo color-marca-cta con texto blanco (4,61:1). */
+  variante?: 'primario' | 'secundario' | 'acento' | 'destructivo';
+  tamano?: 'md' | 'sm';
+}
+export declare function Boton(props: BotonProps): React.ReactElement;
+
+export interface BotonIconoProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+  icono: NombreIconoBPMN;
+  /** La palabra: nombre accesible y texto que aparece al pasar el mouse o con el foco. */
+  etiqueta: string;
+  /** Atajo de teclado que se muestra junto a la palabra: «Ctrl+Z». */
+  atajo?: string;
+}
+/** Botón de solo ícono (34×34). La palabra aparece debajo al pasar el mouse o con el foco del teclado. */
+export declare function BotonIcono(props: BotonIconoProps): React.ReactElement;
+
+export interface CampoTextoProps extends React.InputHTMLAttributes<HTMLInputElement & HTMLSelectElement & HTMLTextAreaElement> {
+  etiqueta?: string;
+  ayuda?: string;
+  error?: string;
+  como?: 'input' | 'select' | 'textarea';
+  opciones?: Array<string | { valor: string; etiqueta: string }>;
+  rows?: number;
+}
+export declare function CampoTexto(props: CampoTextoProps): React.ReactElement;
+
+/* ── Estado ── */
+export interface EstadoChipProps { estado: 'progreso' | 'riesgo' | 'cerrado' | 'nuevo' | null }
+export declare function EstadoChip(props: EstadoChipProps): React.ReactElement;
+
+export interface EstadoConfirmacionProps {
+  estado?: 'confirmado' | 'sugerencia' | 'pregunta' | 'revisar';
+  /** Solo el glifo, con el nombre del estado para lectores de pantalla. */
+  compacto?: boolean;
+  /** Fuente de la información (entrevista, documento…), va en el title. */
+  fuente?: string;
+}
+export declare function EstadoConfirmacion(props: EstadoConfirmacionProps): React.ReactElement;
+
+export interface EstadoProcesoProps {
+  estado?: 'borrador' | 'revision' | 'aprobado' | 'cambios';
+  /** Forma de la cabecera: rótulo «Estado» y píldora. Una vez por pantalla, arriba a la derecha. */
+  destacado?: boolean;
+}
+export declare function EstadoProceso(props: EstadoProcesoProps): React.ReactElement;
+
+export interface EtiquetaVersionProps { tipo?: 'asis' | 'tobe'; version?: number }
+export declare function EtiquetaVersion(props: EtiquetaVersionProps): React.ReactElement;
+
+export interface VersionSelector { id: string; tipo: 'asis' | 'tobe'; version: number; estado?: 'borrador' | 'revision' | 'aprobado' | 'cambios' }
+export interface SelectorVersionProps {
+  versiones: VersionSelector[];
+  /** id de la versión que se ve. */
+  actual: string;
+  onCambiar?: (id: string) => void;
+  /** Si está, la última opción crea la versión propuesta (el consumidor confirma antes). */
+  onCrear?: () => void;
+  /** Por defecto «+ Crear To-Be desde el As-Is». */
+  crearEtiqueta?: string;
+}
+/** Lista desplegable (listbox) de versiones del proceso, con su estado. */
+export declare function SelectorVersion(props: SelectorVersionProps): React.ReactElement;
+
+export interface ValorCampoProps {
+  /** Número (0 incluido), texto, 'desconocido', 'na', o null/undefined (vacío). */
+  valor?: number | string | null;
+  unidad?: string;
+  estado?: 'valor' | 'desconocido' | 'na' | 'vacio';
+}
+export declare function ValorCampo(props: ValorCampoProps): React.ReactElement;
+
+export interface IndicadorGuardadoProps {
+  estado?: 'guardado' | 'guardando' | 'cola' | 'error';
+  /** Texto relativo: «hace 5 s». */
+  hace?: string;
+  /** Cambios en cola cuando no hay conexión. */
+  pendientes?: number;
+  onDeshacer?: () => void;
+  onHistorial?: () => void;
+}
+export declare function IndicadorGuardado(props: IndicadorGuardadoProps): React.ReactElement;
+
+/* ── Datos ── */
+export interface A3ProgressProps { done: number; total?: number }
+export declare function A3Progress(props: A3ProgressProps): React.ReactElement;
+export interface SparklineProps { serie: number[] }
+export declare function Sparkline(props: SparklineProps): React.ReactElement | null;
+export interface TeamAvatarsProps { iniciales: string[] }
+export declare function TeamAvatars(props: TeamAvatarsProps): React.ReactElement;
+export interface SummaryStripProps { celdas: Array<{ valor: string; etiqueta: string; tono?: 'tinta' | 'bien' | 'mal' | 'alerta' | 'apagado' }> }
+export declare function SummaryStrip(props: SummaryStripProps): React.ReactElement;
+
+/* ── Estructura ── */
+export interface MarcaKazeProps { tamano?: number }
+export declare function MarcaKaze(props: MarcaKazeProps): React.ReactElement;
+export interface SidebarProps {
+  items: Array<{ label: string; href?: string; deshabilitado?: boolean }>;
+  activo?: string;
+  clientes?: Array<{ nombre: string; n: number }>;
+  usuario?: { nombre: string; iniciales: string; rol: string };
+}
+export declare function Sidebar(props: SidebarProps): React.ReactElement;
+export interface CabeceraPaginaProps {
+  titulo: React.ReactNode;
+  subtitulo?: React.ReactNode;
+  /** Arriba a la izquierda. */
+  migas?: React.ReactNode;
+  /** Arriba a la derecha, a la altura de las migas: EstadoProceso con destacado. */
+  estado?: React.ReactNode;
+  /** Junto al título: guardado, BotonIcono, SelectorVersion y el CTA al final. */
+  acciones?: React.ReactNode;
+  /** Pestañas de vista. */
+  children?: React.ReactNode;
+}
+export declare function CabeceraPagina(props: CabeceraPaginaProps): React.ReactElement;
+export interface PanelDetalleProps {
+  titulo: string;
+  codigo?: string;
+  estado?: 'confirmado' | 'sugerencia' | 'pregunta';
+  onCerrar?: () => void;
+  secciones: Array<{ titulo: string; campos: Array<{ etiqueta: string; valor?: number | string | null; unidad?: string; contenido?: React.ReactNode }> }>;
+  pie?: React.ReactNode;
+}
+export declare function PanelDetalle(props: PanelDetalleProps): React.ReactElement;
+
+/* ── Captura ── */
+export interface Actividad {
+  /** Clave interna estable: nunca cambia; úsala para referencias. */
+  clave?: string;
+  /** Número visible según la secuencia («ACT-04»); null si no tiene fase. */
+  codigo?: string | null;
+  /** Obsoleto: se muestra si no hay codigo. */
+  id?: string;
+  nombre: string;
+  fase?: string | null;
+  responsable?: string | null;
+  entregable?: string | null;
+  entregableEstado?: 'desconocido' | 'na';
+  proceso?: number | 'desconocido' | 'na' | null;
+  espera?: number | 'desconocido' | 'na' | null;
+  unidad?: string;
+  estado?: 'confirmado' | 'sugerencia' | 'pregunta';
+}
+export interface TablaActividadesProps { filas: Actividad[]; seleccionada?: string; onSeleccionar?: (clave: string) => void }
+export declare function TablaActividades(props: TablaActividadesProps): React.ReactElement;
+export interface TarjetaActividadProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Número visible («ACT-04»); null = «—» (sin número). */
+  codigo?: string | null;
+  /** Obsoleto: se muestra si no hay codigo. */
+  id?: string;
+  nombre: string; responsable?: string | null; entregable?: string | null;
+  estado?: 'confirmado' | 'sugerencia' | 'pregunta';
+  /** Muestra el asa y el cursor de arrastre (lo pone TableroFases). */
+  arrastrable?: boolean;
+  /** Copia flotante que sigue al puntero. */
+  arrastrando?: boolean;
+  /** Tarjeta atenuada en su sitio mientras se arrastra. */
+  origen?: boolean;
+  /** Su número acaba de cambiar: parpadea el anillo. */
+  renumerada?: boolean;
+  seleccionada?: boolean;
+  /** Solo número, nombre y estado (paso «listar y agrupar»). */
+  compacto?: boolean;
+  /** Botón «Ficha»: abre el detalle de la actividad. */
+  onAbrir?: () => void;
+  /** El nombre se corrige con un clic (lo pone TableroFases). */
+  renombrable?: boolean;
+  /** Muestra el campo de nombre en su sitio: Enter guarda, Esc cancela. */
+  renombrando?: boolean;
+  onRenombrar?: (nombre: string) => void;
+  onCancelarRenombrar?: () => void;
+}
+export declare function TarjetaActividad(props: TarjetaActividadProps): React.ReactElement;
+export interface ColumnaFaseProps {
+  nombre: string; numero?: number; objetivo?: string;
+  entrada?: string | null; entregables?: string[]; salida?: string | null;
+  actividades: Array<TarjetaActividadProps & { clave?: string }>;
+  /** Columna de actividades aún sin fase: sin número. */
+  sinFase?: boolean;
+  /** Es la fase donde caerá la tarjeta que se arrastra. */
+  destino?: boolean;
+  /** Oculta objetivo y criterios: columna del paso «listar y agrupar». */
+  compacta?: boolean;
+  /** Enlace «Objetivo y criterios · faltan N» (compacta) o «Editar criterios». */
+  onEditar?: () => void;
+  /** Hace del nombre un botón que pide corregirlo. */
+  onPedirRenombrar?: () => void;
+  renombrando?: boolean;
+  onRenombrar?: (nombre: string) => void;
+  onCancelarRenombrar?: () => void;
+  /** Debajo de las tarjetas (TableroFases pone «+ Agregar actividad»). */
+  pie?: React.ReactNode;
+  /** Tarjetas ya compuestas (TableroFases); si no, pinta actividades. */
+  children?: React.ReactNode;
+}
+export declare function ColumnaFase(props: ColumnaFaseProps): React.ReactElement;
+
+export interface FaseTablero {
+  id: string; nombre: string; objetivo?: string;
+  entrada?: string | null; entregables?: string[]; salida?: string | null;
+  /** La columna «Sin fase»: sus actividades no se numeran. */
+  sinFase?: boolean;
+  /** En orden: de arriba abajo es la secuencia. */
+  actividades: Array<{ clave: string; nombre: string; responsable?: string | null; entregable?: string | null; estado?: 'confirmado' | 'sugerencia' | 'pregunta' }>;
+}
+export interface PasoSecuencia { clave: string; nombre: string; numero: number | null; codigo: string | null; fase: string | null; faseNombre: string | null }
+export interface TableroFasesProps {
+  /** Fases con sus actividades en orden. Si cambia desde fuera, el tablero lo adopta (tras soltar si hay un arrastre). */
+  fases: FaseTablero[];
+  /** Prefijo del número visible. Por defecto «ACT-». */
+  prefijo?: string;
+  seleccionada?: string;
+  /** Clic fuera del nombre, Enter o «Ficha»: abre el detalle. */
+  onSeleccionar?: (clave: string) => void;
+  /** Tras cada movimiento: tablero nuevo y secuencia numerada. */
+  onCambio?: (fases: FaseTablero[], secuencia: PasoSecuencia[]) => void;
+  /** Paso «listar y agrupar»: tarjetas y columnas compactas. */
+  compacto?: boolean;
+  /** Sin arrastre ni edición (versión en revisión o aprobada). */
+  soloLectura?: boolean;
+  /** «+ Agregar actividad» al pie de cada columna; varias líneas pegadas = varias actividades. */
+  onAgregar?: (faseId: string, nombres: string[]) => void;
+  /** Clic en el nombre o F2. */
+  onRenombrar?: (clave: string, nombre: string) => void;
+  /** Suprimir sobre una tarjeta con foco. */
+  onEliminar?: (clave: string) => void;
+  /** Columna «+ Nueva fase» antes de «Sin fase». */
+  onNuevaFase?: (nombre: string) => void;
+  onRenombrarFase?: (id: string, nombre: string) => void;
+  /** Enlace «Objetivo y criterios» de cada fase. */
+  onEditarFase?: (id: string) => void;
+}
+export declare function TableroFases(props: TableroFasesProps): React.ReactElement;
+/** Fases de izquierda a derecha, actividades de arriba abajo; «Sin fase» no cuenta. */
+export declare function numerarActividades(fases: FaseTablero[]): Record<string, number>;
+export declare function codigoActividad(numero: number | null | undefined, prefijo?: string): string | null;
+export declare function secuenciaActividades(fases: FaseTablero[], prefijo?: string): PasoSecuencia[];
+/** Destino especial de una salida: termina el proceso. */
+export declare const DESTINO_FIN: '__fin';
+export interface SalidaDecision {
+  condicion: string;
+  /** Clave de la actividad destino, DESTINO_FIN, o null si aún no se sabe. */
+  destino?: string | null;
+  /** Obsoleto: texto libre para maquetas. */
+  siguiente?: string;
+  porDefecto?: boolean;
+  clase?: 'retrabajo' | 'rechazo' | 'cancelacion' | 'excepcion';
+}
+export interface Decision {
+  pregunta: string;
+  /** Clave de la actividad de la que sale la decisión. */
+  origen?: string | null;
+  decide?: string;
+  tipo?: 'exclusiva' | 'inclusiva' | 'paralela';
+  salidas: SalidaDecision[];
+  /** Guardado al confirmar: la fase del origen en ese momento. */
+  contexto?: { faseOrigen?: string | null };
+  /** Ids de motivos que el analista decidió mantener. */
+  aceptados?: string[];
+}
+export interface MotivoRevision {
+  id: string;
+  tipo: 'origen-eliminado' | 'origen-sin-fase' | 'origen-cambio-fase' | 'destino-eliminado' | 'destino-sin-fase' | 'hacia-atras';
+  texto: string;
+  /** Índice de la salida afectada, si aplica. */
+  salida?: number;
+  /** Se puede silenciar con «Mantener así». */
+  mantenible: boolean;
+}
+/** Nunca borra nada: devuelve por qué la decisión necesita revisión. */
+export declare function revisarDecision(decision: Decision, secuencia: PasoSecuencia[]): MotivoRevision[];
+export interface TarjetaDecisionProps extends Decision {
+  /** Obsoleto: texto libre del punto del proceso. */
+  punto?: string;
+  estado?: 'confirmado' | 'sugerencia' | 'pregunta';
+  /** Secuencia actual para mostrar números y calcular la revisión. */
+  secuencia?: PasoSecuencia[];
+  /** Motivos ya calculados; si falta, se calculan con revisarDecision. */
+  motivos?: MotivoRevision[];
+  onMantener?: (ids: string[]) => void;
+  onReasignarOrigen?: () => void;
+  onEliminar?: () => void;
+  onMarcarRetrabajo?: (salida: number) => void;
+  onCambiarDestino?: (salida: number) => void;
+  onEditar?: () => void;
+}
+export declare function TarjetaDecision(props: TarjetaDecisionProps): React.ReactElement;
+
+/* ── Aprobación ── */
+export interface PanelAprobacionProps {
+  /** Versión exacta que se aprueba: «As-Is v3». */
+  version: string;
+  /** Qué contiene esa versión: «14 actividades · 2 decisiones». */
+  resumen?: string;
+  estado?: 'borrador' | 'revision' | 'aprobado' | 'cambios';
+  /** Por defecto «Aprobación». */
+  titulo?: React.ReactNode;
+  /** Una sola lista, sin etapas. */
+  aprobadores?: PersonaAprobacion[];
+  /** Visto bueno de las áreas y aprobación final. Reemplaza a aprobadores. */
+  etapas?: EtapaAprobacion[];
+  onAprobar?: () => void;
+  onSolicitarCambios?: (comentario: string) => void;
+  /** Cierra el panel: «Avisar a los informados». */
+  pie?: React.ReactNode;
+}
+export interface PersonaAprobacion {
+  nombre: string;
+  iniciales: string;
+  /** Cargo y área: «Jefe de tesorería · Tesorería». */
+  rol: string;
+  decision?: 'pendiente' | 'aprobado' | 'vobo' | 'cambios';
+  /** Cambia el texto de la decisión. */
+  decisionTexto?: string;
+  fecha?: string;
+  comentario?: string;
+  /** Bajo el cargo: correo, código, «registrado a mano». */
+  detalle?: React.ReactNode;
+  /** Debajo: «Enviar correo», «Registrar a mano». */
+  acciones?: React.ReactNode;
+  /** Clave de React si dos personas se llaman igual. */
+  clave?: string;
+}
+export interface EtapaAprobacion {
+  titulo: string;
+  estado?: 'espera' | 'activa' | 'completa' | 'cambios';
+  /** «Se abre cuando lleguen todos los vistos buenos.» */
+  nota?: string;
+  aprobadores: PersonaAprobacion[];
+}
+export declare function PanelAprobacion(props: PanelAprobacionProps): React.ReactElement;
+
+/* ── BPMN ── */
+export interface ElementoBPMNProps {
+  tipo?: 'tarea' | 'subproceso' | 'inicio' | 'intermedio' | 'fin' | 'exclusiva' | 'inclusiva' | 'paralela' | 'datos' | 'secuencia' | 'mensaje' | 'sugerida' | 'grupo' | 'carril';
+  estado?: 'normal' | 'seleccionado' | 'sugerido';
+  etiqueta?: string;
+  /** Encaja el elemento en un cuadro de este lado (uso como icono). */
+  tamano?: number;
+  /** Multiplica las medidas de bpmn-js conservando las proporciones entre elementos. Por defecto 1. */
+  escala?: number;
+  /** Solo tareas: quién la ejecuta. Ícono arriba a la derecha (persona, engranaje o robot). */
+  ejecutor?: 'persona' | 'sistema' | 'automatizacion';
+  /** Solo tareas: tiene formatos adjuntos. Hoja a la izquierda del ícono del ejecutor. */
+  adjunto?: boolean;
+  /** Solo tareas: marca de ciclo abajo al centro (se repite, por cada a la vez, por cada uno tras otro). */
+  ciclo?: 'repite' | 'porCada' | 'porCadaSecuencial';
+  /** Solo eventos: el símbolo de adentro (temporizador, mensaje recibido, aviso enviado, condición, error). */
+  marcador?: 'tiempo' | 'mensaje' | 'aviso' | 'condicion' | 'error';
+}
+export declare function ElementoBPMN(props: ElementoBPMNProps): React.ReactElement;
+
+export type NombreIconoBPMN = 'persona' | 'sistema' | 'automatizacion' | 'hoja' | 'tiempo' | 'mensaje' | 'aviso' | 'condicion' | 'error' | 'decision' | 'repite' | 'porCada' | 'porCadaSecuencial' | 'hito' | 'deshacer' | 'historial' | 'abajo' | 'copiar' | 'descargar';
+/** Primitiva SVG de un ícono en un cuadro de 16×16: etiqueta, atributos, si va rellena y si su trazo va en claro (sobre relleno). */
+export interface PrimitivaIcono { t: 'path' | 'circle' | 'rect'; a: Record<string, string | number>; relleno?: boolean; claro?: boolean }
+/** La geometría de los íconos, compartida por la interfaz, el lienzo BPMN y el documento Word. Trazo 1,4, puntas redondas. */
+export declare const ICONOS_BPMN: Record<NombreIconoBPMN, PrimitivaIcono[]>;
+export interface IconoBPMNProps {
+  nombre: NombreIconoBPMN;
+  /** Lado en px. Por defecto 16. */
+  tamano?: number;
+  /** Nombre accesible. true usa el nombre en español del ícono; sin título el ícono es decorativo (aria-hidden) y debe ir con texto. */
+  titulo?: string | true;
+  className?: string;
+}
+/** Un ícono suelto: hereda el color del texto (currentColor). */
+export declare function IconoBPMN(props: IconoBPMNProps): React.ReactElement | null;
+
+declare global {
+  interface Window {
+    Kaze: {
+      Boton: typeof Boton; BotonIcono: typeof BotonIcono; CampoTexto: typeof CampoTexto;
+      EstadoChip: typeof EstadoChip; EstadoConfirmacion: typeof EstadoConfirmacion; EstadoProceso: typeof EstadoProceso;
+      EtiquetaVersion: typeof EtiquetaVersion; SelectorVersion: typeof SelectorVersion; ValorCampo: typeof ValorCampo; IndicadorGuardado: typeof IndicadorGuardado;
+      A3Progress: typeof A3Progress; Sparkline: typeof Sparkline; TeamAvatars: typeof TeamAvatars; SummaryStrip: typeof SummaryStrip;
+      MarcaKaze: typeof MarcaKaze; Sidebar: typeof Sidebar; CabeceraPagina: typeof CabeceraPagina; PanelDetalle: typeof PanelDetalle;
+      TablaActividades: typeof TablaActividades; TarjetaActividad: typeof TarjetaActividad; ColumnaFase: typeof ColumnaFase; TableroFases: typeof TableroFases; TarjetaDecision: typeof TarjetaDecision;
+      numerarActividades: typeof numerarActividades; codigoActividad: typeof codigoActividad; secuenciaActividades: typeof secuenciaActividades;
+      revisarDecision: typeof revisarDecision; DESTINO_FIN: typeof DESTINO_FIN;
+      PanelAprobacion: typeof PanelAprobacion; ElementoBPMN: typeof ElementoBPMN; IconoBPMN: typeof IconoBPMN; ICONOS_BPMN: typeof ICONOS_BPMN;
+    };
+  }
+}

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:kaze="https://kaze.cota/bpmn/ext" id="Definiciones" targetNamespace="https://kaze.cota/bpmn" exporter="Kaze · Captura de procesos" exporterVersion="0.2">
+  <bpmn:category id="Categoria_fases" name="Fases">
+    <bpmn:categoryValue id="ValorFase_f_prep" value="Preparación"/>
+    <bpmn:categoryValue id="ValorFase_f_cuadre" value="Cuadre"/>
+    <bpmn:categoryValue id="ValorFase_f_cierre" value="Cierre"/>
+  </bpmn:category>
+  <bpmn:collaboration id="Colaboracion">
+    <bpmn:participant id="Participante" name="Conciliación bancaria mensual" processRef="Proceso"/>
+    <bpmn:participant id="Externo_tesoreria_del_cliente" name="Tesorería del cliente"/>
+    <bpmn:participant id="Externo_gerencia_financiera_del_cliente" name="Gerencia financiera del cliente"/>
+    <bpmn:messageFlow id="Mensaje_Externo_tesoreria_del_cliente__Ev_e_resp" name="Respuesta del cliente" sourceRef="Externo_tesoreria_del_cliente" targetRef="Ev_e_resp"/>
+    <bpmn:messageFlow id="Mensaje_Act_a_enviar__Externo_gerencia_financiera_del_cliente" name="Informe de conciliación" sourceRef="Act_a_enviar" targetRef="Externo_gerencia_financiera_del_cliente"/>
+  </bpmn:collaboration>
+  <bpmn:process id="Proceso" name="Conciliación bancaria mensual" isExecutable="false">
+    <bpmn:documentation>Cuadrar cada mes los extractos bancarios con la contabilidad y explicar toda diferencia antes del cierre.</bpmn:documentation>
+    <bpmn:laneSet id="Carriles">
+      <bpmn:lane id="Carril_auxiliar_contable" name="Auxiliar contable">
+        <bpmn:flowNodeRef>Inicio</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_descargar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_cargar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_enviar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_archivar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Fin_normal</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Carril_sistema_contable" name="Sistema contable">
+        <bpmn:flowNodeRef>Act_a_cuadre</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Dec_d_cuadra</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Carril_analista_contable" name="Analista contable">
+        <bpmn:flowNodeRef>Act_a_investigar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Ev_e_resp</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Act_a_registrar</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Carril_jefe_de_contabilidad" name="Jefe de contabilidad">
+        <bpmn:flowNodeRef>Act_a_revisar</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Dec_d_aprueba</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="Inicio" name="El banco publica el extracto del mes">
+      <bpmn:outgoing>Flujo_Inicio__Act_a_descargar</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="Inicio_def"><bpmn:timeCycle xsi:type="bpmn:tFormalExpression">Cada mes, hacia el tercer día hábil</bpmn:timeCycle></bpmn:timerEventDefinition>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Act_a_descargar" name="1. Descargar extracto bancario" kaze:clave="a_descargar" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-01
+Ingresar al portal empresarial con el token de la empresa y descargar el extracto en PDF y en Excel. Guardar ambos archivos en la carpeta del mes.
+Responsable: Auxiliar contable
+Entradas: Acceso al portal del banco
+Entregable: Extracto del mes
+Criterio de aceptación: El extracto cubre el mes completo y trae saldo final
+Tiempo de proceso: 0,25 h
+Tiempo de espera: 0 h
+Frecuencia: Mensual, por cuenta bancaria
+Herramientas: Portal empresarial del banco
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Inicio__Act_a_descargar</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_descargar__Act_a_cargar</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_descargar"><bpmn:targetRef>Entregable_a_descargar</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="Act_a_cargar" name="2. Cargar extracto al sistema contable" kaze:clave="a_cargar" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-02
+Responsable: Auxiliar contable
+Entradas: Extracto del mes
+Entregable: Movimientos bancarios cargados
+Tiempo de proceso: 0,5 h
+Tiempo de espera: ?
+Frecuencia: Mensual, por cuenta bancaria
+Herramientas: Siigo Nube
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_descargar__Act_a_cargar</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_cargar__Act_a_cuadre</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_cargar"><bpmn:targetRef>Entregable_a_cargar</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Act_a_cuadre" name="3. Ejecutar cuadre automático" kaze:clave="a_cuadre" kaze:ejecucion="sistema">
+      <bpmn:documentation>ACT-03
+Responsable: Sistema contable
+Entradas: Movimientos bancarios cargados
+Entregable: Reporte de partidas sin cruce
+Tiempo de proceso: 0,1 h
+Tiempo de espera: 0 h
+Frecuencia: Mensual, por cuenta bancaria
+Herramientas: Siigo Nube
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_cargar__Act_a_cuadre</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_cuadre__Dec_d_cuadra</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_cuadre"><bpmn:targetRef>Entregable_a_cuadre</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="Dec_d_cuadra" name="¿Cruzan todos los movimientos?" default="Flujo_Dec_d_cuadra__Act_a_revisar">
+      <bpmn:documentation>Decide: Sistema contable</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_cuadre__Dec_d_cuadra</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Dec_d_cuadra__Act_a_revisar</bpmn:outgoing>
+      <bpmn:outgoing>Flujo_Dec_d_cuadra__Act_a_investigar</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Act_a_investigar" name="4. Investigar diferencias" kaze:clave="a_investigar" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-04
+Revisa cada partida del reporte contra los soportes. Si es una consignación sin referencia, llamar al cliente para identificarla; si es una comisión, pedir el soporte al banco.
+Responsable: Analista contable
+Entradas: Reporte de partidas sin cruce
+Entregable: Explicación de cada diferencia
+Tiempo de proceso: ?
+Tiempo de espera: ?
+Frecuencia: Mensual, por cuenta bancaria
+Problemas: Las consignaciones sin referencia se demoran porque hay que llamar al cliente.
+Evento: Al terminar espera «Respuesta del cliente» de Tesorería del cliente.
+Ciclo: Se hace por cada partida sin cruce, uno tras otro.
+Estado: Pregunta abierta</bpmn:documentation>
+      <bpmn:incoming>Flujo_Dec_d_cuadra__Act_a_investigar</bpmn:incoming>
+      <bpmn:incoming>Flujo_Dec_d_aprueba__Act_a_investigar</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_investigar__Ev_e_resp</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_investigar"><bpmn:targetRef>Entregable_a_investigar</bpmn:targetRef></bpmn:dataOutputAssociation>
+      <bpmn:multiInstanceLoopCharacteristics id="Act_a_investigar_ciclo" isSequential="true"><bpmn:documentation>Por cada partida sin cruce</bpmn:documentation></bpmn:multiInstanceLoopCharacteristics>
+    </bpmn:userTask>
+    <bpmn:intermediateCatchEvent id="Ev_e_resp" name="Respuesta del cliente">
+      <bpmn:documentation>Al terminar espera «Respuesta del cliente» de Tesorería del cliente.</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_investigar__Ev_e_resp</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Ev_e_resp__Act_a_registrar</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="Ev_e_resp_def"/>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="Act_a_registrar" name="5. Registrar partidas conciliatorias" kaze:clave="a_registrar" kaze:ejecucion="persona" kaze:formatos="1">
+      <bpmn:documentation>ACT-05
+Responsable: Analista contable
+Entradas: Explicación de cada diferencia
+Entregable: Partidas conciliatorias
+Criterio de aceptación: ?
+Tiempo de proceso: 1 h
+Tiempo de espera: 0 h
+Frecuencia: Mensual, por cuenta bancaria
+Reglas: Toda partida mayor a 90 días se ajusta contra gasto con visto bueno de la jefe.
+Formato: FT-CON-02 Registro de partidas conciliatorias v1
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Ev_e_resp__Act_a_registrar</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_registrar__Act_a_revisar</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_registrar"><bpmn:targetRef>Entregable_a_registrar</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="Act_a_revisar" name="6. Revisar y aprobar la conciliación" kaze:clave="a_revisar" kaze:ejecucion="persona" kaze:formatos="1">
+      <bpmn:documentation>ACT-06
+Responsable: Jefe de contabilidad
+Entradas: Partidas conciliatorias
+Entregable: Conciliación firmada
+Criterio de aceptación: Diferencia final en cero o totalmente explicada
+Tiempo de proceso: 0,5 h
+Tiempo de espera: 24 h
+Frecuencia: Mensual, por cuenta bancaria
+Formato: FT-CON-01 Formato de conciliación bancaria v3
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Dec_d_cuadra__Act_a_revisar</bpmn:incoming>
+      <bpmn:incoming>Flujo_Act_a_registrar__Act_a_revisar</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_revisar__Dec_d_aprueba</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_revisar"><bpmn:targetRef>Entregable_a_revisar</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Dec_d_aprueba" name="¿La jefe aprueba la conciliación?" default="Flujo_Dec_d_aprueba__Act_a_enviar">
+      <bpmn:documentation>Decide: Jefe de contabilidad</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_revisar__Dec_d_aprueba</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Dec_d_aprueba__Act_a_enviar</bpmn:outgoing>
+      <bpmn:outgoing>Flujo_Dec_d_aprueba__Act_a_investigar</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Act_a_enviar" name="7. Enviar informe de conciliación al cliente" kaze:clave="a_enviar" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-07
+Responsable: Auxiliar contable
+Entradas: Conciliación firmada
+Entregable: Informe de conciliación
+Recibe: Gerencia financiera del cliente
+Tiempo de proceso: 0,25 h
+Tiempo de espera: 0 h
+Frecuencia: Mensual, por cuenta bancaria
+Herramientas: Correo electrónico
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Dec_d_aprueba__Act_a_enviar</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_enviar__Act_a_archivar</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="Asoc_a_enviar"><bpmn:targetRef>Entregable_a_enviar</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="Act_a_archivar" name="8. Archivar la conciliación" kaze:clave="a_archivar" kaze:ejecucion="persona">
+      <bpmn:documentation>ACT-08
+Responsable: Auxiliar contable
+Entradas: Conciliación firmada
+Entregable: N/A
+Tiempo de proceso: 0,1 h
+Tiempo de espera: 0 h
+Frecuencia: Mensual, por cuenta bancaria
+Documentos: Carpeta del cliente en SharePoint
+Estado: Confirmado</bpmn:documentation>
+      <bpmn:incoming>Flujo_Act_a_enviar__Act_a_archivar</bpmn:incoming>
+      <bpmn:outgoing>Flujo_Act_a_archivar__Fin_normal</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Fin_normal" name="Conciliación aprobada y archivada">
+      <bpmn:incoming>Flujo_Act_a_archivar__Fin_normal</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flujo_Act_a_investigar__Ev_e_resp" sourceRef="Act_a_investigar" targetRef="Ev_e_resp"/>
+    <bpmn:sequenceFlow id="Flujo_Inicio__Act_a_descargar" sourceRef="Inicio" targetRef="Act_a_descargar"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_descargar__Act_a_cargar" sourceRef="Act_a_descargar" targetRef="Act_a_cargar"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_cargar__Act_a_cuadre" sourceRef="Act_a_cargar" targetRef="Act_a_cuadre"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_cuadre__Dec_d_cuadra" sourceRef="Act_a_cuadre" targetRef="Dec_d_cuadra"/>
+    <bpmn:sequenceFlow id="Flujo_Dec_d_cuadra__Act_a_revisar" name="Sí, todo cruza" sourceRef="Dec_d_cuadra" targetRef="Act_a_revisar"/>
+    <bpmn:sequenceFlow id="Flujo_Dec_d_cuadra__Act_a_investigar" name="Quedan partidas sin cruce" sourceRef="Dec_d_cuadra" targetRef="Act_a_investigar">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">Quedan partidas sin cruce</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flujo_Ev_e_resp__Act_a_registrar" sourceRef="Ev_e_resp" targetRef="Act_a_registrar"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_registrar__Act_a_revisar" sourceRef="Act_a_registrar" targetRef="Act_a_revisar"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_revisar__Dec_d_aprueba" sourceRef="Act_a_revisar" targetRef="Dec_d_aprueba"/>
+    <bpmn:sequenceFlow id="Flujo_Dec_d_aprueba__Act_a_enviar" name="Aprobada" sourceRef="Dec_d_aprueba" targetRef="Act_a_enviar"/>
+    <bpmn:sequenceFlow id="Flujo_Dec_d_aprueba__Act_a_investigar" name="Con observaciones" sourceRef="Dec_d_aprueba" targetRef="Act_a_investigar">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">Con observaciones</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flujo_Act_a_enviar__Act_a_archivar" sourceRef="Act_a_enviar" targetRef="Act_a_archivar"/>
+    <bpmn:sequenceFlow id="Flujo_Act_a_archivar__Fin_normal" sourceRef="Act_a_archivar" targetRef="Fin_normal"/>
+    <bpmn:dataObject id="Dato_a_descargar"/>
+    <bpmn:dataObjectReference id="Entregable_a_descargar" name="Extracto del mes" dataObjectRef="Dato_a_descargar"/>
+    <bpmn:dataObject id="Dato_a_cargar"/>
+    <bpmn:dataObjectReference id="Entregable_a_cargar" name="Movimientos bancarios cargados" dataObjectRef="Dato_a_cargar"/>
+    <bpmn:dataObject id="Dato_a_cuadre"/>
+    <bpmn:dataObjectReference id="Entregable_a_cuadre" name="Reporte de partidas sin cruce" dataObjectRef="Dato_a_cuadre"/>
+    <bpmn:dataObject id="Dato_a_investigar"/>
+    <bpmn:dataObjectReference id="Entregable_a_investigar" name="Explicación de cada diferencia" dataObjectRef="Dato_a_investigar"/>
+    <bpmn:dataObject id="Dato_a_registrar"/>
+    <bpmn:dataObjectReference id="Entregable_a_registrar" name="Partidas conciliatorias" dataObjectRef="Dato_a_registrar"/>
+    <bpmn:dataObject id="Dato_a_revisar"/>
+    <bpmn:dataObjectReference id="Entregable_a_revisar" name="Conciliación firmada" dataObjectRef="Dato_a_revisar"/>
+    <bpmn:dataObject id="Dato_a_enviar"/>
+    <bpmn:dataObjectReference id="Entregable_a_enviar" name="Informe de conciliación" dataObjectRef="Dato_a_enviar"/>
+    <bpmn:group id="Fase_f_prep" categoryValueRef="ValorFase_f_prep"/>
+    <bpmn:group id="Fase_f_cuadre" categoryValueRef="ValorFase_f_cuadre"/>
+    <bpmn:group id="Fase_f_cierre" categoryValueRef="ValorFase_f_cierre"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagrama">
+    <bpmndi:BPMNPlane id="Plano" bpmnElement="Colaboracion">
+      <bpmndi:BPMNShape id="Participante_di" bpmnElement="Participante" isHorizontal="true"><dc:Bounds x="40" y="40" width="2158" height="952"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Carril_auxiliar_contable_di" bpmnElement="Carril_auxiliar_contable" isHorizontal="true"><dc:Bounds x="70" y="40" width="2128" height="238"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Carril_sistema_contable_di" bpmnElement="Carril_sistema_contable" isHorizontal="true"><dc:Bounds x="70" y="278" width="2128" height="238"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Carril_analista_contable_di" bpmnElement="Carril_analista_contable" isHorizontal="true"><dc:Bounds x="70" y="516" width="2128" height="238"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Carril_jefe_de_contabilidad_di" bpmnElement="Carril_jefe_de_contabilidad" isHorizontal="true"><dc:Bounds x="70" y="754" width="2128" height="238"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fase_f_prep_di" bpmnElement="Fase_f_prep"><dc:Bounds x="230" y="46" width="318" height="940"/><bpmndi:BPMNLabel><dc:Bounds x="238" y="50" width="200" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fase_f_cuadre_di" bpmnElement="Fase_f_cuadre"><dc:Bounds x="562" y="46" width="804" height="940"/><bpmndi:BPMNLabel><dc:Bounds x="570" y="50" width="200" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fase_f_cierre_di" bpmnElement="Fase_f_cierre"><dc:Bounds x="1380" y="46" width="658" height="940"/><bpmndi:BPMNLabel><dc:Bounds x="1388" y="50" width="200" height="18"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Inicio_di" bpmnElement="Inicio"><dc:Bounds x="132" y="114" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="100" y="154" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_descargar_di" bpmnElement="Act_a_descargar"><dc:Bounds x="246" y="92" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_cargar_di" bpmnElement="Act_a_cargar"><dc:Bounds x="412" y="92" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_cuadre_di" bpmnElement="Act_a_cuadre"><dc:Bounds x="578" y="330" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Dec_d_cuadra_di" bpmnElement="Dec_d_cuadra" isMarkerVisible="true"><dc:Bounds x="783" y="345" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="744" y="299" width="128" height="42"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_investigar_di" bpmnElement="Act_a_investigar"><dc:Bounds x="918" y="568" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ev_e_resp_di" bpmnElement="Ev_e_resp"><dc:Bounds x="1116" y="590" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="1084" y="556" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_registrar_di" bpmnElement="Act_a_registrar"><dc:Bounds x="1230" y="568" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_revisar_di" bpmnElement="Act_a_revisar"><dc:Bounds x="1396" y="806" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Dec_d_aprueba_di" bpmnElement="Dec_d_aprueba" isMarkerVisible="true"><dc:Bounds x="1601" y="821" width="50" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="1562" y="775" width="128" height="42"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_enviar_di" bpmnElement="Act_a_enviar"><dc:Bounds x="1736" y="92" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Act_a_archivar_di" bpmnElement="Act_a_archivar"><dc:Bounds x="1902" y="92" width="120" height="80"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fin_normal_di" bpmnElement="Fin_normal"><dc:Bounds x="2100" y="114" width="36" height="36"/><bpmndi:BPMNLabel><dc:Bounds x="2068" y="154" width="100" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_descargar_di" bpmnElement="Entregable_a_descargar"><dc:Bounds x="252" y="194" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="294" y="204" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_cargar_di" bpmnElement="Entregable_a_cargar"><dc:Bounds x="418" y="194" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="460" y="204" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_cuadre_di" bpmnElement="Entregable_a_cuadre"><dc:Bounds x="584" y="432" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="626" y="442" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_investigar_di" bpmnElement="Entregable_a_investigar"><dc:Bounds x="924" y="670" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="966" y="680" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_registrar_di" bpmnElement="Entregable_a_registrar"><dc:Bounds x="1236" y="670" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="1278" y="680" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_revisar_di" bpmnElement="Entregable_a_revisar"><dc:Bounds x="1402" y="908" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="1444" y="918" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Entregable_a_enviar_di" bpmnElement="Entregable_a_enviar"><dc:Bounds x="1742" y="194" width="36" height="50"/><bpmndi:BPMNLabel><dc:Bounds x="1784" y="204" width="92" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Externo_tesoreria_del_cliente_di" bpmnElement="Externo_tesoreria_del_cliente" isHorizontal="true"><dc:Bounds x="1004" y="1052" width="260" height="64"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Externo_gerencia_financiera_del_cliente_di" bpmnElement="Externo_gerencia_financiera_del_cliente" isHorizontal="true"><dc:Bounds x="1666" y="1052" width="260" height="64"/></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_investigar__Ev_e_resp_di" bpmnElement="Flujo_Act_a_investigar__Ev_e_resp"><di:waypoint x="1038" y="608"/><di:waypoint x="1116" y="608"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Inicio__Act_a_descargar_di" bpmnElement="Flujo_Inicio__Act_a_descargar"><di:waypoint x="168" y="132"/><di:waypoint x="246" y="132"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_descargar__Act_a_cargar_di" bpmnElement="Flujo_Act_a_descargar__Act_a_cargar"><di:waypoint x="366" y="132"/><di:waypoint x="412" y="132"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_cargar__Act_a_cuadre_di" bpmnElement="Flujo_Act_a_cargar__Act_a_cuadre"><di:waypoint x="532" y="132"/><di:waypoint x="638" y="132"/><di:waypoint x="638" y="330"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_cuadre__Dec_d_cuadra_di" bpmnElement="Flujo_Act_a_cuadre__Dec_d_cuadra"><di:waypoint x="698" y="370"/><di:waypoint x="783" y="370"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Dec_d_cuadra__Act_a_revisar_di" bpmnElement="Flujo_Dec_d_cuadra__Act_a_revisar"><di:waypoint x="833" y="370"/><di:waypoint x="1384" y="370"/><di:waypoint x="1384" y="846"/><di:waypoint x="1396" y="846"/><bpmndi:BPMNLabel><dc:Bounds x="839" y="351" width="98" height="16"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Dec_d_cuadra__Act_a_investigar_di" bpmnElement="Flujo_Dec_d_cuadra__Act_a_investigar"><di:waypoint x="808" y="395"/><di:waypoint x="808" y="608"/><di:waypoint x="918" y="608"/><bpmndi:BPMNLabel><dc:Bounds x="813" y="403" width="130" height="30"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Ev_e_resp__Act_a_registrar_di" bpmnElement="Flujo_Ev_e_resp__Act_a_registrar"><di:waypoint x="1152" y="608"/><di:waypoint x="1230" y="608"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_registrar__Act_a_revisar_di" bpmnElement="Flujo_Act_a_registrar__Act_a_revisar"><di:waypoint x="1350" y="608"/><di:waypoint x="1456" y="608"/><di:waypoint x="1456" y="806"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_revisar__Dec_d_aprueba_di" bpmnElement="Flujo_Act_a_revisar__Dec_d_aprueba"><di:waypoint x="1516" y="846"/><di:waypoint x="1601" y="846"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Dec_d_aprueba__Act_a_enviar_di" bpmnElement="Flujo_Dec_d_aprueba__Act_a_enviar"><di:waypoint x="1651" y="846"/><di:waypoint x="1724" y="846"/><di:waypoint x="1724" y="132"/><di:waypoint x="1736" y="132"/><bpmndi:BPMNLabel><dc:Bounds x="1657" y="827" width="59" height="16"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Dec_d_aprueba__Act_a_investigar_di" bpmnElement="Flujo_Dec_d_aprueba__Act_a_investigar"><di:waypoint x="1626" y="871"/><di:waypoint x="1626" y="883"/><di:waypoint x="1528" y="883"/><di:waypoint x="1528" y="728"/><di:waypoint x="1061" y="728"/><di:waypoint x="1061" y="660"/><di:waypoint x="978" y="660"/><di:waypoint x="978" y="648"/><bpmndi:BPMNLabel><dc:Bounds x="1631" y="879" width="117" height="16"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_enviar__Act_a_archivar_di" bpmnElement="Flujo_Act_a_enviar__Act_a_archivar"><di:waypoint x="1856" y="132"/><di:waypoint x="1902" y="132"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flujo_Act_a_archivar__Fin_normal_di" bpmnElement="Flujo_Act_a_archivar__Fin_normal"><di:waypoint x="2022" y="132"/><di:waypoint x="2100" y="132"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Mensaje_Externo_tesoreria_del_cliente__Ev_e_resp_di" bpmnElement="Mensaje_Externo_tesoreria_del_cliente__Ev_e_resp"><di:waypoint x="1134" y="1052"/><di:waypoint x="1134" y="626"/><bpmndi:BPMNLabel><dc:Bounds x="1140" y="1018" width="96" height="28"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Mensaje_Act_a_enviar__Externo_gerencia_financiera_del_cliente_di" bpmnElement="Mensaje_Act_a_enviar__Externo_gerencia_financiera_del_cliente"><di:waypoint x="1856" y="132"/><di:waypoint x="1879" y="132"/><di:waypoint x="1879" y="1052"/><bpmndi:BPMNLabel><dc:Bounds x="1862" y="1018" width="96" height="28"/></bpmndi:BPMNLabel></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_descargar_di" bpmnElement="Asoc_a_descargar"><di:waypoint x="270" y="172"/><di:waypoint x="270" y="194"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_cargar_di" bpmnElement="Asoc_a_cargar"><di:waypoint x="436" y="172"/><di:waypoint x="436" y="194"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_cuadre_di" bpmnElement="Asoc_a_cuadre"><di:waypoint x="602" y="410"/><di:waypoint x="602" y="432"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_investigar_di" bpmnElement="Asoc_a_investigar"><di:waypoint x="942" y="648"/><di:waypoint x="942" y="670"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_registrar_di" bpmnElement="Asoc_a_registrar"><di:waypoint x="1254" y="648"/><di:waypoint x="1254" y="670"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_revisar_di" bpmnElement="Asoc_a_revisar"><di:waypoint x="1420" y="886"/><di:waypoint x="1420" y="908"/></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Asoc_a_enviar_di" bpmnElement="Asoc_a_enviar"><di:waypoint x="1760" y="172"/><di:waypoint x="1760" y="194"/></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

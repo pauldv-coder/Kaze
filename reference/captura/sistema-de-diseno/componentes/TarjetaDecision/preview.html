@@ -1,0 +1,30 @@
+<!-- @dsCard group="Captura" height=760 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>TarjetaDecision — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo kz-demo--col" style="max-width:620px"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  // La misma secuencia que TableroFases: las decisiones guardan claves, no números.
+  var FASES = [
+    { id: 'prep', nombre: 'Preparación', actividades: [{ clave: 'a1', nombre: 'Descargar extracto' }, { clave: 'a2', nombre: 'Cargar extracto al sistema' }] },
+    { id: 'cuadre', nombre: 'Cuadre', actividades: [{ clave: 'a3', nombre: 'Ejecutar cuadre automático' }, { clave: 'a5', nombre: 'Investigar diferencia' }] },
+    { id: 'cierre', nombre: 'Cierre', actividades: [{ clave: 'a6', nombre: 'Archivar conciliación' }] }
+  ];
+  // Después de mover «Archivar conciliación» al inicio de Preparación:
+  var MOVIDAS = [
+    { id: 'prep', nombre: 'Preparación', actividades: [{ clave: 'a6', nombre: 'Archivar conciliación' }, { clave: 'a1', nombre: 'Descargar extracto' }, { clave: 'a2', nombre: 'Cargar extracto al sistema' }] },
+    { id: 'cuadre', nombre: 'Cuadre', actividades: [{ clave: 'a3', nombre: 'Ejecutar cuadre automático' }, { clave: 'a5', nombre: 'Investigar diferencia' }] },
+    { id: 'cierre', nombre: 'Cierre', actividades: [] }
+  ];
+  var DEC = { pregunta: '¿Cuadra el extracto con los libros?', origen: 'a3', contexto: { faseOrigen: 'cuadre' }, decide: 'Analista contable', tipo: 'exclusiva',
+    salidas: [{ condicion: 'Sí, sin diferencias', destino: 'a6', porDefecto: true }, { condicion: 'No, hay diferencias', destino: 'a5' }, { condicion: 'Falta el extracto', destino: K.DESTINO_FIN, clase: 'cancelacion' }] };
+  function nada() {}
+  ReactDOM.createRoot(document.getElementById('root')).render(h(React.Fragment, null,
+    h(K.TarjetaDecision, Object.assign({}, DEC, { secuencia: K.secuenciaActividades(FASES), onEditar: nada })),
+    h(K.TarjetaDecision, Object.assign({}, DEC, { secuencia: K.secuenciaActividades(MOVIDAS), onMantener: nada, onEliminar: nada, onMarcarRetrabajo: nada, onCambiarDestino: nada, onEditar: nada }))
+  ));
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!-- @dsCard group="Estructura" height=620 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>Sidebar — vista previa</title></head>
+<body>
+<div id="root" class=""></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h('div', { style: { height: 600 } }, h(K.Sidebar, { activo: 'Captura de procesos', items: [{ label: 'Proyectos', href: '#' }, { label: 'Captura de procesos', href: '#' }, { label: 'Mapas de valor · VSM', deshabilitado: true }, { label: 'Acciones', deshabilitado: true }, { label: 'Indicadores', deshabilitado: true }, { label: 'Casos de negocio', deshabilitado: true }, { label: 'Plantillas A3', deshabilitado: true }], clientes: [{ nombre: 'Despacho Andrade & Vega', n: 2 }, { nombre: 'Copidrogas', n: 1 }], usuario: { nombre: 'C. Vidal', iniciales: 'CV', rol: 'consultor' } })));
+</script>
+</body>
+</html>

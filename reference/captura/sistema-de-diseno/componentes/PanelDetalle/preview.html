@@ -1,0 +1,12 @@
+<!-- @dsCard group="Estructura" height=560 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>PanelDetalle — vista previa</title></head>
+<body>
+<div id="root" class="kz-demo"></div>
+<script>
+  var K = window.Kaze, h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h(K.PanelDetalle, { codigo: 'ACT-04', estado: 'pregunta', titulo: 'Investigar diferencia', onCerrar: function () {}, secciones: [{ titulo: 'Básico', campos: [{ etiqueta: 'Fase', valor: 'Cuadre' }, { etiqueta: 'Responsable', valor: 'Analista contable' }, { etiqueta: 'Apoyo', valor: 'desconocido' }] }, { titulo: 'Entregable', campos: [{ etiqueta: 'Entregable', valor: 'Partida conciliatoria' }, { etiqueta: 'Recibe', valor: 'Jefe de contabilidad' }, { etiqueta: 'Criterio de aceptación', valor: 'desconocido' }] }, { titulo: 'Tiempos', campos: [{ etiqueta: 'Proceso', valor: 2, unidad: 'h' }, { etiqueta: 'Espera', valor: 0, unidad: 'h' }, { etiqueta: 'Frecuencia', valor: 12, unidad: '/mes' }, { etiqueta: 'Sistema', valor: 'na' }] }], pie: h(React.Fragment, null, h(K.Boton, { variante: 'primario' }, 'Confirmar'), h(K.Boton, null, 'Anotar pregunta')) }));
+</script>
+</body>
+</html>
