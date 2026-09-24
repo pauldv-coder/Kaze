@@ -1,8 +1,9 @@
 @import "tailwindcss";
+@source not "../reference";
 
 /* Tokens de Kaze (Tailwind v4 · CSS-first).
    Naranja = solo marca/interacción. Verde/ámbar/rojo = solo estado del dato. */
-@theme {
+@theme static {
   --color-marca: #f94202;
   --color-tinta: #111111;
   --color-panel: #eceef1;
@@ -15,6 +16,27 @@
 
   --font-display: var(--font-space-grotesk), system-ui, sans-serif;
   --font-sans: var(--font-hanken), system-ui, sans-serif;
+}
+
+/* Colores del sistema de diseño de Captura (§7). `static`: kaze.css los lee con var() y ninguna
+   utilidad los usa, así que sin `static` Tailwind podría omitirlos del CSS compilado. */
+@theme static {
+  --color-estado-alerta-texto: #9a6b00;
+  --color-estado-alerta-borde: rgba(184, 134, 11, 0.4);
+  --color-estado-bien-fondo: rgba(15, 122, 69, 0.1);
+  --color-estado-bien-borde: rgba(15, 122, 69, 0.25);
+  --color-estado-mal-fondo: rgba(192, 57, 43, 0.1);
+  --color-estado-mal-borde: rgba(192, 57, 43, 0.25);
+  --color-sugerencia-ia: #2458a6;
+  --color-sugerencia-ia-fondo: rgba(36, 88, 166, 0.08);
+  --color-sugerencia-ia-borde: rgba(36, 88, 166, 0.45);
+  --color-marca-cta: #d93a00;
+  --color-marca-cta-hover: #b83100;
+  --color-foco: #f94202;
+  --color-lateral-activo: rgba(255, 255, 255, 0.1);
+  --color-lateral-hover: rgba(255, 255, 255, 0.05);
+  --color-lateral-texto: rgba(255, 255, 255, 0.7);
+  --color-lateral-tenue: rgba(255, 255, 255, 0.55);
 }
 
 * {
