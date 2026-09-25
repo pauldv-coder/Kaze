@@ -56,8 +56,9 @@ export async function getProjectsList(db: DB, hoy: Date = new Date()): Promise<P
     .order('code'))
 
   const profiles = await selectAllRows('profiles', db.from('profiles').select('id, nombre, iniciales', { count: 'exact' }))
-  // `iniciales` viene vacía en todo perfil recién creado (default del trigger handle_new_user):
-  // se derivan del nombre antes que dejar a la persona fuera del equipo.
+  // `iniciales` puede venir null o vacía: la columna es nullable y sin default
+  // (supabase/migrations/20260920000001_kaze_schema.sql:22) y no hay trigger que la rellene, así
+  // que se derivan del nombre antes que dejar a la persona fuera del equipo.
   const iniById = new Map(profiles.map(p => [p.id, p.iniciales?.trim() || inicialesDeNombre(p.nombre) || '?']))
 
   // El desempate por `id` no es cosmético: un insert de varias filas les da el mismo `created_at` y

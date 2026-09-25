@@ -41,9 +41,10 @@ describe('getProjectsList', () => {
     expect(r.accionesVencidas).toBe(1)
   })
 
-  // `iniciales = ''` es el DEFAULT que escribe el trigger handle_new_user (0001_schema.sql:28),
-  // así que un miembro sin iniciales no es un caso raro: es el estado de cualquier usuario recién
-  // invitado. Nunca debe desaparecer del equipo.
+  // `kaze.profiles.iniciales` es nullable y SIN default
+  // (supabase/migrations/20260920000001_kaze_schema.sql:22), y ya no hay trigger que la rellene:
+  // un perfil sin iniciales no es un caso raro, es cualquier fila insertada sin ellas.
+  // Nunca debe desaparecer del equipo.
   it('un perfil sin iniciales no borra a la persona del equipo', async () => {
     const { data: dl, error } = await db
       .from('profiles').select('id, nombre, iniciales').eq('nombre', 'Diego López').single()

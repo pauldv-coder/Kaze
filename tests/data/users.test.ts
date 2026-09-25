@@ -99,10 +99,16 @@ describe('inviteUserCore con auth.users compartida', () => {
     const { userId } = await inviteUserCore(admin, {
       email: 'ajeno@cota.test', nombre: 'Ajeno Sin Acceso', rol: 'consultor',
     })
-    expect(userId).toBe(ajeno.id)
-    const { data } = await admin.from('profiles').select('id').eq('id', ajeno.id).single()
-    expect(data).not.toBeNull()
-    // limpieza: devolver a ajeno a su estado de no-miembro para los otros tests
-    await admin.from('profiles').delete().eq('id', ajeno.id)
+    try {
+      expect(userId).toBe(ajeno.id)
+      const { data } = await admin.from('profiles').select('id').eq('id', ajeno.id).single()
+      expect(data).not.toBeNull()
+    } finally {
+      // Devolver a ajeno a su estado de no-miembro. Va en `finally` a propósito: si una aserción
+      // falla, la limpieza igual corre. Fuera del `finally` (como estaba), un fallo aquí dejaba a
+      // ajeno con membresía y rompía tests/data/rls-no-miembro.test.ts en TODAS las corridas
+      // siguientes hasta un `npm run db:reset`.
+      await admin.from('profiles').delete().eq('id', ajeno.id)
+    }
   })
 })
