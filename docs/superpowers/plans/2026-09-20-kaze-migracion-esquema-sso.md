@@ -972,7 +972,7 @@ git push origin main
 ```
 + trailer.
 
-- [ ] **Step 4:** El controlador despacha la revisión final del rango completo de la migración.
+- [x] **Step 4:** El controlador despacha la revisión final del rango completo de la migración.
 
 ---
 

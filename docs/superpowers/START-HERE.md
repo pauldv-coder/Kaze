@@ -365,6 +365,58 @@ Lo específico de esta fase:
 - **Invitar desde Kaze a alguien que ya tiene cuenta del CMS** no crea usuario nuevo: solo le añade
   la fila en `kaze.profiles`. `/admin` muestra "Ya tenía cuenta en el ecosistema Vento".
 
+## Hallazgos de la revisión final de la migración (2026-09-25)
+
+### 🔴 CRÍTICO — `/admin` trata `auth.users` como si fuera el padrón de Kaze
+
+Toda la migración se hizo para que "estar autenticado **no** implique pertenecer a Kaze", y `/admin`
+es justo el sitio donde esa regla **no** se aplicó. `lib/data/users.ts:44-63` itera **todos** los
+usuarios del proyecto compartido y les asigna `rol: p?.rol ?? 'consultor'` cuando no tienen fila en
+`kaze.profiles`; `app/(app)/admin/page.tsx:16-40` los pinta sin distinguirlos de un miembro real y
+les cuelga los mismos botones. Hoy en producción:
+
+- **Fuga del padrón ajeno:** un admin de Kaze ve el correo de cada usuario del CMS y del HUB. Ahora
+  mismo el único admin es el propio dueño, así que el daño es nulo — pasa a ser real **el día que se
+  invite como admin a un consultor de Cota**, que es para lo que existe el módulo.
+- **`reactivateUserCore` (`lib/data/users.ts:117-119`) no comprueba membresía:** un usuario baneado
+  desde el CMS o el HUB aparece aquí con botón *reactivar*, y pulsarlo **levanta en todo el
+  ecosistema un ban que Kaze no puso**. Es el único de los cuatro caminos que no falla por accidente.
+- `setRoleCore` sobre un no-miembro es un **no-op silencioso** (update sobre 0 filas, sin error) y
+  `deactivateUserCore` **revienta** con `PGRST116`. No hacen daño, pero por accidente, no por guardia.
+
+**Arreglo:** filtrar por membresía en `getUsers` y añadir guardia de miembro a las cuatro acciones.
+
+### 🟠 La cookie del apex es legible por JavaScript en todo `*.ventosolutions.ca`
+
+El spec (`§ riesgos`) aceptó la cookie de apex razonando que el sitio corporativo *"no puede leerla
+si es `httpOnly`"*. La implementación hace lo contrario, y con razón: `cookie-options.ts` dice
+**"NUNCA httpOnly: el browser client escribe vía document.cookie"**. O sea, la premisa que sostenía
+la mitigación es falsa: **un XSS o un script de terceros en cualquier subdominio del apex — incluido
+el sitio de marketing — se lleva la sesión de las tres apps**. Queda anotado, no resuelto.
+
+### 🟡 La invariante "archivo byte-idéntico" ya está rota
+
+Los tres `cookie-options.ts` **no** son byte-idénticos (`md5sum` distinto): la copia de Kaze actualizó
+la cabecera y la del CMS además está en CRLF. El **objeto exportado sí** es idéntico en los tres, así
+que el SSO no corre peligro — pero la invariante, tal como está redactada, ya no detecta nada.
+
+### 🟡 Otros
+
+- **Tercer comentario obsoleto sobre el trigger eliminado**, además de los dos ya anotados:
+  `tests/data/projects-list.test.ts:44` (habla de un default que el trigger escribía; ni hay trigger
+  ni la columna tiene default, y cita un archivo que ya no existe con ese nombre).
+- **`getProjects` (`lib/data/projects.ts:11-18`) sin guardia de truncamiento** — el único hueco; el
+  resto de lecturas de lista pasan por `selectAllRows`. Es código muerto en la app (solo lo usan los
+  tests) y es **anterior** a esta migración.
+- **`scripts/create-admin.ts:55-64` borra en duro** todo correo `@cota.test` de `auth.users`. Antes
+  esa tabla era solo de Kaze; ahora la comparten el CMS y el HUB, y el borrado es en cascada.
+- **La limpieza de `tests/data/users.test.ts:106` no está en `finally`:** si ese test falla antes,
+  deja a `ajeno@cota.test` con perfil y **`rls-no-miembro.test.ts` falla en todas las corridas
+  siguientes** hasta un `db:reset` — justo el test que más importa de este bloque.
+- **El seed del HUB (`vento-hub/supabase/schema-hub.sql:61`) sigue diciendo** `url: null` /
+  `status: 'development'` para `improvement`. El tile se actualizó en el alojado (así lo decidió el
+  plan), pero el repo del HUB miente sobre su propio seed.
+
 ## Pendientes conocidos
 
 - **(Usuario, bloquea `/admin`)** añadir `https://kaze.ventosolutions.ca/**` a las Redirect URLs del
