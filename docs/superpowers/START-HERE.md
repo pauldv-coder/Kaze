@@ -35,20 +35,25 @@
 `npm run e2e` (Playwright) necesita el stack local levantado y seedeado (`npx supabase status`), y
 `.env.local` con `KAZE_URL` y `KAZE_APROBAR_SECRETO`.
 
-## ✅ Estado a 2026-09-25: SSO FUNCIONANDO entre Kaze y el HUB
+## ✅ Estado a 2026-09-25: SSO FUNCIONANDO en las TRES apps
 
-**Una sesión iniciada en Kaze abre el HUB sin volver a autenticarse.** Verificado sin navegador,
-presentando la misma cookie a las dos apps:
+**Una sesión iniciada en Kaze abre el HUB y el CMS sin volver a autenticarse.** Verificado sin
+navegador, presentando la misma cookie a las tres:
 
-| Prueba | Resultado |
+| Prueba (una sola sesión, emitida por Kaze) | Resultado |
 |---|---|
-| `kaze.ventosolutions.ca/proyectos` con la sesión | `200` |
-| `hubvento.ventosolutions.ca/` con **la misma** cookie | `200` ✅ |
-| `hubvento.ventosolutions.ca/` sin sesión (control) | `307 -> /login` ✅ |
+| `kaze.ventosolutions.ca/proyectos` | `200` ✅ |
+| `hubvento.ventosolutions.ca/` | `200` ✅ |
+| `vento-cms.ventosolutions.ca/studio` | `200` ✅ |
+| `vento-cms.../login` **con** sesión | `307 -> /studio` ✅ (el proxy reconoce al usuario) |
+| los tres sin sesión (control) | `307 -> /login` ✅ |
 
 La cookie es una sola: `sb-nrysdnavawyhaqgruunl-auth-token`, `Domain=.ventosolutions.ca`, `Path=/`,
-`Secure`, `SameSite=lax`. **El CMS queda fuera todavía** — su código está en `origin/main` pero su
-proyecto de Vercel no despliega (ver abajo).
+`Secure`, `SameSite=lax`.
+
+⚠️ **Al probar el CMS, gatea `/studio`, no `/`.** Su `proxy.ts` solo protege `/studio`; la raíz
+redirige por su cuenta y da un `307` que parece un fallo de SSO sin serlo. La señal más limpia es
+`/login` **con** sesión: si el SSO funciona, responde `307 -> /studio`.
 
 Cómo reproducir la prueba en cualquier momento, sin contraseñas: generar un token de `recovery`
 (ver "Recuperar el acceso del admin"), canjearlo con `curl -c jar` contra
@@ -104,18 +109,37 @@ funcionaba nada. Tres causas encadenadas, ninguna en el código:
 `NEXT_PUBLIC_*` se hornean en el build, así que cambiarlas no surte efecto sin reconstruir; y un
 `● Ready` no prueba que el alias sirva ese build — hay que mirar `vercel alias ls`.
 
-### Qué pasa con el CMS (pendiente)
+### El CMS llevaba 71 días sin desplegar por el AUTOR de un commit (resuelto)
 
-`vento-cms` vive en `vento-cms.ventosolutions.ca` y **comparte `auth.users`**, pero su proyecto de
-Vercel **no despliega desde hace más de 71 días**: un `git push` a su `main` no dispara build alguno
-(a diferencia del HUB, donde sí dispara). Su commit del SSO (`eb1e0f0`) ya está mergeado en
-`origin/main` esperando. **[USUARIO]** hay que mirar *Vercel → `vento-cms` → Settings → Git* y
-comprobar si el repositorio sigue conectado y si *Production Branch* es `main`.
+`vento-cms` no construía nada desde hacía 71 días y sus deploys aparecían como **`● Blocked`** en el
+listado, sin alerta ni correo. El motivo lo dio el dashboard:
 
-Por qué importa y no es "el CMS se queda fuera": si el CMS sigue escribiendo cookies host-only
-mientras HUB y Kaze usan la del apex, al refrescar su sesión **rota el refresh token** y deja
-obsoleto el que guarda la cookie compartida → logouts intermitentes en las otras dos apps para
-quien use el CMS.
+> *"The deployment was blocked because the commit author did not have contributing access to the
+> project on Vercel. The Hobby Plan does not support collaboration for private repositories."*
+
+**En plan Hobby, un repo PRIVADO solo despliega commits cuyo autor Vercel reconoce como dueño del
+proyecto.** El commit del SSO (`eb1e0f0`) se había firmado con el correo **global**
+`pauldiazveg@gmail.com`, mientras que ese repo usa en su config local el correo `noreply` de GitHub
+(`83824766+pauldv-coder@users.noreply.github.com`). GitHub no lo atribuyó a la cuenta → Vercel lo
+bloqueó.
+
+Por qué no se notó antes en los otros repos: **`Kaze` es público** (la restricción no aplica) y
+`vento-hub` es privado pero su config local ya usaba el correo bueno.
+
+**Arreglo, sin reescribir historia:** a Vercel le basta con que **el commit de cabeza** tenga el autor
+correcto. Un commit vacío firmado con la identidad del repo desbloquea el deploy (`a1eeaab`):
+
+```bash
+git -c user.email="83824766+pauldv-coder@users.noreply.github.com" commit --allow-empty -m "chore: desbloquear deploy"
+```
+
+**Prevención:** en cada repo privado, `git config user.email` debe ser el correo que GitHub atribuye
+a la cuenta. Si un repo privado "no despliega", mira el autor del commit de cabeza **antes** de
+sospechar del build.
+
+Después de desbloquearlo hizo falta lo mismo que en el HUB: sus tres `NEXT_PUBLIC_*` eran `Secret`
+(ilegibles) y tenían la clave publicable vieja. Pasadas a `Config` con los valores buenos y
+reconstruido, el SSO del CMS quedó verificado.
 
 ### Cómo quedaron las variables de Vercel — y la trampa del *tipo*
 
@@ -209,8 +233,8 @@ propio pausado. Motivo: el plan Free permite 2 proyectos activos y están ocupad
 | T8 cierre de la fase local | ✅ `42a0cd2` — **51/51 tests**, tsc, build |
 | T9 aplicar en el proyecto compartido | ✅ `f80f730` — ver abajo |
 | **T10 Vercel + dominio → producción arreglada** | ✅ **hito cumplido** — falta solo el Step 3 (Redirect URLs, [USUARIO]) |
-| T11 flip de cookies apex en los 3 repos (SSO) | ✅ `73cd257` + `5862bdb` — desplegado en Kaze y HUB; **el CMS sigue sin desplegar** |
-| T12 verificar SSO | 🟡 **Step 1 verificado** (sesión compartida Kaze↔HUB); faltan los Steps 2 y 3 |
+| T11 flip de cookies apex en los 3 repos (SSO) | ✅ desplegado en los **tres**: Kaze `73cd257`+`5862bdb`, HUB `a5668af`, CMS `eb1e0f0`+`a1eeaab` |
+| T12 verificar SSO | 🟡 **Step 1 verificado en las tres apps**; faltan los Steps 2 (no-miembro) y 3 (logout) |
 | T13 tile en `hub.modules` | ⬜ **siguiente** |
 | T14 docs + revisión final | ⬜ |
 
@@ -329,11 +353,9 @@ Lo específico de esta fase:
 
 - **(Usuario, bloquea `/admin`)** añadir `https://kaze.ventosolutions.ca/**` a las Redirect URLs del
   proyecto compartido — T10 Step 3, ver arriba.
-- **(Usuario, bloquea el SSO del CMS)** revisar *Vercel → `vento-cms` → Settings → Git*: no despliega
-  desde hace 71 días y su commit del SSO espera mergeado en `origin/main`.
 - **(Usuario)** pasar `NEXT_PUBLIC_COOKIE_DOMAIN` del HUB de `Secret` a `Config`. Sigue ilegible: si
   contuviera `ventosolutions.ca` **sin** el punto inicial, el HUB escribiría cookies que Kaze no ve y
-  no habría forma de detectarlo mirando.
+  no habría forma de detectarlo mirando. (En el CMS y en Kaze ya es `Config` y está verificada.)
 - **(T12, pendientes)** Step 2: comprobar en producción que una cuenta sin fila en `kaze.profiles`
   entra pero ve **cero** proyectos. Step 3: documentar que, con cookie de apex, cerrar sesión en una
   app cierra las tres — es esperable, hay que dejarlo escrito tal cual resulte.
