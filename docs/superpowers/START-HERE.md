@@ -35,7 +35,26 @@
 `npm run e2e` (Playwright) necesita el stack local levantado y seedeado (`npx supabase status`), y
 `.env.local` con `KAZE_URL` y `KAZE_APROBAR_SECRETO`.
 
-## ✅ Estado a 2026-09-22: PRODUCCIÓN ARREGLADA — T10 cerrada salvo un paso de dashboard
+## ✅ Estado a 2026-09-25: SSO FUNCIONANDO entre Kaze y el HUB
+
+**Una sesión iniciada en Kaze abre el HUB sin volver a autenticarse.** Verificado sin navegador,
+presentando la misma cookie a las dos apps:
+
+| Prueba | Resultado |
+|---|---|
+| `kaze.ventosolutions.ca/proyectos` con la sesión | `200` |
+| `hubvento.ventosolutions.ca/` con **la misma** cookie | `200` ✅ |
+| `hubvento.ventosolutions.ca/` sin sesión (control) | `307 -> /login` ✅ |
+
+La cookie es una sola: `sb-nrysdnavawyhaqgruunl-auth-token`, `Domain=.ventosolutions.ca`, `Path=/`,
+`Secure`, `SameSite=lax`. **El CMS queda fuera todavía** — su código está en `origin/main` pero su
+proyecto de Vercel no despliega (ver abajo).
+
+Cómo reproducir la prueba en cualquier momento, sin contraseñas: generar un token de `recovery`
+(ver "Recuperar el acceso del admin"), canjearlo con `curl -c jar` contra
+`kaze.ventosolutions.ca/auth/confirm`, y presentar ese `jar` a las dos apps con `curl -b jar`.
+
+### La T10 (contexto anterior, 2026-09-22)
 
 Producción corre el código nuevo (`50bd33b`) contra el proyecto compartido y lee el esquema `kaze`.
 Verificado de punta a punta:
@@ -58,6 +77,45 @@ al destino que da Vercel — **sin** carpeta ni subdominio de hosting, que Hosti
 **[USUARIO] Redirect URLs** — Supabase → `nrysdnavawyhaqgruunl` → Authentication → URL Configuration:
 añadir `https://kaze.ventosolutions.ca/**` a *Redirect URLs* (**añadir, no sustituir**; el Site URL
 sigue apuntando al HUB). El login con contraseña no lo necesita; **las invitaciones de `/admin` sí**.
+
+### Por qué el SSO llevaba 69 días sin encenderse (no era el código)
+
+El commit del SSO del HUB (`a5668af`) estaba en `origin/main` **desde el 15-jul-2026** y aun así no
+funcionaba nada. Tres causas encadenadas, ninguna en el código:
+
+1. **El HUB nunca llegó a desplegar ese commit.** Sus deploys se quedaban en `Queued` para siempre
+   (el CLI los muestra como `UNKNOWN` pasado un tiempo). En plan **Hobby solo se construye un build
+   a la vez**, y basta un deploy colgado para que todos los siguientes esperen tras él. Producción
+   siguió sirviendo el build del 14-jul, un día anterior al commit. **Síntoma a reconocer:
+   deployments en `Queued` sin avanzar y "Another build is in progress" en el dashboard. Se arregla
+   cancelándolos todos y lanzando UNO.**
+2. **Las variables de Supabase del HUB en producción eran distintas de las de su `.env.local`**:
+   tenían otra clave publicable (`sb_publishable_KYDRu…` en vez de `…Fbza7…`). Ambas son válidas
+   contra el proyecto, así que nada fallaba de forma ruidosa. Como estaban de tipo `Secret`, **nadie
+   podía leerlas para comparar** — ni el usuario ni el agente. Pasarlas a `Config` fue lo que
+   permitió verlas y corregirlas.
+3. **Guardar varias variables seguidas en Vercel disparó un redeploy por cada guardado**, y uno de
+   esos builds se construyó justo cuando una variable estaba borrada. Al terminar se auto-promovió y
+   **tumbó el HUB con 500**. Lo salvó el *fail-closed* de su `proxy.ts`, que devuelve 500 cuando
+   faltan `NEXT_PUBLIC_SUPABASE_URL`/`ANON_KEY` en vez de servir una app que no puede hablar con
+   Supabase. Se restauró con `npx vercel promote <deployment-anterior>`.
+
+**Reglas que salen de aquí:** edita todas las variables y haz **un solo** redeploy al final; las
+`NEXT_PUBLIC_*` se hornean en el build, así que cambiarlas no surte efecto sin reconstruir; y un
+`● Ready` no prueba que el alias sirva ese build — hay que mirar `vercel alias ls`.
+
+### Qué pasa con el CMS (pendiente)
+
+`vento-cms` vive en `vento-cms.ventosolutions.ca` y **comparte `auth.users`**, pero su proyecto de
+Vercel **no despliega desde hace más de 71 días**: un `git push` a su `main` no dispara build alguno
+(a diferencia del HUB, donde sí dispara). Su commit del SSO (`eb1e0f0`) ya está mergeado en
+`origin/main` esperando. **[USUARIO]** hay que mirar *Vercel → `vento-cms` → Settings → Git* y
+comprobar si el repositorio sigue conectado y si *Production Branch* es `main`.
+
+Por qué importa y no es "el CMS se queda fuera": si el CMS sigue escribiendo cookies host-only
+mientras HUB y Kaze usan la del apex, al refrescar su sesión **rota el refresh token** y deja
+obsoleto el que guarda la cookie compartida → logouts intermitentes en las otras dos apps para
+quien use el CMS.
 
 ### Cómo quedaron las variables de Vercel — y la trampa del *tipo*
 
@@ -151,9 +209,9 @@ propio pausado. Motivo: el plan Free permite 2 proyectos activos y están ocupad
 | T8 cierre de la fase local | ✅ `42a0cd2` — **51/51 tests**, tsc, build |
 | T9 aplicar en el proyecto compartido | ✅ `f80f730` — ver abajo |
 | **T10 Vercel + dominio → producción arreglada** | ✅ **hito cumplido** — falta solo el Step 3 (Redirect URLs, [USUARIO]) |
-| T11 flip de cookies apex en los 3 repos (SSO) | ⏸ **en pausa** — `73cd257` en `main` sin push |
-| T12 verificar SSO | ⬜ |
-| T13 tile en `hub.modules` | ⬜ |
+| T11 flip de cookies apex en los 3 repos (SSO) | ✅ `73cd257` + `5862bdb` — desplegado en Kaze y HUB; **el CMS sigue sin desplegar** |
+| T12 verificar SSO | 🟡 **Step 1 verificado** (sesión compartida Kaze↔HUB); faltan los Steps 2 y 3 |
+| T13 tile en `hub.modules` | ⬜ **siguiente** |
 | T14 docs + revisión final | ⬜ |
 
 **Cómo se ejecutó la T10:** se verificó primero contra la URL de Vercel
@@ -214,9 +272,11 @@ docs/superpowers/specs/2026-09-24-kaze-captura-procesos-design.md. F0 está cerr
 primer plano (nunca run_in_background).
 
 El plan de migración a esquema `kaze` + SSO (docs/superpowers/plans/2026-09-20-kaze-migracion-esquema-sso.md)
-queda EN PAUSA en la T11: el commit 73cd257 (cookie de apex) está en main sin push; no
-lo empujes sin coordinar conmigo, corta las sesiones vivas de las tres apps (HUB, CMS,
-Kaze). El SSO (T11-T14) se retoma después de Captura de procesos.
+ya NO está en pausa: T11 está desplegada y el SSO FUNCIONA entre Kaze y el HUB (verificado
+el 2026-09-25 con curl, sin navegador). De ese plan solo quedan los Steps 2-3 de la T12,
+la T13 (tile en hub.modules) y la T14 (docs), más tres pasos [USUARIO] de dashboard que
+están listados en "Pendientes conocidos" — el que más urge es Settings → Git del proyecto
+vento-cms, porque el CMS no despliega y su commit del SSO espera en origin/main.
 
 No introduzcas contraseñas ni pegues claves en servicios externos: eso lo hago yo. Push
 a main y `supabase db push` solo coordinados conmigo (push = deploy).
@@ -269,6 +329,22 @@ Lo específico de esta fase:
 
 - **(Usuario, bloquea `/admin`)** añadir `https://kaze.ventosolutions.ca/**` a las Redirect URLs del
   proyecto compartido — T10 Step 3, ver arriba.
+- **(Usuario, bloquea el SSO del CMS)** revisar *Vercel → `vento-cms` → Settings → Git*: no despliega
+  desde hace 71 días y su commit del SSO espera mergeado en `origin/main`.
+- **(Usuario)** pasar `NEXT_PUBLIC_COOKIE_DOMAIN` del HUB de `Secret` a `Config`. Sigue ilegible: si
+  contuviera `ventosolutions.ca` **sin** el punto inicial, el HUB escribiría cookies que Kaze no ve y
+  no habría forma de detectarlo mirando.
+- **(T12, pendientes)** Step 2: comprobar en producción que una cuenta sin fila en `kaze.profiles`
+  entra pero ve **cero** proyectos. Step 3: documentar que, con cookie de apex, cerrar sesión en una
+  app cierra las tres — es esperable, hay que dejarlo escrito tal cual resulte.
+- **Deriva de versiones de `@supabase/ssr` entre repos**: Kaze `0.12.0`, HUB `0.10.3`. Hoy
+  interoperan (mismos defaults de cookie, mismo `base64url`, mismo `MAX_CHUNK_SIZE`) y está
+  verificado que la 0.10.3 lee lo que escribe la 0.12.0. Pero un archivo de opciones byte-idéntico
+  **no garantiza cookies idénticas**: cada versión mezcla contra sus propios defaults. El invariante
+  real es alinear también la versión del paquete en los tres repos.
+- **El comentario de `cookie-options.ts` dice "las versiones actuales limpian las cookies host-only
+  viejas"**, lo cual es cierto en Kaze (0.12.0) y **falso en el HUB** (0.10.3). Al ser archivo
+  byte-idéntico, corregirlo exige editarlo a la vez en los tres repos.
 - **(Usuario)** revisar en el repo del CMS por qué no existe su trigger `on_auth_user_created` en el
   proyecto vivo, y si sus usuarios nuevos están recibiendo perfil.
 - **(Usuario)** decidir sobre "Automatically expose new tables" en el proyecto compartido.

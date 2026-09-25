@@ -869,14 +869,14 @@ Luego, **[USUARIO]** inicia sesión con `info@ventosolutions.ca` y confirma que 
 
 ⚠️ Las sesiones vivas se cortan **una vez**, en las tres apps. Coordinar el momento con el usuario.
 
-- [ ] **Step 1: Leer cómo lo hace el HUB antes de tocar nada** — el HUB y el CMS ya comparten proyecto; revisa cómo construyen su cliente de servidor:
+- [x] **Step 1: Leer cómo lo hace el HUB antes de tocar nada** — el HUB y el CMS ya comparten proyecto; revisa cómo construyen su cliente de servidor:
 
 ```bash
 cat /c/Users/pauld/dev/vento-hub/src/lib/supabase/server.ts 2>/dev/null || find /c/Users/pauld/dev/vento-hub/src -name "*.ts" -path "*supabase*"
 ```
 Reporta qué encontraste **antes** de escribir código: si el HUB ya fija un `cookieOptions.domain`, hay que igualarlo exactamente, no inventar otro.
 
-- [ ] **Step 2: Fijar el dominio de cookie en Kaze** — en `lib/supabase/server.ts`, añadir `cookieOptions` junto a `db`:
+- [x] **Step 2: Fijar el dominio de cookie en Kaze** — en `lib/supabase/server.ts`, añadir `cookieOptions` junto a `db`:
 
 ```ts
       db: { schema: 'kaze' },
@@ -896,13 +896,13 @@ const cookieDomain = process.env.NODE_ENV === 'production' ? '.ventosolutions.ca
 ```
 y pasa `cookieOptions: { domain: cookieDomain, sameSite: 'lax', secure: cookieDomain !== undefined }`.
 
-- [ ] **Step 3: Verificar local** — Run: `npm run build` y `npm test` (51 verdes). Levanta `npm run dev` en primer plano en un solo comando, comprueba que `/login` responde 200 y mátalo. El login local debe seguir funcionando: el dominio de cookie solo se fija en producción.
+- [x] **Step 3: Verificar local** — Run: `npm run build` y `npm test` (51 verdes). Levanta `npm run dev` en primer plano en un solo comando, comprueba que `/login` responde 200 y mátalo. El login local debe seguir funcionando: el dominio de cookie solo se fija en producción.
 
-- [ ] **Step 4: Aplicar el mismo cambio en HUB y CMS** — replica exactamente el mismo `cookieOptions` (mismo dominio, mismo `sameSite`, misma condición de `NODE_ENV`) en los otros dos repos, siguiendo el patrón que encontraste en el Step 1. **No los pushees todavía.**
+- [x] **Step 4: Aplicar el mismo cambio en HUB y CMS** — replica exactamente el mismo `cookieOptions` (mismo dominio, mismo `sameSite`, misma condición de `NODE_ENV`) en los otros dos repos, siguiendo el patrón que encontraste en el Step 1. **No los pushees todavía.**
 
-- [ ] **Step 5 [USUARIO]: Desplegar los tres juntos** — el agente PARA y coordina con el usuario. Los tres `git push` se hacen seguidos, y se espera a que los tres deployments queden `● Ready` antes de verificar. Una app a medio migrar deja sesiones inconsistentes.
+- [x] **Step 5 [USUARIO]: Desplegar los tres juntos** — el agente PARA y coordina con el usuario. Los tres `git push` se hacen seguidos, y se espera a que los tres deployments queden `● Ready` antes de verificar. Una app a medio migrar deja sesiones inconsistentes.
 
-- [ ] **Step 6: Commit en cada repo** (el push lo autoriza el usuario en el Step 5):
+- [x] **Step 6: Commit en cada repo** (el push lo autoriza el usuario en el Step 5):
 
 ```bash
 git add lib/supabase/server.ts lib/supabase/client.ts
@@ -916,13 +916,13 @@ git commit -m "feat(auth): cookie de sesión en el apex ventosolutions.ca (SSO)"
 
 **Files:** ninguno (verificación).
 
-- [ ] **Step 1 [USUARIO]: Sesión compartida** — con sesión ya iniciada en `hubvento.ventosolutions.ca`, navegar a `kaze.ventosolutions.ca/proyectos` y confirmar que **entra sin volver a autenticarse**. Repetir en sentido inverso y con el CMS.
+- [x] **Step 1 [USUARIO]: Sesión compartida** — con sesión ya iniciada en `hubvento.ventosolutions.ca`, navegar a `kaze.ventosolutions.ca/proyectos` y confirmar que **entra sin volver a autenticarse**. Repetir en sentido inverso y con el CMS.
 
 - [ ] **Step 2 [USUARIO]: El no-miembro no entra** — iniciar sesión con una cuenta que exista en el CMS pero **no** tenga fila en `kaze.profiles`, y navegar a `kaze.ventosolutions.ca/proyectos`. Esperado: la pantalla carga pero **sin ningún proyecto** (el RLS devuelve cero filas). Este es el comportamiento correcto y la razón de ser de la Task 6.
 
 - [ ] **Step 3: Logout aislado** — confirmar que cerrar sesión en Kaze no arrastra la sesión del HUB de forma inesperada. Anotar el comportamiento observado: con cookie de apex compartida, es esperable que el logout afecte a las tres apps. **Documentarlo tal como resulte, sin maquillarlo.**
 
-- [ ] **Step 4: Reportar** el resultado paso a paso con evidencia. Si el SSO no funciona, diagnostica antes de tocar código: lo más probable es que una de las tres apps no haya desplegado el cambio, o que los `cookieOptions` no coincidan exactamente entre repos.
+- [x] **Step 4: Reportar** el resultado paso a paso con evidencia. Si el SSO no funciona, diagnostica antes de tocar código: lo más probable es que una de las tres apps no haya desplegado el cambio, o que los `cookieOptions` no coincidan exactamente entre repos.
 
 ---
 
