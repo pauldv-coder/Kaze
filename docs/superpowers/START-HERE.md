@@ -109,6 +109,22 @@ funcionaba nada. Tres causas encadenadas, ninguna en el código:
 `NEXT_PUBLIC_*` se hornean en el build, así que cambiarlas no surte efecto sin reconstruir; y un
 `● Ready` no prueba que el alias sirva ese build — hay que mirar `vercel alias ls`.
 
+### Qué significa "Cerrar sesión" ahora (T12 Step 3, verificado)
+
+Con la cookie de apex, **cerrar sesión en cualquiera de las tres apps cierra las tres**. Es el
+comportamiento deseado — un "Cerrar sesión" que te dejara dentro del HUB sería peor — y **no se
+arregla** cambiando `scope: 'local'` a `'global'`: eso además tumbaría las sesiones del usuario en
+sus otros dispositivos.
+
+Verificado ejecutando el mismo `signOut({ scope: 'local' })` que la server action de Kaze:
+
+- Emite **dos** borrados del mismo nombre de cookie: uno con `domain=.ventosolutions.ca` y otro
+  **host-only**. El segundo es la limpieza de cookies antiguas que trae `@supabase/ssr` 0.12.0
+  (el HUB, con 0.10.3, **no** la hace).
+- Además **revoca la sesión en el servidor**: al reenviar después los mismos bytes de cookie, las
+  tres apps responden `307 -> /login`. O sea, `scope: 'local'` significa "esta sesión", no "esta app",
+  y copiar la cookie a otro sitio no la resucita.
+
 ### El CMS llevaba 71 días sin desplegar por el AUTOR de un commit (resuelto)
 
 `vento-cms` no construía nada desde hacía 71 días y sus deploys aparecían como **`● Blocked`** en el
@@ -234,9 +250,9 @@ propio pausado. Motivo: el plan Free permite 2 proyectos activos y están ocupad
 | T9 aplicar en el proyecto compartido | ✅ `f80f730` — ver abajo |
 | **T10 Vercel + dominio → producción arreglada** | ✅ **hito cumplido** — falta solo el Step 3 (Redirect URLs, [USUARIO]) |
 | T11 flip de cookies apex en los 3 repos (SSO) | ✅ desplegado en los **tres**: Kaze `73cd257`+`5862bdb`, HUB `a5668af`, CMS `eb1e0f0`+`a1eeaab` |
-| T12 verificar SSO | 🟡 **Step 1 verificado en las tres apps**; faltan los Steps 2 (no-miembro) y 3 (logout) |
+| T12 verificar SSO | ✅ Steps 1 y 3 verificados en las tres apps; **Step 2 pendiente** (necesita una cuenta de prueba, ver Pendientes) |
 | T13 tile en `hub.modules` | ✅ fila `improvement` → Kaze, `production`, url `kaze.ventosolutions.ca`; tile verificado renderizado en la portada del HUB |
-| T14 docs + revisión final | ⬜ |
+| T14 docs + revisión final | ✅ `START-HERE.md` y `docs/DEPLOY.md` al día |
 
 **Cómo se ejecutó la T10:** se verificó primero contra la URL de Vercel
 (`kaze-pauldvcoders-projects.vercel.app`) para no esperar al DNS, y el dominio se resolvió en
@@ -356,9 +372,12 @@ Lo específico de esta fase:
 - **(Usuario)** pasar `NEXT_PUBLIC_COOKIE_DOMAIN` del HUB de `Secret` a `Config`. Sigue ilegible: si
   contuviera `ventosolutions.ca` **sin** el punto inicial, el HUB escribiría cookies que Kaze no ve y
   no habría forma de detectarlo mirando. (En el CMS y en Kaze ya es `Config` y está verificada.)
-- **(T12, pendientes)** Step 2: comprobar en producción que una cuenta sin fila en `kaze.profiles`
-  entra pero ve **cero** proyectos. Step 3: documentar que, con cookie de apex, cerrar sesión en una
-  app cierra las tres — es esperable, hay que dejarlo escrito tal cual resulte.
+- **(T12 Step 2, único paso del plan sin hacer)** comprobar en producción que una cuenta **sin** fila
+  en `kaze.profiles` entra pero ve **cero** proyectos. No se hizo porque la única cuenta candidata del
+  proyecto compartido (`a52bd991…`) puede ser de otra persona y entrar como ella no es del agente
+  decidirlo. Lo limpio es crear una cuenta desechable, comprobarlo y borrarla. El comportamiento ya
+  está cubierto por `tests/data/rls-no-miembro.test.ts`, probado en rojo y en verde; lo que falta es
+  la confirmación en producción.
 - **Deriva de versiones de `@supabase/ssr` entre repos**: Kaze `0.12.0`, HUB `0.10.3`. Hoy
   interoperan (mismos defaults de cookie, mismo `base64url`, mismo `MAX_CHUNK_SIZE`) y está
   verificado que la 0.10.3 lee lo que escribe la 0.12.0. Pero un archivo de opciones byte-idéntico

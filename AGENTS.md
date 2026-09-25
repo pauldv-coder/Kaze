@@ -105,11 +105,19 @@ proyectos de mejora lean (A3) de la consultora Cota. El prototipo `.dc.html` en
 | Plan de implementación (14 tareas, bloque Progreso) | `docs/superpowers/plans/2026-07-05-cota-foundation.md` |
 | Especificación visual | `reference/prototype/` + `reference/screenshots/` |
 
-**Producción:** proyecto Supabase alojado **Cota** (producto: Kaze) `kvjpxnswvlxzxdzgycbh`
-(`https://kvjpxnswvlxzxdzgycbh.supabase.co`), repo ya enlazado. Esquema + 3 casos seed
-aplicados. **Frontend DESPLEGADO en Vercel** (proyecto `kaze`, scope pauldvcoders-projects):
-`https://kaze-pauldvcoders-projects.vercel.app` — CI/CD conectado a GitHub `pauldv-coder/Kaze`
-(push a `main` = deploy). Ver `docs/DEPLOY.md`.
+**Producción:** proyecto Supabase **compartido** `nrysdnavawyhaqgruunl`
+(`https://nrysdnavawyhaqgruunl.supabase.co`), donde Kaze vive en el esquema `kaze`, el CMS en
+`public` y el Vento HUB en `hub`. Repo enlazado a ese proyecto. Esquema + 3 casos seed aplicados.
+El proyecto viejo `kvjpxnswvlxzxdzgycbh` está **pausado** y sin datos únicos: no se restaura.
+**Frontend DESPLEGADO en Vercel** (proyecto `kaze`, scope pauldvcoders-projects) en
+**`https://kaze.ventosolutions.ca`** (también responde en `kaze-pauldvcoders-projects.vercel.app`)
+— CI/CD conectado a GitHub `pauldv-coder/Kaze` (push a `main` = deploy). Ver `docs/DEPLOY.md`.
+**SSO por cookie de apex** con el HUB y el CMS: la sesión vive en una cookie de
+`.ventosolutions.ca` y `lib/supabase/cookie-options.ts` es un **archivo compartido byte-idéntico**
+entre los tres repos — si lo cambias aquí, cámbialo allí y despliega los tres. El dominio sale de
+`NEXT_PUBLIC_COOKIE_DOMAIN`, definida **solo en Production** de Vercel (en local y en previews no
+existe, y por eso el login sigue funcionando fuera de producción). Corolario: **cerrar sesión en
+Kaze cierra también el HUB y el CMS en ese navegador**, y es lo deseado.
 **Módulo de administración de usuarios EN PRODUCCIÓN**: rutas `/admin` (solo rol admin),
 `/auth/confirm` (canje de invitación) y `/cuenta/contrasena` (establecer/cambiar contraseña).
 El frontend usa `NEXT_PUBLIC_SUPABASE_URL` + `NEXT_PUBLIC_SUPABASE_ANON_KEY` en el cliente;

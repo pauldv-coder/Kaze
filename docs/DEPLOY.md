@@ -100,22 +100,58 @@ vercel env add NEXT_PUBLIC_COOKIE_DOMAIN production   # valor: .ventosolutions.c
 Estos pasos son necesarios porque el `config.toml` local **no aplica** al
 proyecto alojado — hay que replicarlos a mano en el dashboard:
 
-1. **Authentication → URL Configuration**:
-   - **Site URL**: el dominio que asignó Vercel (ej. `https://kaze.vercel.app`
-     o el dominio custom).
-   - **Redirect URLs**: agregar ese mismo dominio (necesario para los flujos
-     de email — reset de password, invitaciones, etc.).
+1. **Authentication → URL Configuration** — ojo, el proyecto Supabase es **compartido** con el
+   Vento HUB y el CMS, así que aquí se **añade, no se sustituye**:
+   - **Site URL**: **no tocarlo** si ya apunta al HUB. Es uno solo para todo el proyecto.
+   - **Redirect URLs**: añadir `https://kaze.ventosolutions.ca/**`. El login con contraseña **no**
+     lo necesita; lo necesitan los flujos de email, es decir **las invitaciones de `/admin`** y el
+     reset de contraseña. Si falta, `/admin` invita y el enlace lleva al dominio equivocado.
 2. **Authentication → Sign In / Providers**: desactivar **"Allow new users to
    sign up"**. El modelo de Kaze es solo-por-invitación (los usuarios los crea
    el seed / un admin), igual que en local (`enable_signup = false`).
 
 ## Verificación post-deploy
 
-1. Abrir el dominio de Vercel → debe redirigir a `/login` (usuario no
-   autenticado, vía `proxy.ts`).
+Dominio de producción: **`https://kaze.ventosolutions.ca`** (sigue respondiendo también en
+`kaze-pauldvcoders-projects.vercel.app`).
+
+1. `curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}
+" https://kaze.ventosolutions.ca/proyectos`
+   → debe dar `307 -> .../login` (no autenticado, vía `proxy.ts`).
 2. Entrar con el admin real `info@ventosolutions.ca` → debe redirigir a
    `/proyectos` y listar los 3 A3 sembrados: **A3-014, A3-012, A3-030**.
    (`/admin` debe renderizar solo para este usuario; un consultor es redirigido.)
+3. **SSO** — con esa sesión abierta, `hubvento.ventosolutions.ca` y
+   `vento-cms.ventosolutions.ca/studio` deben abrir **sin volver a autenticarse**.
+   Al CMS házle `/studio`, no `/`: su proxy solo gatea esa ruta y la raíz redirige por su
+   cuenta, lo que parece un fallo de SSO sin serlo.
+
+### Trampas de Vercel que ya nos costaron días
+
+- **Tipo `Secret` vs `Config`.** Una variable `Secret` es de **solo escritura**: `vercel env pull`
+  devuelve `[SENSITIVE]` y nadie puede verificar su valor. Las `NEXT_PUBLIC_*` van **siempre
+  `Config`** (acaban en el bundle del navegador de todos modos, no hay nada que ocultar); solo
+  `SUPABASE_SERVICE_ROLE_KEY` va `Secret`. Comprobar prefijos sin exponer valores:
+
+  ```bash
+  npx vercel env pull /tmp/env.tmp --environment=production --yes && grep -E '^NEXT_PUBLIC_' /tmp/env.tmp | cat -A; rm -f /tmp/env.tmp
+  ```
+  (`cat -A` delata espacios o `^M` al final de un valor, que rompen las llamadas en silencio.)
+
+- **Las `NEXT_PUBLIC_*` se hornean en el build.** Cambiarlas no surte efecto sin reconstruir. Y
+  **edita todas y haz UN solo redeploy al final**: Vercel dispara un build por cada guardado, y uno
+  construido a media edición se auto-promueve y tumba producción.
+
+- **Plan Hobby: un build a la vez.** Un deploy colgado deja a todos los siguientes en `Queued`
+  indefinidamente ("Another build is in progress"). Se arregla cancelándolos todos y lanzando uno.
+
+- **Repos PRIVADOS en Hobby: el autor del commit importa.** Vercel bloquea (`● Blocked`, sin
+  alerta) los commits cuyo autor no reconoce como dueño del proyecto. `git config user.email` debe
+  ser el correo que GitHub atribuye a la cuenta. Si un repo privado "no despliega", mira el autor
+  del commit de cabeza antes que el build.
+
+- **`● Ready` no significa "es lo que se está sirviendo".** Confirmar siempre con
+  `npx vercel alias ls`. Para volver atrás: `npx vercel promote <deployment-anterior>`.
 
 ## Nota sobre usuarios y contraseñas
 

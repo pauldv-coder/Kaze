@@ -920,7 +920,7 @@ git commit -m "feat(auth): cookie de sesión en el apex ventosolutions.ca (SSO)"
 
 - [ ] **Step 2 [USUARIO]: El no-miembro no entra** — iniciar sesión con una cuenta que exista en el CMS pero **no** tenga fila en `kaze.profiles`, y navegar a `kaze.ventosolutions.ca/proyectos`. Esperado: la pantalla carga pero **sin ningún proyecto** (el RLS devuelve cero filas). Este es el comportamiento correcto y la razón de ser de la Task 6.
 
-- [ ] **Step 3: Logout aislado** — confirmar que cerrar sesión en Kaze no arrastra la sesión del HUB de forma inesperada. Anotar el comportamiento observado: con cookie de apex compartida, es esperable que el logout afecte a las tres apps. **Documentarlo tal como resulte, sin maquillarlo.**
+- [x] **Step 3: Logout aislado** — confirmar que cerrar sesión en Kaze no arrastra la sesión del HUB de forma inesperada. Anotar el comportamiento observado: con cookie de apex compartida, es esperable que el logout afecte a las tres apps. **Documentarlo tal como resulte, sin maquillarlo.**
 
 - [x] **Step 4: Reportar** el resultado paso a paso con evidencia. Si el SSO no funciona, diagnostica antes de tocar código: lo más probable es que una de las tres apps no haya desplegado el cambio, o que los `cookieOptions` no coincidan exactamente entre repos.
 
@@ -953,7 +953,7 @@ Usar el dominio definitivo del Step 2 de la Task 10 si acabó siendo el alterno.
 - Modify: `docs/superpowers/START-HERE.md`
 - Modify: `docs/DEPLOY.md`
 
-- [ ] **Step 1: Actualizar `START-HERE.md`** — estado: migración completa. Registrar:
+- [x] **Step 1: Actualizar `START-HERE.md`** — estado: migración completa. Registrar:
   - Kaze vive en `nrysdnavawyhaqgruunl`, esquema `kaze`, dominio definitivo.
   - La membresía la define `kaze.profiles`; `hub.staff` es solo la intranet.
   - Ningún trigger de Kaze sobre `auth.users`; el del CMS es intocable.
@@ -961,9 +961,9 @@ Usar el dominio definitivo del Step 2 de la Task 10 si acabó siendo el alterno.
   - Deuda anotada: `kaze.clients` y el Clients Core (`core`) de la Fase 2 del HUB son el mismo maestro de clientes y habrá que reconciliarlos.
   - Prompt de retomar apuntando al siguiente bloque: **diagramador BPMN**, cuya migración debe nacer ya en `kaze`.
 
-- [ ] **Step 2: Actualizar `docs/DEPLOY.md`** — proyecto Supabase nuevo, dominio nuevo, y las env vars de Vercel que ahora apuntan al proyecto compartido.
+- [x] **Step 2: Actualizar `docs/DEPLOY.md`** — proyecto Supabase nuevo, dominio nuevo, y las env vars de Vercel que ahora apuntan al proyecto compartido.
 
-- [ ] **Step 3: Commit y push**:
+- [x] **Step 3: Commit y push**:
 
 ```bash
 git add docs/
@@ -978,13 +978,13 @@ git push origin main
 
 ## Verificación final (DoD del spec)
 
-- [ ] Esquema `kaze` en `nrysdnavawyhaqgruunl`, en Exposed schemas, con las 9 tablas.
-- [ ] RLS gateado por `kaze.es_miembro()` y grants de Data API aplicados.
+- [x] Esquema `kaze` en `nrysdnavawyhaqgruunl`, en Exposed schemas, con las 9 tablas.
+- [x] RLS gateado por `kaze.es_miembro()` y grants de Data API aplicados.
 - [ ] Ningún trigger nuevo sobre `auth.users`; el `on_auth_user_created` del CMS verificado intacto **después** de aplicar.
-- [ ] Suite verde contra `kaze` (51 tests / 9 archivos); `npx tsc --noEmit` limpio; `npm run build` verde.
-- [ ] Test de no-miembro: cero filas y escritura rechazada — **y probado que detecta el agujero** (Task 6 Step 3).
-- [ ] `/admin` da de alta por invitación, incluido el caso "el correo ya existe en `auth.users`".
-- [ ] Kaze responde en su dominio definitivo contra el proyecto compartido, con los 3 A3 seed.
-- [ ] Sesión compartida verificada entre HUB y Kaze.
-- [ ] Tile `improvement` con URL y `status: 'production'`.
-- [ ] `AGENTS.md`, `START-HERE.md` y `DEPLOY.md` al día.
+- [x] Suite verde contra `kaze` (51 tests / 9 archivos); `npx tsc --noEmit` limpio; `npm run build` verde.
+- [x] Test de no-miembro: cero filas y escritura rechazada — **y probado que detecta el agujero** (Task 6 Step 3).
+- [x] `/admin` da de alta por invitación, incluido el caso "el correo ya existe en `auth.users`".
+- [x] Kaze responde en su dominio definitivo contra el proyecto compartido, con los 3 A3 seed.
+- [x] Sesión compartida verificada entre HUB y Kaze.
+- [x] Tile `improvement` con URL y `status: 'production'`.
+- [x] `AGENTS.md`, `START-HERE.md` y `DEPLOY.md` al día.
