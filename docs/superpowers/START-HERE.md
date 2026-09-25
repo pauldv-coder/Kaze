@@ -367,24 +367,26 @@ Lo específico de esta fase:
 
 ## Hallazgos de la revisión final de la migración (2026-09-25)
 
-### 🔴 CRÍTICO — `/admin` trata `auth.users` como si fuera el padrón de Kaze
+### ✅ RESUELTO — `/admin` ya se gatea por membresía (`6f8868c`)
 
-Toda la migración se hizo para que "estar autenticado **no** implique pertenecer a Kaze", y `/admin`
-es justo el sitio donde esa regla **no** se aplicó. `lib/data/users.ts:44-63` itera **todos** los
-usuarios del proyecto compartido y les asigna `rol: p?.rol ?? 'consultor'` cuando no tienen fila en
-`kaze.profiles`; `app/(app)/admin/page.tsx:16-40` los pinta sin distinguirlos de un miembro real y
-les cuelga los mismos botones. Hoy en producción:
+Era el hallazgo crítico: `/admin` se había quedado con el modelo mental viejo de `auth.users` y
+listaba a **todos** los usuarios del proyecto compartido, así que un admin de Kaze veía el correo de
+cada usuario del CMS y del HUB; además *reactivar* levantaba bloqueos que Kaze nunca puso.
 
-- **Fuga del padrón ajeno:** un admin de Kaze ve el correo de cada usuario del CMS y del HUB. Ahora
-  mismo el único admin es el propio dueño, así que el daño es nulo — pasa a ser real **el día que se
-  invite como admin a un consultor de Cota**, que es para lo que existe el módulo.
-- **`reactivateUserCore` (`lib/data/users.ts:117-119`) no comprueba membresía:** un usuario baneado
-  desde el CMS o el HUB aparece aquí con botón *reactivar*, y pulsarlo **levanta en todo el
-  ecosistema un ban que Kaze no puso**. Es el único de los cuatro caminos que no falla por accidente.
-- `setRoleCore` sobre un no-miembro es un **no-op silencioso** (update sobre 0 filas, sin error) y
-  `deactivateUserCore` **revienta** con `PGRST116`. No hacen daño, pero por accidente, no por guardia.
+Arreglado con TDD (6 tests nuevos, 5 en rojo primero):
 
-**Arreglo:** filtrar por membresía en `getUsers` y añadir guardia de miembro a las cuatro acciones.
+- **`getUsers` parte ahora de `kaze.profiles`**, no de `auth.admin.listUsers()`, y enriquece con
+  `getUserById` por miembro en paralelo. El motivo de no usar `listUsers` está en el código: su
+  techo de 1000 filas es sobre el **pool compartido**, así que el día que el CMS pase de 1000
+  usuarios, miembros legítimos de Kaze desaparecerían de la lista sin aviso.
+- **`assertMiembro()` guarda las tres acciones** (`setRole`, `desactivar`, `reactivar`) y falla con
+  un mensaje que dice qué pasó. Sustituye a `rolOf`, que era quien producía el `PGRST116`. En
+  `setRoleCore` la guardia va **antes** del corto-circuito: si no, promover a admin se la saltaba.
+
+**Deuda consciente (decisión del usuario):** `desactivar` **sigue baneando la cuenta compartida**, o
+sea expulsa también del HUB y del CMS. La alternativa correcta — revocar solo la membresía de Kaze —
+exige migración (columna de estado en `kaze.profiles` y que `es_miembro()` la mire). Está
+documentado en el propio `deactivateUserCore` para que nadie lo lea como un descuido.
 
 ### 🟠 La cookie del apex es legible por JavaScript en todo `*.ventosolutions.ca`
 
