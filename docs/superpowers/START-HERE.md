@@ -235,7 +235,7 @@ propio pausado. Motivo: el plan Free permite 2 proyectos activos y están ocupad
 | **T10 Vercel + dominio → producción arreglada** | ✅ **hito cumplido** — falta solo el Step 3 (Redirect URLs, [USUARIO]) |
 | T11 flip de cookies apex en los 3 repos (SSO) | ✅ desplegado en los **tres**: Kaze `73cd257`+`5862bdb`, HUB `a5668af`, CMS `eb1e0f0`+`a1eeaab` |
 | T12 verificar SSO | 🟡 **Step 1 verificado en las tres apps**; faltan los Steps 2 (no-miembro) y 3 (logout) |
-| T13 tile en `hub.modules` | ⬜ **siguiente** |
+| T13 tile en `hub.modules` | ✅ fila `improvement` → Kaze, `production`, url `kaze.ventosolutions.ca`; tile verificado renderizado en la portada del HUB |
 | T14 docs + revisión final | ⬜ |
 
 **Cómo se ejecutó la T10:** se verificó primero contra la URL de Vercel

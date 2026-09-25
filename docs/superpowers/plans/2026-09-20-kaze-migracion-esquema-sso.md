@@ -930,7 +930,7 @@ git commit -m "feat(auth): cookie de sesión en el apex ventosolutions.ca (SSO)"
 
 **Files:** ninguno (una sentencia SQL en el proyecto compartido).
 
-- [ ] **Step 1: Actualizar la fila existente** — la fila `improvement` ya existe en `hub.modules` con `url: null` y `status: 'development'`. En el SQL Editor del proyecto compartido:
+- [x] **Step 1: Actualizar la fila existente** — la fila `improvement` ya existe en `hub.modules` con `url: null` y `status: 'development'`. En el SQL Editor del proyecto compartido:
 
 ```sql
 update hub.modules
@@ -943,7 +943,7 @@ where slug = 'improvement';
 
 Usar el dominio definitivo del Step 2 de la Task 10 si acabó siendo el alterno.
 
-- [ ] **Step 2 [USUARIO]: Verificar** — abrir `hubvento.ventosolutions.ca` y confirmar que el tile de Kaze aparece, con su estado, y que lleva a la app.
+- [x] **Step 2 [USUARIO]: Verificar** — abrir `hubvento.ventosolutions.ca` y confirmar que el tile de Kaze aparece, con su estado, y que lleva a la app.
 
 ---
 
